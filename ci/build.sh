@@ -8,7 +8,7 @@ mv -T ./cache/yarn $yarn_cache_dir
 yarn install --prefer-offline
 yarn build
 
-cd dist
+cd build
 tar zcvf ./../frontend.tar.gz .
 cd ..
 
