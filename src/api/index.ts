@@ -1,5 +1,5 @@
-import { userApi } from "./path/user";
+import { svgApi } from "./path/svg";
 
 export const api = {
-  ...userApi,
+  ...svgApi,
 };
