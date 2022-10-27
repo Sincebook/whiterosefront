@@ -1,0 +1,45 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  IMAGE_REPO_PREFIX:        whiterose  # $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
+  IMAGE_VER:                $CI_COMMIT_SHORT_SHA
+  CONTAINER_NAME_PREFIX:    $IMAGE_REPO_PREFIX
+  EXPOSE_RULE:              Host(`whiterose.cf.since88.cn`)
+  EXPOSE_REWRITE_ENABLED:   'false'
+  #  EXPOSE_REWRITE_REGEX:     ^/api/(.*)
+  #  EXPOSE_REWRITE_REPLACE:   /$$1
+  EXPOSE_HTTPS_ENABLED:     'true'
+
+build:
+  stage: build
+  only:
+    - master
+  tags:
+    - executor:docker
+    - intention:compilation
+  image:
+    name: node:18
+#    pull_policy: if-not-present
+  script:
+    - chmod +x ./ci/build.sh
+    - . ci/build.sh
+  cache:
+    paths:
+      - ./cache/yarn
+  artifacts:
+    paths:
+      - frontend.tar.gz
+
+deploy-dev01:
+  stage: deploy
+  only:
+    - master
+  tags:
+    - executor:shell
+    - intention:deployment
+    - instance:cf
+  script:
+    - chmod +x ./ci/deploy_dev01.sh
+    - . ci/deploy_dev01.sh
