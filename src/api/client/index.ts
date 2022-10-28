@@ -48,7 +48,7 @@ export class Request {
   }
   public get<T>(
     url: string,
-    params: any,
+    params?: any,
   ): Promise<T> {
     return this.instance.get(url, { params }).then(res => {
       if (res.data.code !== '0') {
@@ -60,12 +60,18 @@ export class Request {
     .catch(err => message.error('网络异常'))
   }
   
-  public post<T>(
+  public post<T, E>(
     url: string,
-    data?: any,
-    config?: AxiosRequestConfig
-  ): Promise<AxiosResponse<Result<T>>> {
-    return this.instance.post(url, data, config);
+    data?: E,
+  ): Promise<T> {
+    return this.instance.post(url, data).then(res => {
+      if (res.data.code !== '0') {
+        message.error(res.data.errMsg)
+      } else {
+        return res?.data?.data
+      }
+    })
+    .catch(err => message.error('网络异常'))
   }
 }
 
