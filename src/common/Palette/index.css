@@ -1,0 +1,67 @@
+.palette {
+  position: fixed;
+  right: 0;
+  top: 80px;
+  width: 60px;
+  height: 80vh;
+  background-color: rgba(25, 48, 21, 0.05);
+  border-radius:10px 0 0 10px;
+}
+.color {
+  text-align: center;
+  height: 36px;
+  width: 36px;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 3px rgb(250, 250, 250) solid;
+  margin-top: 30px;
+  /* transform: translate(0, -50%); */
+}
+/* 牡丹粉红 */
+.mdhf {
+  background-color: #eea2a4;
+}
+/* 牵牛花蓝 */
+.qnhl {
+  background-color: #1177b0;
+}
+/* 茶花红 */
+.chh {
+  background-color: #ee3f4d;
+}
+/* 藏花红 */
+.zhh {
+  background-color: #ec2d7a;
+}
+/* 槐花黄绿 */
+.hhhl {
+  background-color: #d2d97a;
+}
+/* 芥花紫 */
+.jhz {
+  background-color: #983680;
+}
+/* 油菜花黄 */
+.ychh {
+  background-color: #fbda41;
+}
+/* hhb */
+.hhb {
+  background-color: #fbecde;
+}
+/* 金莲花橙 */
+.jlhc {
+  background-color: #f86b1d;
+}
+/* 玫瑰灰 */
+.mgh {
+  background-color: #4b2e2b;
+}
+/* 莽丛绿 */
+.mcl {
+  background-color: #141e1b;
+}
+/* 雪白 */
+.xb {
+  background-color: #fffef9;
+}
