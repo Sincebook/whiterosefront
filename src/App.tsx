@@ -1,20 +1,35 @@
-import React from 'react'; 
+import React, { ReactElement, useEffect } from 'react'; 
 import { NavLink, useRoutes } from 'react-router-dom';
 import { Button } from 'antd';
 import './style/App.css';
 import router from "./router";
+import { findMyInfo, addUser } from "./api/user"
 
-function App() {
-    const element = useRoutes(router);
-    return (
-      <div>
-        <Button type="primary">Button</Button>
-        <NavLink to="/about">About</NavLink>
-        <br/>
-        <NavLink to="/home">Home</NavLink>
-        {element}
-      </div>
-    )
+function App(): ReactElement {
+  const element = useRoutes(router);
+
+  useEffect(() => {
+    const token: string = localStorage.getItem('token')
+    if (!token || token === "undefined") {
+      addUser().then(res => {
+        localStorage.setItem('token', res);
+      })
+    } else {
+      findMyInfo().then(res => {
+        console.log('findMyInfo res:', res);
+      })
+    }
+  }, [])
+
+  return (
+    <div>
+      <Button type="primary">Button</Button>
+      <NavLink to="/about">About</NavLink>
+      <br/>
+      <NavLink to="/home">Home</NavLink>
+      {element}
+    </div>
+  )
 }
 
 export default App;

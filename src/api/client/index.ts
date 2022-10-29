@@ -1,6 +1,5 @@
 import axios from 'axios'
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
-import { Result } from '../../contant/client'
 import { errCode } from '../../config/error_code'
 import { message } from 'antd'
 
@@ -53,6 +52,7 @@ export class Request {
     return this.instance.get(url, { params }).then(res => {
       if (res.data.code !== '0') {
         message.error(res.data.errMsg)
+        return Promise.reject(res.data.errMsg)
       } else {
         return res?.data?.data
       }
