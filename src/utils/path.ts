@@ -1,18 +1,18 @@
-interface pointLocation {
+interface PointLocation {
   x: number
   y: number
 }
-interface svgInfo {
-  id: string
-  type: string
+export interface PathInfo {
+  id?: string
+  type?: string
   stroke: string
   strokeWidth: number
-  fill: string
-  location: pointLocation[]
+  fill?: string
+  d: string
   text?: string
 }
 
-export const locationToPath = (locations: pointLocation, d: string): string => {
+export const locationToPath = (locations: PointLocation, d: string): string => {
   const { x, y } = locations
   console.log(x, y);
   if (d.length === 0) {

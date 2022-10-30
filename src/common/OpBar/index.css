@@ -1,10 +1,24 @@
 .op-bar {
   position: fixed;
   bottom: 0;
-  left: 10%;
+  left: 18%;
   height: 60px;
-  width: 80vw;
+  width: 64vw;
   background-color: rgba(25, 48, 21, 0.05);
   margin: 0 auto;
   border-radius:20px 20px 0 0;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.icons {
+  font-size: 15px;
+  color: red;
+  background-color: bisque;
+  padding: 8px;
+  border-radius: 50%;
+  border: 3px white solid;
+  margin: 15px;
+  flex: 0
 }
