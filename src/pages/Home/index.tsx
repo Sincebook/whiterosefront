@@ -3,7 +3,7 @@ import { WebSocketDemo } from "../../api/websocket/websocket";
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import ChoiceBar from "../../common/ChoiceBar"
 import OpBar from "../../common/OpBar"
-import Palette from "../../common/Palette"
+import Palette from "../../common/PaletteBar"
 import SvgPaint from "../../common/SvgPaint"
 import ToolBar from "../../common/ToolBar"
 import './index.css'

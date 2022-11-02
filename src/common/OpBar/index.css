@@ -11,6 +11,7 @@
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
+  transition: 0.8s
 }
 .icons {
   font-size: 15px;

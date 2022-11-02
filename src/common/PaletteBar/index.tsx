@@ -1,9 +1,19 @@
-import './index.css'
+import { useContext } from 'react'
+import { observer } from 'mobx-react'
 import { Tooltip } from 'antd'
 
-export default function Palette() {
+import BarStore from '../../store/BarStore'
+
+import './index.css'
+
+export default observer(function Palette() {
+  const paletteStore = useContext(BarStore)
+  const show = { right: paletteStore.palette ? '0': '-50px'}
+  const handleSwitch = () => {
+    paletteStore.paletteSwitch()
+  }
   return (
-    <div className="palette">
+    <div className="palette" onClick={handleSwitch} style={show}>
       <Tooltip placement="left" title={'莽丛绿'}>
         <div className="color mcl"></div>
       </Tooltip>
@@ -33,4 +43,4 @@ export default function Palette() {
       </Tooltip>
     </div>
   )
-}
+})
