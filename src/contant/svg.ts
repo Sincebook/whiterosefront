@@ -7,7 +7,7 @@ export interface SvgData {
 
 export interface GraphInfo { 
   id?: string // 唯一标识
-  type: string // 图形类型 eg: path rect circle ellipse line
+  type: string // 图形类型 eg: path rect circle ellipse line roundedRect arrow ployfill(折线) diamond(菱形)
   stroke: string // 线条颜色
   strokeWidth: number // 线条宽度
   fill?: string // 填充颜色
@@ -26,7 +26,12 @@ export interface GraphInfo {
   y1?: number // 直线的开始的y坐标
   x2?: number // 直线的末尾的x坐标
   y2?: number // 直线的末尾的y坐标
+  points?: string // 折线的转折点坐标集合
+  markerEnd?: string // 箭头
+  locations?: Array<Array<number>>
+  direct?: string
 }
+
 export interface Param {
   startX?: number // 起始点x坐标
   startY?: number // 起始点y坐标
