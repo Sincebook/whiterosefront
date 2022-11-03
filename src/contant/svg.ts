@@ -30,6 +30,7 @@ export interface GraphInfo {
   markerEnd?: string // 箭头
   locations?: Array<Array<number>>
   direct?: string
+  xlink?: string
 }
 
 export interface Param {
