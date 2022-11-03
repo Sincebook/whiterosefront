@@ -14,7 +14,6 @@ export default observer(function Palette() {
   const show = { right: paletteStore.palette ? '0': '-50px'}
   const handleSwitch = (e) => {
     if (e.target.dataset.id) {
-      console.log(optionStore)
       if (optionStore.tool === 'aim') {
         optionStore.changeBg(e.target.dataset.id)
       }
