@@ -1,10 +1,13 @@
-import './style.css'
-import useWebSocket, { ReadyState } from 'react-use-websocket';
-import { useState } from 'react';
+import { observer } from 'mobx-react';
+import { useContext, useState } from 'react';
+import OptionStore from '../../store/OptionStore';
 import { locationToPath, PathInfo } from '../../utils/path';
 
-export default function SvgPaint() {
-  const { readyState, sendMessage } = useWebSocket('ws://81.68.190.125:9009/chat')
+import './style.css'
+
+export default observer(function SvgPaint() {
+
+  const optionStore = useContext(OptionStore)
 
   const [mouse, setMouse] = useState('up')
   const [path, setPath] = useState(Array<PathInfo>)
@@ -17,9 +20,7 @@ export default function SvgPaint() {
 
   const handleMouseMove = (e) => {
     if (mouse === 'down') {
-      e.clientX
       path[path.length - 1].d = locationToPath({x: e.clientX, y: e.clientY}, path[path.length - 1].d)
-      console.log(path)
     }
   }
   
@@ -29,9 +30,9 @@ export default function SvgPaint() {
 
   return (
     <div>
-      <svg className="svg-paint xb" onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}>
+      <svg className={"svg-paint " + optionStore.bg}  onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}>
         { path.map((item, index) => <path d={item.d} key={index} stroke={item.stroke} strokeWidth={item.strokeWidth} fill={item.fill}/>) }
       </svg>
     </div>
   )
-}
+})

@@ -2,5 +2,5 @@
   width: 100vw;
   height: 100vh;
   background-Image: url(http://zhongguose.com/img/texture.png);
-  transition: background-color 2s ease-in;
+  transition: background-color 1s ease-in;
 }
