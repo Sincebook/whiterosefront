@@ -40,3 +40,52 @@ export interface Param {
   y?: number // 当前点y坐标
   style: GraphInfo
 }
+
+export interface Arrow {
+
+}
+
+export interface Circle {
+
+}
+
+export interface Diamond {
+
+}
+
+export interface Ellipse {
+
+}
+
+export interface Line {
+
+}
+
+export interface Path {
+
+}
+
+export interface Polyline {
+
+}
+
+export interface Rect {
+
+}
+
+export interface RoundedRect {
+
+}
+
+export interface Text {
+
+}
+
+export interface TextPath {
+
+}
+
+export interface Svg {
+  id: number
+  paths?: Path[]
+}

@@ -3,4 +3,8 @@
   height: 100vh;
   background-Image: url(http://zhongguose.com/img/texture.png);
   transition: background-color 1s ease-in;
+  position:fixed;
+  left: 0;
+  right: 0;
+  animation:toright 1s linear 0s
 }

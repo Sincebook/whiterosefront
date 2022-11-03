@@ -6,5 +6,6 @@
   height: 80vh;
   background-color: rgba(25, 48, 21, 0.05);
   border-radius:0 10px 10px 0;
-  transition: 0.8s
+  transition: 0.8s;
+  z-index: 99;
 }

@@ -16,6 +16,16 @@ class OptionStore {
   changeBg(e) {
     this.bg = e
   }
+
+  @action.bound
+  changeTool(e) {
+    this.tool = e
+  }
+
+  @action.bound
+  changeOp(e) {
+    this.op = e
+  }
 }
 
 export default createContext(new OptionStore())

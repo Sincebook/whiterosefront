@@ -16,7 +16,7 @@ export default function Home() {
   }
   return (
     <div onMouseMove={listenMouse}>
-      <div style={{position: 'fixed'}}>「{clientX},{clientY}」</div>
+      <div style={{position: 'fixed', zIndex: 99}}>「{clientX},{clientY}」</div>
       <ToolBar />
       <Palette />
       <SvgPaint />

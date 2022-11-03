@@ -11,7 +11,8 @@
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
-  transition: 0.8s
+  transition: 0.8s;
+  z-index: 99;
 }
 .icons {
   font-size: 15px;

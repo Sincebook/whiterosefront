@@ -11,14 +11,14 @@ import BarStore from '../../store/BarStore'
 
 import './index.css'
 
-export default observer(function ToolBar(sendMessage) {
+export default observer(function ToolBar() {
   const toolStore = useContext(BarStore)
   const optionStore = useContext(OptionStore)
   const show = { top: toolStore.toolBar ? '0': '-50px'}
   const handleSwitch = (e) => {
     const [flag, el] = delegate('div', 'span', e.target)
     if (flag) {
-      optionStore.tool = el.childNodes[0].dataset.icon
+      optionStore.changeTool(el.childNodes[0].dataset.icon)
     } else {
       toolStore.toolSwitch()
     }

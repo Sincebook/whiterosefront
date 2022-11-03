@@ -12,7 +12,8 @@
   align-items: center;
   overflow: hidden;
   overflow-y: scroll;
-  transition: 0.8s
+  transition: 0.8s;
+  z-index: 99;
 }
 .color {
   text-align: center;
