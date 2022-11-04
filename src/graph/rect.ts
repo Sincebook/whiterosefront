@@ -1,4 +1,5 @@
-import { Param, GraphInfo } from "../contant/svg"
+import { RectOutput } from "../contant/svgOutput"
+import { RectInput } from "../contant/svgInput"
 
 const dealRect = (startX: number, startY: number, x: number, y: number) => {
   let _x = startX
@@ -16,7 +17,7 @@ const dealRect = (startX: number, startY: number, x: number, y: number) => {
   return { x: _x, y: _y, width: _width, height: _height }
 }
 
-export const rectToSvg = (param: Param): GraphInfo => {
-  const { startX, startY, x, y } = param
-  return {...param.style, ...dealRect(startX, startY, x, y)}
+export const rectToSvg = (param: RectInput): RectOutput => {
+  const { startX, startY, x, y, stroke = "#00000", strokeWidth = 3, fill = "#000000" } = param
+  return { stroke, strokeWidth, fill, ...dealRect(startX, startY, x, y)}
 }

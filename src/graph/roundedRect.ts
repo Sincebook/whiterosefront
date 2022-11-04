@@ -1,4 +1,5 @@
-import { Param, GraphInfo } from "../contant/svg"
+import { RoundedRectOutput } from "../contant/svgOutput"
+import { RoundedRectInput } from "../contant/svgInput"
 
 const dealRect = (startX: number, startY: number, x: number, y: number) => {
   let _x = startX
@@ -16,8 +17,8 @@ const dealRect = (startX: number, startY: number, x: number, y: number) => {
   return { x: _x, y: _y, width: _width, height: _height }
 }
 
-export const roundedRectToSvg = (param: Param): GraphInfo => {
-  const { startX, startY, x, y } = param
+export const roundedRectToSvg = (param: RoundedRectInput): RoundedRectOutput => {
+  const { startX, startY, x, y, stroke = "#00000", strokeWidth = 3, fill = "none" } = param
   const { width, height } = dealRect(startX, startY, x, y)
-  return { ...param.style, ...dealRect(startX, startY, x, y), rx: Math.min(width, height) / 10 }
+  return { stroke, strokeWidth, fill, ...dealRect(startX, startY, x, y), rx: Math.min(width, height) / 10 }
 }
