@@ -15,6 +15,9 @@
   transition: 0.8s;
   z-index: 99;
 }
+.palette::-webkit-scrollbar {
+  display: none
+}
 .color {
   text-align: center;
   height: 36px;

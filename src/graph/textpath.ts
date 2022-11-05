@@ -1,8 +1,10 @@
-import { Param, GraphInfo } from "../contant/svg"
+import { TextPathOutput } from "../contant/svgOutput"
+import { TextPathInput } from "../contant/svgInput"
 
-export const textpathToSvg = (param: Param): GraphInfo => {
-  const { startX, startY, x, y } = param
-  let d = param.style.d
+
+export const textpathToSvg = (param: TextPathInput): TextPathOutput => {
+  const { startX, startY, x, y, stroke = "#00000", strokeWidth = 3, fill = "none", text } = param
+  let d = param.d
   if (d.length === 0) {
     d = `M ${startX} ${startY}`
   } else {
@@ -10,5 +12,5 @@ export const textpathToSvg = (param: Param): GraphInfo => {
   }
   let id = String(new Date().getTime())
   let xlink = '#' + id
-  return {...param.style, d, id, xlink}
+  return { stroke, strokeWidth, fill, d, id, xlink, text}
 }

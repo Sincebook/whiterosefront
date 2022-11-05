@@ -1,10 +1,9 @@
-import { off } from "process"
-import { Param, GraphInfo } from "../contant/svg"
+import { PolylineOutput } from "../contant/svgOutput"
+import { PolylineInput } from "../contant/svgInput"
 
-export const polylineToSvg = (param: Param): GraphInfo => {
-  const { startX, startY, x, y } = param
-  const locations = param.style.locations
-  let direct = param.style.direct
+export const polylineToSvg = (param: PolylineInput): PolylineOutput => {
+  const { startX, startY, x, y, markerEnd, locations, stroke = "#00000", strokeWidth = 3, fill = "none" } = param
+  let direct = param.direct
   if (locations.length === 0) {
     locations.push([startX, startY]) 
   }
@@ -73,5 +72,5 @@ export const polylineToSvg = (param: Param): GraphInfo => {
   locations.forEach(item => {
     points += `${item[0]},${item[1]} `
   })
-  return { ...param.style, points, locations, direct, markerEnd: 'url(#arrow)' }
+  return { stroke, strokeWidth, fill, points, locations, direct, markerEnd }
 }

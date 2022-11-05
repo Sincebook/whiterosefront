@@ -1,8 +1,7 @@
-import { Param, GraphInfo } from "../contant/svg"
+import { TextOutput } from "../contant/svgOutput"
+import { TextInput } from "../contant/svgInput"
 
-export const textToSvg = (param: Param): GraphInfo => {
-  let { startX, startY, x, y } = param
-  const text = param.style.text
-  y += 5
-  return {...param.style, text, x, y}
+export const textToSvg = (param: TextInput): TextOutput => {
+  let { startX, startY, text, stroke = "#00000", strokeWidth = 3, fill = "none" } = param
+  return { stroke, strokeWidth, fill, text, x: startX, y: startY + 5}
 }

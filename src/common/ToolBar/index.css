@@ -16,7 +16,9 @@
   transition: 0.8s;
   z-index: 99;
 }
-
+.tool-bar::-webkit-scrollbar {
+  display: none
+}
 .icons {
   font-size: 15px;
   color: red;

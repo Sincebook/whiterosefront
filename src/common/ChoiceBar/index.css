@@ -9,3 +9,6 @@
   transition: 0.8s;
   z-index: 99;
 }
+.choice-bar::-webkit-scrollbar {
+  display: none
+}
