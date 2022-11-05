@@ -1,7 +1,7 @@
 export interface CommonSvgOutputData {
-  stroke: string // 线条颜色
-  strokeWidth: number // 线条宽度
-  fill: string // 填充颜色
+  stroke?: string // 线条颜色
+  strokeWidth?: number // 线条宽度
+  fill?: string // 填充颜色
 }
 
 // <defs>
@@ -80,4 +80,16 @@ export interface TextPathOutput extends CommonSvgOutputData {
   d: string // path的路径信息
   xlink: string // 用在textPath元素上，表示依赖的path，内容为 "#" + path的id
   id: string // 依赖的path的id
+}
+
+export interface TriangleOutput extends CommonSvgOutputData {
+  d: string // 三角形的路径信息
+}
+
+export interface ImageOutput extends CommonSvgOutputData {
+  xlinkHref: string // 图片地址
+  height: number // 图片高度
+  width: number  // 图片宽度 
+  x: number // 图片位置x坐标
+  y: number // 图片位置y坐标
 }
