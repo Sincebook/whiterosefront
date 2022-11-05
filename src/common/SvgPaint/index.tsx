@@ -1,10 +1,8 @@
-import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
-import { useContext, useState } from 'react';
-import MouseStore from '../../store/MouseStore';
+import { useContext } from 'react';
+import MouseStore from '../../store/PositionStore';
 import OptionStore from '../../store/OptionStore';
 import SvgStore from '../../store/SvgStore';
-import { locationToPath, PathInfo } from '../../utils/path';
 
 import './style.css'
 

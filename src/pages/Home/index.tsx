@@ -5,7 +5,7 @@ import OpBar from "../../common/OpBar"
 import Palette from "../../common/PaletteBar"
 import SvgPaint from "../../common/SvgPaint"
 import ToolBar from "../../common/ToolBar"
-import MouseStore from "../../store/MouseStore"
+import MouseStore from "../../store/PositionStore"
 
 import './index.css'
 
