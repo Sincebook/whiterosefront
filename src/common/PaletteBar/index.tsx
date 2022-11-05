@@ -16,6 +16,8 @@ export default observer(function Palette() {
     if (e.target.dataset.id) {
       if (optionStore.tool === 'aim') {
         optionStore.changeBg(e.target.dataset.id)
+      } else if (optionStore.tool === 'highlight' || 'border') {
+        optionStore.changeColor(e.target.dataset.id)
       }
     } else {
       paletteStore.paletteSwitch()
