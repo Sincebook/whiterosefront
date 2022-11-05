@@ -19,12 +19,10 @@ const dealRect = (startX: number, startY: number, x: number, y: number) => {
 
 export const rectToSvg = (param: RectInput): RectOutput => {
   const { startX, startY, x, y, stroke = "#000000", strokeWidth = 3, fill = "none" } = param
-  return { stroke, strokeWidth, fill, ...dealRect(startX, startY, x, y)}
+  return { stroke, strokeWidth, fill, ...dealRect(startX, startY, x, y), startX, startY}
 }
 
 export const svgToRect = (param: RectOutput, x: number, y: number): RectInput => {
-  const startX = param.x
-  const startY = param.y
-  const { stroke, strokeWidth, fill } = param
+  const { stroke, strokeWidth, fill, startX, startY } = param
   return { stroke, strokeWidth, fill, x, y, startX, startY}
 }
