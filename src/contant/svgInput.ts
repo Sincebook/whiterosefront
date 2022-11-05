@@ -1,8 +1,8 @@
 export interface CommonSvgInputData {
-  x: number // 当前鼠标位置x坐标
-  y: number // 当前鼠标位置y坐标
-  startX: number // 鼠标点击时x坐标
-  startY: number // 鼠标点击时y坐标
+  x?: number // 当前鼠标位置x坐标
+  y?: number // 当前鼠标位置y坐标
+  startX?: number // 鼠标点击时x坐标
+  startY?: number // 鼠标点击时y坐标
   stroke?: string // 线条颜色
   strokeWidth?: number // 线条宽度
   fill?: string // 填充颜色

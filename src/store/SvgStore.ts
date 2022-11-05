@@ -1,10 +1,13 @@
 import { message, } from "antd";
-import { action, makeAutoObservable, observable } from "mobx";
+import { action, get, makeAutoObservable, observable } from "mobx";
 import { createContext } from "react";
-import { Svg } from "../contant/svg";
+import { SvgInput, SvgOutput } from "../contant/svg";
+import type { PathInput, RectInput } from "../contant/svgInput";
+import { pathToSvg, svgToPath } from "../graph/path";
+import { rectToSvg, svgToRect } from "../graph/rect";
 
 class SvgStore {
-  @observable svg: Svg[] = [{ id: 1 }]
+  @observable svg: SvgOutput[] = [{ id: 1, path: [], rect: [] }]
   @observable currentPage: number = 1
   @observable totalPage: number = 1
   @observable id = 1
@@ -16,7 +19,7 @@ class SvgStore {
 
   @action.bound
   addSvg() {
-    this.svg.push({ id: this.id + 1 })
+    this.svg.push({ id: this.id + 1, path: [], rect: [] })
     this.id++
     this.totalPage++
     message.success('创建成功')
@@ -64,6 +67,44 @@ class SvgStore {
       message.warning('不能再上一页了～')
     }
   }
+
+  get getPath() {
+    return this.svg[this.currentPage - 1].path
+  }
+
+  get getPathId() {
+    return this.svg[this.currentPage - 1].path.length - 1
+  }
+
+  @action.bound
+  addPath(path: PathInput) {
+    this.getPath.push(pathToSvg(path))
+  }
+
+  @action.bound
+  drawPath(x: number, y: number) {
+    this.getPath[this.getPathId] = pathToSvg(svgToPath(this.getPath[this.getPathId], x, y))
+  }
+
+  get getRect() {
+    return this.svg[this.currentPage - 1].rect
+  }
+
+  get getRectId() {
+    return this.svg[this.currentPage - 1].rect.length - 1
+  }
+
+  @action.bound
+  addRect(rect: RectInput) {
+    this.getRect.push(rectToSvg(rect))
+  }
+
+  @action.bound
+  drawRect(x: number, y: number) {
+    this.getRect[this.getRectId] = rectToSvg(svgToRect(this.getRect[this.getRectId], x, y))
+  }
+
+  
 }
 
 export default createContext(new SvgStore())

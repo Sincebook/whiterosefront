@@ -1,22 +1,22 @@
-import { useState } from "react"
+import { observer } from "mobx-react"
+import { useContext, useState } from "react"
 import ChoiceBar from "../../common/ChoiceBar"
 import OpBar from "../../common/OpBar"
 import Palette from "../../common/PaletteBar"
 import SvgPaint from "../../common/SvgPaint"
 import ToolBar from "../../common/ToolBar"
+import MouseStore from "../../store/MouseStore"
 
 import './index.css'
 
-export default function Home() {
-  const [clientX, setClientX] = useState(0)
-  const [clientY, setClientY] = useState(0)
+export default observer(function Home() {
+  const mouseStore = useContext(MouseStore)
   function listenMouse(e) {
-    setClientX(e.clientX)
-    setClientY(e.clientY)
+    mouseStore.mouseMove(e)
   }
   return (
     <div onMouseMove={listenMouse}>
-      <div style={{position: 'fixed', zIndex: 99}}>「{clientX},{clientY}」</div>
+      <div style={{position: 'fixed', zIndex: 99}}>「{mouseStore.x},{mouseStore.y}」</div>
       <ToolBar />
       <Palette />
       <SvgPaint />
@@ -24,4 +24,4 @@ export default function Home() {
       <ChoiceBar />
     </div>
   )
-}
+})
