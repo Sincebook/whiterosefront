@@ -6,7 +6,10 @@ export default [
     path: '/',
     element: <Navigate to="/home" />
   }, {
-    path: '/home',
+    path: 'home',
+    element: <Home />
+  }, {
+    path: 'home/*',
     element: <Home />
   }
 ]

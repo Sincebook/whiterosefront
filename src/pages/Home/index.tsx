@@ -1,5 +1,7 @@
 import { observer } from "mobx-react"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { findMyInfo } from "../../api/user"
+import { WebSocketDemo } from "../../api/websocket/websocket"
 import ChoiceBar from "../../common/ChoiceBar"
 import OpBar from "../../common/OpBar"
 import Palette from "../../common/PaletteBar"
@@ -14,6 +16,7 @@ export default observer(function Home() {
   function listenMouse(e) {
     mouseStore.mouseMove(e)
   }
+
   return (
     <div onMouseMove={listenMouse}>
       <div style={{position: 'fixed', zIndex: 99}}>「{mouseStore.x},{mouseStore.y}」</div>
@@ -22,6 +25,7 @@ export default observer(function Home() {
       <SvgPaint />
       <OpBar />
       <ChoiceBar />
+      <WebSocketDemo />
     </div>
   )
 })

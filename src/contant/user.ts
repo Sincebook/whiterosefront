@@ -6,3 +6,8 @@ export interface MyInfo {
   status: number
   uptime: string
 }
+
+export interface UserInfo {
+  token: string
+  users: MyInfo
+}
