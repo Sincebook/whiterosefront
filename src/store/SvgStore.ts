@@ -1,17 +1,18 @@
 import { message, } from "antd";
 import { action, get, makeAutoObservable, observable } from "mobx";
-import { createContext } from "react";
+import { createContext, useId } from "react";
 import { SvgInput, SvgOutput } from "../contant/svg";
 import type { PathInput, RectInput } from "../contant/svgInput";
 import { pathToSvg, svgToPath } from "../graph/path";
 import { rectToSvg, svgToRect } from "../graph/rect";
 
 class SvgStore {
-  @observable svg: SvgOutput[] = [{ id: 1, path: [], rect: [] }]
+  @observable svg: SvgOutput[] = [{ id: 1, path: new Map(), rect: [] }]
   @observable currentPage: number = 1
   @observable totalPage: number = 1
   @observable id = 1
   @observable currentId = 1
+  @observable key = new Map()
 
   constructor() {
     makeAutoObservable(this)
@@ -19,7 +20,7 @@ class SvgStore {
 
   @action.bound
   addSvg() {
-    this.svg.push({ id: this.id + 1, path: [], rect: [] })
+    this.svg.push({ id: this.id + 1, path: new Map(), rect: [] })
     this.id++
     this.totalPage++
     message.success('创建成功')
@@ -72,18 +73,16 @@ class SvgStore {
     return this.svg[this.currentPage - 1].path
   }
 
-  get getPathId() {
-    return this.svg[this.currentPage - 1].path.length - 1
+  @action.bound
+  addPath(path: PathInput, userId) {
+    const key = Math.floor(Math.random() * 1000000).toString()
+    this.key.set(userId, key)
+    this.getPath.set(key, pathToSvg(path))
   }
 
   @action.bound
-  addPath(path: PathInput) {
-    this.getPath.push(pathToSvg(path))
-  }
-
-  @action.bound
-  drawPath(x: number, y: number) {
-    this.getPath[this.getPathId] = pathToSvg(svgToPath(this.getPath[this.getPathId], x, y))
+  drawPath(xy, userId) {
+    this.getPath.set(this.key.get(userId), pathToSvg(svgToPath(this.getPath.get(this.key.get(userId)), xy.x, xy.y)))
   }
 
   get getRect() {

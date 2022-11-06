@@ -1,6 +1,17 @@
 export const mesHandle = (type: number, data?: any) => {
-  if (!localStorage.getItem('roomId') || !localStorage.getItem('userId')) {
-    window.location.reload()
-  }
-  return JSON.stringify({roomId: localStorage.getItem('roomId'), fromId: Math.floor(Math.random() * 100), type, data})
+  return JSON.stringify({roomId: 7, fromId: localStorage.getItem('userId'), type, data})
 }
+
+export const lastMesHandle = (data) => {
+  if (data) {
+    if (data.data != "pong") {
+        const mes = JSON.parse(data.data)
+        if (mes.data.type === 201) {
+          if (mes.data.fromId.toString() !== localStorage.getItem('userId')) {
+            return JSON.parse(mes.data.data)
+          } 
+        }
+    }
+  }
+}
+

@@ -1,5 +1,5 @@
 import { observer } from "mobx-react"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { findMyInfo } from "../../api/user"
 import { WebSocketDemo } from "../../api/websocket/websocket"
 import ChoiceBar from "../../common/ChoiceBar"

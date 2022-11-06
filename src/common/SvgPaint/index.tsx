@@ -8,27 +8,42 @@ import SvgStore from '../../store/SvgStore';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 
 import './style.css'
-import { mesHandle } from '../../utils/mesHandle';
+import { lastMesHandle, mesHandle } from '../../utils/mesHandle';
 
 export default observer(function SvgPaint() {
 
   const { sendMessage, readyState, lastMessage } = useWebSocket(wsUrl, { share: true })
-
+  
   useEffect(() => {
     sendMessage(mesHandle(0))
   }, [])
 
+  useEffect(() => {
+    const mess = lastMesHandle(lastMessage)
+    if (mess) {
+      if (mess.type === 100) {
+        console.log(mess.data)
+        svgStore.addPath(mess.data, mess.fromId)
+      } else if (mess.type === 101) {
+        console.log(mess.data)
+        svgStore.drawPath(mess.data, mess.fromId)
+      }
+    }
+  }, [lastMessage])
+
   const optionStore = useContext(OptionStore)
   const svgStore = useContext(SvgStore)
   const mouseStore = useContext(MouseStore)
-
   const handleMouseDown = () => {
     mouseStore.mouseDownAciton()
     console.log(optionStore.tool)
     if (optionStore.tool === 'highlight') {
-      svgStore.addPath({ startX: mouseStore.x, startY: mouseStore.y, d: '', stroke: optionStore.color })
-      sendMessage(mesHandle(200,
-        { startX: mouseStore.x, startY: mouseStore.y, d: '', stroke: optionStore.color
+      svgStore.addPath({ startX: mouseStore.x, startY: mouseStore.y, d: '', stroke: optionStore.color }, localStorage.getItem('userId'))
+      sendMessage(mesHandle(201,
+      {
+        type: 100,
+        data: { startX: mouseStore.x, startY: mouseStore.y, d: '', stroke: optionStore.color},
+        fromId: localStorage.getItem('userId')
       }))
     } else if (optionStore.tool === 'border') {
       svgStore.addRect({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color })
@@ -38,7 +53,13 @@ export default observer(function SvgPaint() {
   const handleMouseMove = () => {
     if (mouseStore.mouseDown) {
       if (optionStore.tool === 'highlight') {
-        svgStore.drawPath(mouseStore.x, mouseStore.y)
+        svgStore.drawPath({ x: mouseStore.x, y: mouseStore.y }, localStorage.getItem('userId'))
+        sendMessage(mesHandle(201,
+        {
+          type: 101,
+          data: { x: mouseStore.x, y: mouseStore.y},
+          fromId: localStorage.getItem('userId')
+        }))
       } else if (optionStore.tool === 'border') {
         svgStore.drawRect(mouseStore.x, mouseStore.y)
       }
@@ -49,6 +70,15 @@ export default observer(function SvgPaint() {
     mouseStore.mouseUpAction()
   }
 
+  const handlePath = (paths) => {
+    let res = []
+    paths.forEach((path) => {
+      res.push(path)
+    });
+    // console.log(res[0]?.d)
+    return res
+
+  }
   return (
     <div>
       {
@@ -58,7 +88,10 @@ export default observer(function SvgPaint() {
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             style={index === svgStore.currentPage - 1 ? { zIndex: 2 } : {}} key={item.id}>
-            {item.path?.map((path, index) =>
+              {/* {
+                handlePath(item.path)
+              } */}
+            {handlePath(item.path).map((path, index) =>
               <path d={path.d} stroke={path.stroke} strokeWidth={path.strokeWidth} key={index} fill={path.fill} strokeLinecap={'round'} />
             )}
             {item.rect?.map((rect, index) =>

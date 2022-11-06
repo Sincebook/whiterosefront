@@ -25,7 +25,7 @@ export interface SvgInput {
 
 export interface SvgOutput {
   id: number
-  path?: PathOutput[]
+  path?: Map<string, PathOutput>
   arrow?: ArrowOutput[]
   circle?: CircleOutput[]
   diamond?: DiamondOutput[]

@@ -10,7 +10,6 @@ import { wsUrl } from './config/ws_url'
 import { mesHandle } from './utils/mesHandle'
 
 function App(): ReactElement {
-  // const { sendMessage, readyState } = useWebSocket(wsUrl, {share: true})
 
   const roomId = localStorage.getItem('roomId')
   useEffect(()=> {
@@ -28,10 +27,28 @@ function App(): ReactElement {
         })
       }
     } else {
-      addRoom().then(res => {
-        localStorage.setItem('roomId', res.id.toString())
-        localStorage.setItem('owner', 'true')
-      })
+      if (token) {
+        findMyInfo().then(res => {
+          localStorage.setItem('userId', res.id.toString())
+          addRoom().then(res => {
+            localStorage.setItem('roomId', res.id.toString())
+            localStorage.setItem('owner', 'true')
+            window.location.reload()
+          })
+        })
+      } else {
+        addUser().then(res => {
+          localStorage.setItem('userId', res.users.id.toString())
+          localStorage.setItem('token', res.token)
+          addRoom().then(res => {
+            localStorage.setItem('roomId', res.id.toString())
+            localStorage.setItem('owner', 'true')
+            window.location.reload()
+          })
+        })
+      }
+     
+      
     }
   }, [])
 
