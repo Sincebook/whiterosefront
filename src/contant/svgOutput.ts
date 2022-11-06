@@ -2,6 +2,8 @@ export interface CommonSvgOutputData {
   stroke?: string // 线条颜色
   strokeWidth?: number // 线条宽度
   fill?: string // 填充颜色
+  startX?: number // 图形起始点x坐标
+  startY?: number // 图形起始点y坐标
 }
 
 // <defs>
@@ -57,8 +59,6 @@ export interface RectOutput extends CommonSvgOutputData {
   y: number // 矩形的顶端位置
   width: number // 矩形的宽度
   height: number // 矩形的高度
-  startX: number 
-  startY: number
 }
 
 export interface RoundedRectOutput extends CommonSvgOutputData {

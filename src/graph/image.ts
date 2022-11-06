@@ -1,9 +1,15 @@
 import { ImageInput } from "../contant/svgInput"
 import { ImageOutput } from "../contant/svgOutput"
 
-export const arrowToSvg = (param: ImageInput): ImageOutput => {
-  const { startX, startY, x, y, xlinkHref, width = 100, height = 100 } = param
+export const imageToSvg = (param: ImageInput): ImageOutput => {
+  const { startX, startY, xlinkHref, width = 100, height = 100 } = param
   return { x: startX, y: startY, width, height, xlinkHref }
+}
+
+// 不确定是否需要该函数
+export const svgToImage = (param: ImageOutput, x: number, y: number): ImageInput => {
+  const { x: startX, y: startY, width, height, xlinkHref } = param
+  return { startX, startY, xlinkHref, width, height }
 }
 
 // <svg id="svg1" width="600" height="600" viewBox="0 0 600 600"

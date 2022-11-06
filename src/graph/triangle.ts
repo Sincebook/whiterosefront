@@ -7,5 +7,10 @@ export const diamondToSvg = (param: TriangleInput): TriangleOutput => {
   let offsetx = x - startY
   let x2 = startX - offsetx
   let d = `M${startX} ${startY} L${x1} ${y}L${x2} ${y}Z`
-  return { stroke, strokeWidth, fill, d }
+  return { stroke, strokeWidth, fill, d, startX, startY }
+}
+
+export const svgToTriangle = (param: TriangleOutput, x: number, y: number): TriangleInput => {
+  const { stroke, strokeWidth, fill, startX, startY } = param
+  return { stroke, strokeWidth, fill, x, y, startX, startY}
 }

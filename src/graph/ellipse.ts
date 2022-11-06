@@ -15,3 +15,8 @@ export const ellipseToSvg = (param: EllipseInput): EllipseOutput => {
   }
   return { stroke, strokeWidth, fill, cx, cy, rx, ry }
 }
+
+export const svgToEllipse = (param: EllipseOutput, x: number, y: number): EllipseInput => {
+  const { stroke, strokeWidth, fill, startX, startY } = param
+  return { startX, startY, x, y, stroke, strokeWidth, fill }
+}

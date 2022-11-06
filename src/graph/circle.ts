@@ -14,5 +14,10 @@ export const circleToSvg = (param: CircleInput): CircleOutput => {
   const r = getLength(point1, point2) / 2
   const cx = (x + startX) / 2
   const cy = (y + startY) / 2
-  return { stroke, strokeWidth, fill, cx, cy, r}
+  return { stroke, strokeWidth, fill, cx, cy, r, startX, startY }
+}
+
+export const svgToCircle = (param: CircleOutput, x: number, y: number): CircleInput => {
+  const { stroke, strokeWidth, fill, startX, startY } = param
+  return { startX, startY, x, y, stroke, strokeWidth, fill }
 }

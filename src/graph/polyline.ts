@@ -72,5 +72,10 @@ export const polylineToSvg = (param: PolylineInput): PolylineOutput => {
   locations.forEach(item => {
     points += `${item[0]},${item[1]} `
   })
-  return { stroke, strokeWidth, fill, points, locations, direct, markerEnd }
+  return { stroke, strokeWidth, fill, points, locations, direct, markerEnd, startX, startY }
+}
+
+export const svgToPolyline = (param: PolylineOutput, x: number, y: number): PolylineInput => {
+  const {stroke, strokeWidth, fill, locations, direct, markerEnd, startX, startY } = param
+  return { stroke, strokeWidth, fill, startX, startY, x, y, markerEnd, locations, direct } 
 }

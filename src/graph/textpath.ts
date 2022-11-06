@@ -12,5 +12,10 @@ export const textpathToSvg = (param: TextPathInput): TextPathOutput => {
   }
   let id = String(new Date().getTime())
   let xlink = '#' + id
-  return { stroke, strokeWidth, fill, d, id, xlink, text}
+  return { stroke, strokeWidth, fill, d, id, xlink, text, startX, startY }
+}
+
+export const svgToTextPath = (param: TextPathOutput, x: number, y: number): TextPathInput => {
+  const { stroke, strokeWidth, fill,  d, text, startX, startY } = param
+  return { stroke, strokeWidth, fill, x, y, startX, startY, text, d }
 }
