@@ -1,0 +1,1 @@
+export const wsUrl = 'ws://81.68.190.125:9009/chat'
