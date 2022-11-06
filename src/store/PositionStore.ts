@@ -1,5 +1,6 @@
 import { action, makeAutoObservable, observable } from "mobx"
 import { createContext } from "react"
+
 class MouseStore {
   @observable x = 0
   @observable y = 0
