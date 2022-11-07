@@ -16,7 +16,7 @@ export default observer(function ChoiceBar () {
     choiceStore.choiceSwitch()
   }
   return (
-    <div className="choice-bar" onClick={handleSwitch} style={show}>
+    <div className="choice-bar" onClick={handleSwitch} style={show} data-html2canvas-ignore>
       <Tooltip placement="right" title={'直线'}>
         <IconFont type="roseline" className="icons"/>
       </Tooltip>

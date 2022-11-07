@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 import { wsUrl } from '../../config/ws_url';
 import MouseStore from '../../store/PositionStore';
 import OptionStore from '../../store/OptionStore';
@@ -9,6 +9,7 @@ import useWebSocket, { ReadyState } from 'react-use-websocket';
 
 import './style.css'
 import { lastMesHandle, mesHandle } from '../../utils/mesHandle';
+
 
 export default observer(function SvgPaint() {
 
@@ -34,6 +35,9 @@ export default observer(function SvgPaint() {
   const optionStore = useContext(OptionStore)
   const svgStore = useContext(SvgStore)
   const mouseStore = useContext(MouseStore)
+
+  const boxRef = useRef(null)
+
   const handleMouseDown = () => {
     mouseStore.mouseDownAciton()
     console.log(optionStore.tool)
@@ -46,7 +50,13 @@ export default observer(function SvgPaint() {
         fromId: localStorage.getItem('userId')
       }))
     } else if (optionStore.tool === 'border') {
-      svgStore.addRect({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color })
+      svgStore.addRect({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color }, localStorage.getItem('userId'))
+      sendMessage(mesHandle(201,
+      {
+        type: 100,
+        data: { startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color },
+        fromId: localStorage.getItem('userId')
+      }))
     }
   }
 
@@ -61,13 +71,14 @@ export default observer(function SvgPaint() {
           fromId: localStorage.getItem('userId')
         }))
       } else if (optionStore.tool === 'border') {
-        svgStore.drawRect(mouseStore.x, mouseStore.y)
+        svgStore.drawRect(mouseStore.x, mouseStore.y, localStorage.getItem('userId'))
       }
     }
   }
 
   const handleMouseUp = () => {
     mouseStore.mouseUpAction()
+
   }
 
   const handlePath = (paths) => {
@@ -77,29 +88,39 @@ export default observer(function SvgPaint() {
     });
     // console.log(res[0]?.d)
     return res
-
+  }
+  const handleRect = (rects) => {
+    let res = []
+    rects.forEach((rect) => {
+      res.push(rect)
+    });
+    return res
   }
   return (
-    <div>
-      {
-        svgStore.svg.map((item, index) =>
-          <svg className={"svg-paint " + optionStore.bg}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            style={index === svgStore.currentPage - 1 ? { zIndex: 2 } : {}} key={item.id}>
-              {/* {
-                handlePath(item.path)
-              } */}
-            {handlePath(item.path).map((path, index) =>
-              <path d={path.d} stroke={path.stroke} strokeWidth={path.strokeWidth} key={index} fill={path.fill} strokeLinecap={'round'} />
-            )}
-            {item.rect?.map((rect, index) =>
-              <rect key={index} width={rect.width} fill={rect.fill} height={rect.height} stroke={rect.stroke} strokeWidth={rect.strokeWidth} x={rect.x} y={rect.y} />
-            )}
-          </svg>
-        )}
-      <div style={{ position: 'fixed', bottom: 1, right: 10, zIndex: 99, userSelect: 'none' }}>
+    <div >
+      <div>
+        {
+          svgStore.svg.map((item, index) =>
+            <svg className={"svg-paint " + optionStore.bg}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              style={index === svgStore.currentPage - 1 ? { zIndex: 2 } : {}} key={item.id}
+            >
+                {/* {
+                  handlePath(item.path)
+                } */}
+              {handlePath(item.path).map((path, index) =>
+                <path d={path.d} stroke={path.stroke} strokeWidth={path.strokeWidth} key={index} fill={path.fill} strokeLinecap={'round'} />
+              )}
+              {handleRect(item.rect)?.map((rect, index) =>
+                <rect key={index} width={rect.width} fill={rect.fill} height={rect.height} stroke={rect.stroke} strokeWidth={rect.strokeWidth} x={rect.x} y={rect.y} />
+              )}
+            </svg>
+          )
+        }
+      </div>
+      <div style={{ position: 'fixed', bottom: 1, right: 10, zIndex: 99, userSelect: 'none' }} data-html2canvas-ignore>
         {svgStore.currentPage} / {svgStore.totalPage}
       </div>
     </div>

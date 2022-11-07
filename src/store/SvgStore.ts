@@ -7,7 +7,7 @@ import { pathToSvg, svgToPath } from "../graph/path";
 import { rectToSvg, svgToRect } from "../graph/rect";
 
 class SvgStore {
-  @observable svg: SvgOutput[] = [{ id: 1, path: new Map(), rect: [] }]
+  @observable svg: SvgOutput[] = [{ id: 1, path: new Map(), rect: new Map() }]
   @observable currentPage: number = 1
   @observable totalPage: number = 1
   @observable id = 1
@@ -20,7 +20,7 @@ class SvgStore {
 
   @action.bound
   addSvg() {
-    this.svg.push({ id: this.id + 1, path: new Map(), rect: [] })
+    this.svg.push({ id: this.id + 1, path: new Map(), rect: new Map() })
     this.id++
     this.totalPage++
     message.success('创建成功')
@@ -90,17 +90,19 @@ class SvgStore {
   }
 
   get getRectId() {
-    return this.svg[this.currentPage - 1].rect.length - 1
+    return this.svg[this.currentPage - 1].rect.size - 1
   }
 
   @action.bound
-  addRect(rect: RectInput) {
-    this.getRect.push(rectToSvg(rect))
+  addRect(rect: RectInput, userId) {
+    const key = Math.floor(Math.random() * 1000000).toString()
+    this.key.set(userId, key)
+    this.getRect.set(key, rectToSvg(rect))
   }
 
   @action.bound
-  drawRect(x: number, y: number) {
-    this.getRect[this.getRectId] = rectToSvg(svgToRect(this.getRect[this.getRectId], x, y))
+  drawRect(x: number, y: number, userId) {
+    this.getRect.set(this.key.get(useId), rectToSvg(svgToRect(this.getRect.get(this.key.get(userId)), x, y)))
   }
 
   
