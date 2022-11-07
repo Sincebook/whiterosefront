@@ -97,8 +97,8 @@ class SvgStore {
   }
 
   @action.bound
-  drawRect(x: number, y: number, userId) {
-    this.getRect.set(this.key.get(useId), rectToSvg(svgToRect(this.getRect.get(this.key.get(userId)), x, y)))
+  drawRect(xy, userId) {
+    this.getRect.set(this.key.get(userId), rectToSvg(svgToRect(this.getRect.get(this.key.get(userId)), xy.x, xy.y)))
   }
 
   

@@ -23,12 +23,14 @@ export default observer(function SvgPaint() {
     const mess = lastMesHandle(lastMessage)
     if (mess) {
       if (mess.type === 100) {
-        console.log(mess.data)
         svgStore.addPath(mess.data, mess.fromId)
       } else if (mess.type === 101) {
-        console.log(mess.data)
         svgStore.drawPath(mess.data, mess.fromId)
-      }
+      } else if (mess.type === 102) {
+        svgStore.addRect(mess.data, mess.fromId)
+      } else if (mess.type === 103) {
+        svgStore.drawRect(mess.data, mess.fromId)
+      } 
     }
   }, [lastMessage])
 
@@ -36,7 +38,6 @@ export default observer(function SvgPaint() {
   const svgStore = useContext(SvgStore)
   const mouseStore = useContext(MouseStore)
 
-  const boxRef = useRef(null)
 
   const handleMouseDown = () => {
     mouseStore.mouseDownAciton()
@@ -53,7 +54,7 @@ export default observer(function SvgPaint() {
       svgStore.addRect({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color }, localStorage.getItem('userId'))
       sendMessage(mesHandle(201,
       {
-        type: 100,
+        type: 102,
         data: { startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color },
         fromId: localStorage.getItem('userId')
       }))
@@ -71,7 +72,13 @@ export default observer(function SvgPaint() {
           fromId: localStorage.getItem('userId')
         }))
       } else if (optionStore.tool === 'border') {
-        svgStore.drawRect(mouseStore.x, mouseStore.y, localStorage.getItem('userId'))
+        svgStore.drawRect({ x: mouseStore.x, y: mouseStore.y }, localStorage.getItem('userId'))
+        sendMessage(mesHandle(201,
+        {
+          type: 103,
+          data: { x: mouseStore.x, y: mouseStore.y},
+          fromId: localStorage.getItem('userId')
+        }))
       }
     }
   }
