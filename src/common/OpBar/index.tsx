@@ -39,7 +39,7 @@ export default observer(function OpBar() {
   }
 
   return (
-    <div className="op-bar" onClick={handleSwitch} style={show}>
+    <div className="op-bar" onClick={handleSwitch} style={show} data-html2canvas-ignore>
       <Tooltip placement="top" title={'清空'}>
         <DeleteOutlined className="icons" />
       </Tooltip>

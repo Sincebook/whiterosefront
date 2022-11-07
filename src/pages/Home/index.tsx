@@ -19,13 +19,13 @@ export default observer(function Home() {
 
   return (
     <div onMouseMove={listenMouse}>
-      <div style={{position: 'fixed', zIndex: 99}}>「{mouseStore.x},{mouseStore.y}」</div>
+      <div style={{position: 'fixed', zIndex: 99}} data-html2canvas-ignore>「{mouseStore.x},{mouseStore.y}」</div>
       <ToolBar />
       <Palette />
       <SvgPaint />
       <OpBar />
       <ChoiceBar />
-      <WebSocketDemo />
+      <WebSocketDemo/>
     </div>
   )
 })

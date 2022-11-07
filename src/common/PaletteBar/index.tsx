@@ -25,7 +25,7 @@ export default observer(function Palette() {
     
   }
   return (
-    <div className="palette" onClick={handleSwitch} style={show}>
+    <div className="palette" onClick={handleSwitch} style={show} data-html2canvas-ignore>
       <Tooltip placement="left" title={'莽丛绿'}>
         <div className="color mcl" data-id="mcl"></div>
       </Tooltip>

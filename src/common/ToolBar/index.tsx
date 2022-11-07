@@ -29,7 +29,7 @@ export default observer(function ToolBar() {
   }
 
   return (
-    <div className="tool-bar" onClick={handleSwitch} style={show}>
+    <div className="tool-bar" onClick={handleSwitch} style={show} data-html2canvas-ignore>
       <Tooltip placement="bottom" title={'定位'} >
         <AimOutlined className="icons" name="lite" data-id="lite"/>
       </Tooltip>

@@ -32,7 +32,7 @@ export interface SvgOutput {
   ellipse?: EllipseOutput[]
   line?: LineOutput[]
   polyline?: PolylineOutput[]
-  rect?: RectOutput[]
+  rect?: Map<string, RectOutput>
   roundedRect?: RoundedRectOutput[]
   text?: TextOutput[]
   textpath?: TextPathOutput[]
