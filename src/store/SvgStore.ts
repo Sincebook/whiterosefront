@@ -89,10 +89,6 @@ class SvgStore {
     return this.svg[this.currentPage - 1].rect
   }
 
-  get getRectId() {
-    return this.svg[this.currentPage - 1].rect.size - 1
-  }
-
   @action.bound
   addRect(rect: RectInput, userId) {
     const key = Math.floor(Math.random() * 1000000).toString()
