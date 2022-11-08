@@ -1,18 +1,21 @@
 import { DeleteOutlined, DownloadOutlined, FileAddOutlined, LockOutlined, MinusCircleOutlined, MinusOutlined, MinusSquareOutlined, PlusCircleOutlined, PlusOutlined, PlusSquareOutlined, RedoOutlined, SaveOutlined, StepBackwardOutlined, StepForwardOutlined, UndoOutlined, UploadOutlined } from '@ant-design/icons'
 import Tooltip from 'antd/es/tooltip'
 import { observer } from 'mobx-react'
-import { useContext } from 'react'
+import { useContext, useState, useRef } from 'react'
 import BarStore from '../../store/BarStore'
 import OptionStore from '../../store/OptionStore'
 import SvgStore from '../../store/SvgStore'
 import { delegate } from '../../utils/delegate'
+import { exportToPng } from "../../utils/exportToPng"
 import './index.css'
 
 export default observer(function OpBar() {
   const barStore = useContext(BarStore)
   const optionStore = useContext(OptionStore)
   const svgStore = useContext(SvgStore)
-  const show = { bottom: barStore.opBar ? '0' : '-50px'}
+  const boxRef = useRef(null)
+
+  const show = { bottom: barStore.opBar ? '0' : '-50px' }
   const handleSwitch = (e) => {
     const [flag, el] = delegate('div', 'span', e.target)
     if (flag) {
@@ -20,6 +23,10 @@ export default observer(function OpBar() {
     } else {
       barStore.opSwitch()
     }
+  }
+
+  const download = () => {
+    exportToPng()
   }
  
   const handleLast = () => {
@@ -39,12 +46,12 @@ export default observer(function OpBar() {
   }
 
   return (
-    <div className="op-bar" onClick={handleSwitch} style={show} data-html2canvas-ignore>
+    <div className="op-bar" onClick={handleSwitch} style={show} data-html2canvas-ignore ref={boxRef}>
       <Tooltip placement="top" title={'清空'}>
         <DeleteOutlined className="icons" />
       </Tooltip>
-      <Tooltip placement="top" title={'下载'}>
-        <DownloadOutlined className="icons" />
+      <Tooltip placement="top" title={'下载'} getPopupContainer={() =>  boxRef.current } >
+        <DownloadOutlined className="icons" onClick={download}/>
       </Tooltip>
       <Tooltip placement="top" title={'上传'}>
         <UploadOutlined className="icons" />

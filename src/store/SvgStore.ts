@@ -2,12 +2,14 @@ import { message, } from "antd";
 import { action, get, makeAutoObservable, observable } from "mobx";
 import { createContext, useId } from "react";
 import { SvgInput, SvgOutput } from "../contant/svg";
-import type { PathInput, RectInput } from "../contant/svgInput";
+import type { PathInput, RectInput, ArrowInput, TextInput } from "../contant/svgInput";
 import { pathToSvg, svgToPath } from "../graph/path";
 import { rectToSvg, svgToRect } from "../graph/rect";
+import { arrowToSvg, svgToArrow } from "../graph/arrow"
+import { textToSvg, svgToText } from "../graph/text"
 
 class SvgStore {
-  @observable svg: SvgOutput[] = [{ id: 1, path: new Map(), rect: new Map() }]
+  @observable svg: SvgOutput[] = [{ id: 1, path: new Map(), rect: new Map(), arrow: new Map(), text: new Map() }]
   @observable currentPage: number = 1
   @observable totalPage: number = 1
   @observable id = 1
@@ -20,7 +22,7 @@ class SvgStore {
 
   @action.bound
   addSvg() {
-    this.svg.push({ id: this.id + 1, path: new Map(), rect: new Map() })
+    this.svg.push({ id: this.id + 1, path: new Map(), rect: new Map(), arrow: new Map(), text: new Map() })
     this.id++
     this.totalPage++
     message.success('创建成功')
@@ -32,9 +34,7 @@ class SvgStore {
       message.warning('就这一张了，别删除了～')
     } else {
       if (confirm('确定要删除吗？')){
-        console.log(this.svg)
         this.svg = this.svg.filter(item => item.id !== this.currentId)
-        console.log(this.svg)
           if (this.currentPage === 1) {
             this.totalPage--
             this.currentId = this.svg[0].id
@@ -92,13 +92,45 @@ class SvgStore {
   @action.bound
   addRect(rect: RectInput, userId) {
     const key = Math.floor(Math.random() * 1000000).toString()
-    this.key.set(userId, key)
-    this.getRect.set(key, rectToSvg(rect))
+    this.key.set(userId, key) // key和userId关联
+    this.getRect.set(key, rectToSvg(rect)) // key和图形关联
   }
 
   @action.bound
   drawRect(xy, userId) {
     this.getRect.set(this.key.get(userId), rectToSvg(svgToRect(this.getRect.get(this.key.get(userId)), xy.x, xy.y)))
+  }
+
+  get getArrow() {
+    return this.svg[this.currentPage - 1].arrow
+  }
+
+  @action.bound
+  addArrow(arrow: ArrowInput, userId) {
+    const key = Math.floor(Math.random() * 1000000).toString()
+    this.key.set(userId, key)
+    this.getArrow.set(key, arrowToSvg(arrow))
+  }
+
+  @action.bound
+  drawArrow(xy, userId) {
+    this.getArrow.set(this.key.get(userId), arrowToSvg(svgToArrow(this.getArrow.get(this.key.get(userId)), xy.x, xy.y)))
+  }
+
+  get getText() {
+    return this.svg[this.currentPage - 1].text
+  }
+
+  @action.bound
+  addText(text: TextInput, userId) {
+    const key = Math.floor(Math.random() * 1000000).toString()
+    this.key.set(userId, key)
+    this.getText.set(key, textToSvg(text))
+  }
+
+  @action.bound
+  drawText(xy, userId) {
+    this.getText.set(this.key.get(userId), textToSvg(svgToText(this.getText.get(this.key.get(userId)), xy.x, xy.y, xy.text)))
   }
 
   
