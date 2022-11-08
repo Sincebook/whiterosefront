@@ -22,11 +22,13 @@ class OptionStore {
   @action.bound
   changeTool(e) {
     this.tool = e
+    console.log(this.tool)
   }
   // 改变option选项 
   @action.bound
   changeOp(e) {
     this.op = e
+    console.log(this.op);
   }
   // 改变颜色
   @action.bound

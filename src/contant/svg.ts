@@ -26,7 +26,7 @@ export interface SvgInput {
 export interface SvgOutput {
   id: number
   path?: Map<string, PathOutput>
-  arrow?: ArrowOutput[]
+  arrow?: Map<string, ArrowOutput>
   circle?: CircleOutput[]
   diamond?: DiamondOutput[]
   ellipse?: EllipseOutput[]
@@ -34,6 +34,6 @@ export interface SvgOutput {
   polyline?: PolylineOutput[]
   rect?: Map<string, RectOutput>
   roundedRect?: RoundedRectOutput[]
-  text?: TextOutput[]
+  text?: Map<string, TextOutput>
   textpath?: TextPathOutput[]
 }

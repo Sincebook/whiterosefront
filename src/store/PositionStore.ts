@@ -4,11 +4,18 @@ import { createContext } from "react"
 class MouseStore {
   @observable x = 0
   @observable y = 0
+  @observable startX = 0
+  @observable startY = 0
   @observable lite = [0, 0]
   @observable mouseDown = false
 
   constructor() {
     makeAutoObservable(this)
+  }
+
+  @action.bound handleMouseDown(e) {
+    this.startX = e.clientX
+    this.startY = e.clientY
   }
 
   @action.bound mouseMove(e) {
