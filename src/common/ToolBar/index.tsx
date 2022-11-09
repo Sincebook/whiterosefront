@@ -1,5 +1,4 @@
-
-import { useContext } from 'react'
+import { useContext, useRef } from 'react'
 import { observer } from 'mobx-react'
 import { AimOutlined, HighlightOutlined, FullscreenOutlined, BorderOutlined,
   FontSizeOutlined, CommentOutlined, FunctionOutlined, ShareAltOutlined, InstagramOutlined,
@@ -8,20 +7,33 @@ import Tooltip from 'antd/es/tooltip'
 import { delegate } from '../../utils/delegate'
 import OptionStore from '../../store/OptionStore'
 import BarStore from '../../store/BarStore'
+import MouseStore from '../../store/PositionStore'
 
 import './index.css'
 
 export default observer(function ToolBar() {
   const toolStore = useContext(BarStore)
   const optionStore = useContext(OptionStore)
+  const mouseStore = useContext(MouseStore)
+
+  const inputRef = useRef(null)
+
   const show = { top: toolStore.toolBar ? '0': '-50px'}
   const handleSwitch = (e) => {
+    mouseStore.mouseUpAction()
     const [flag, el] = delegate('div', 'span', e.target)
     if (flag) {
       optionStore.changeTool(el.childNodes[0].dataset.icon)
     } else {
       toolStore.toolSwitch()
     }
+  }
+
+  const updateImage = () => {
+    inputRef.current.click()
+  }
+  const handleFiles = (e) => {
+    console.log(e.target.files);
   }
 
   const fullScreen = () => {
@@ -46,7 +58,7 @@ export default observer(function ToolBar() {
         <PullRequestOutlined className="icons"/>
       </Tooltip>
       <Tooltip placement="bottom" title={'图片'}>
-        <InstagramOutlined className="icons"/>
+        <InstagramOutlined className="icons" onClick={updateImage}/>
       </Tooltip>
       <Tooltip placement="bottom" title={'聊天'}>
       <CommentOutlined className="icons" />
@@ -60,6 +72,7 @@ export default observer(function ToolBar() {
       <Tooltip placement="bottom" title={'分享'}>
         <ShareAltOutlined className="icons" />
       </Tooltip>
+      <input type="file" id="fileElem" multiple accept="image/*" onChange={handleFiles} ref={inputRef} />
     </div>
   )
 })

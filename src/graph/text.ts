@@ -8,6 +8,6 @@ export const textToSvg = (param: TextInput): TextOutput => {
 
 // 可能不需要 svgToText
 export const svgToText = (param: TextOutput, x: number, y: number, text: string): TextInput => {
-  const { stroke, strokeWidth, fill } = param
+  const { stroke = "#000000", strokeWidth = 1, fill = "none" } = param
   return { startX: x, startY: y + 5, text, stroke, strokeWidth, fill }
 }

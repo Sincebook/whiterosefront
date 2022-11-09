@@ -2,7 +2,7 @@ import { PolylineOutput } from "../contant/svgOutput"
 import { PolylineInput } from "../contant/svgInput"
 
 export const polylineToSvg = (param: PolylineInput): PolylineOutput => {
-  const { startX, startY, x, y, markerEnd, locations, stroke = "#00000", strokeWidth = 3, fill = "none" } = param
+  const { startX, startY, x, y, markerEnd, locations, stroke = "#000000", strokeWidth = 3, fill = "none" } = param
   let direct = param.direct
   if (locations.length === 0) {
     locations.push([startX, startY]) 
@@ -76,6 +76,6 @@ export const polylineToSvg = (param: PolylineInput): PolylineOutput => {
 }
 
 export const svgToPolyline = (param: PolylineOutput, x: number, y: number): PolylineInput => {
-  const {stroke, strokeWidth, fill, locations, direct, markerEnd, startX, startY } = param
+  const { stroke = "#000000", strokeWidth = 3, fill = "none", locations, direct, markerEnd, startX, startY } = param
   return { stroke, strokeWidth, fill, startX, startY, x, y, markerEnd, locations, direct } 
 }

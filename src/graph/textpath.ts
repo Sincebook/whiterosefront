@@ -16,6 +16,6 @@ export const textpathToSvg = (param: TextPathInput): TextPathOutput => {
 }
 
 export const svgToTextPath = (param: TextPathOutput, x: number, y: number): TextPathInput => {
-  const { stroke, strokeWidth, fill,  d, text, startX, startY } = param
+  const { stroke = "#000000", strokeWidth = 3, fill = "none",  d, text, startX, startY } = param
   return { stroke, strokeWidth, fill, x, y, startX, startY, text, d }
 }

@@ -18,12 +18,12 @@ const dealRect = (startX: number, startY: number, x: number, y: number) => {
 }
 
 export const roundedRectToSvg = (param: RoundedRectInput): RoundedRectOutput => {
-  const { startX, startY, x, y, stroke = "#00000", strokeWidth = 3, fill = "none" } = param
+  const { startX, startY, x, y, stroke = "#000000", strokeWidth = 3, fill = "none" } = param
   const { width, height } = dealRect(startX, startY, x, y)
   return { stroke, strokeWidth, fill, ...dealRect(startX, startY, x, y), rx: Math.min(width, height) / 10, startX, startY }
 }
 
 export const svgToRoundedRect = (param: RoundedRectOutput, x: number, y: number): RoundedRectInput => {
-  const { stroke, strokeWidth, fill, startX, startY } = param
+  const { stroke = "#000000", strokeWidth = 3, fill = "none", startX, startY } = param
   return { stroke, strokeWidth, fill, x, y, startX, startY }
 }

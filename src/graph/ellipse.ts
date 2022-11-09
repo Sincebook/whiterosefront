@@ -2,7 +2,7 @@ import { EllipseOutput } from "../contant/svgOutput"
 import { EllipseInput } from "../contant/svgInput"
 
 export const ellipseToSvg = (param: EllipseInput): EllipseOutput => {
-  const { startX, startY, x, y, stroke = "#00000", strokeWidth = 3, fill = "none" } = param
+  const { startX, startY, x, y, stroke = "#000000", strokeWidth = 3, fill = "none" } = param
   const rx = Math.abs(x - startX) / 2
   const ry = Math.abs(y - startY) / 2
   let cx = startX + rx
@@ -17,6 +17,6 @@ export const ellipseToSvg = (param: EllipseInput): EllipseOutput => {
 }
 
 export const svgToEllipse = (param: EllipseOutput, x: number, y: number): EllipseInput => {
-  const { stroke, strokeWidth, fill, startX, startY } = param
+  const { stroke = "#000000", strokeWidth = 3, fill = "none", startX, startY } = param
   return { startX, startY, x, y, stroke, strokeWidth, fill }
 }
