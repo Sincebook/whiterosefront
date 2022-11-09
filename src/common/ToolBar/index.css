@@ -28,4 +28,8 @@
   border: 3px white solid;
   margin: 15px;
   flex: 0;
+  cursor: pointer;
+}
+#fileElem {
+  display: none;
 }

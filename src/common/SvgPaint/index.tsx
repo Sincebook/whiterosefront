@@ -58,7 +58,9 @@ export default observer(function SvgPaint() {
 
   const handleMouseDown = (e) => {
     mouseStore.mouseDownAciton()
-    mouseStore.handleMouseDown(e)
+    if (optionStore.tool !== 'font-size') {
+      setShowInput(false)
+    }
     if (optionStore.tool === 'highlight') {
       svgStore.addPath({ startX: mouseStore.x, startY: mouseStore.y, d: '', stroke: optionStore.color }, localStorage.getItem('userId'))
       sendMessage(mesHandle(201,
@@ -84,6 +86,7 @@ export default observer(function SvgPaint() {
         fromId: localStorage.getItem('userId')
       }))
     } else if (optionStore.tool === 'font-size') {
+      mouseStore.handleMouseDown(e)
       inputRef.current.value = ''
       setShowInput(true)
       inputRef.current.focus()
@@ -129,8 +132,11 @@ export default observer(function SvgPaint() {
 
   const handleMouseUp = () => {
     mouseStore.mouseUpAction()
-
   }
+
+  // const inputBlur = () => {
+  //   mouseStore.mouseUpAction()
+  // }
 
   const inputChange = (e) => {
     if (mouseStore.mouseDown) {
@@ -173,14 +179,14 @@ export default observer(function SvgPaint() {
               )}
               <defs>
                 <marker id="arrow" markerUnits = "strokeWidth" markerWidth = "12" markerHeight = "12" viewBox = "0 0 12 12" refX = "6" refY = "6" orient = "auto" >
-                  <path d="M2,2 L8,6 L2,10 L6,6 L2,2" fill = "#000000;" />
+                  <path d="M2,2 L8,6 L2,10 L6,6 L2,2" fill={optionStore.color} />
                 </marker>
               </defs>
               {handleGraph(item.arrow)?.map((arrow, index) =>
                 <line key={index} fill={arrow.fill} stroke={arrow.stroke} strokeWidth={arrow.strokeWidth} x1={arrow.x1} y1={arrow.y1} x2={arrow.x2} y2={arrow.y2} markerEnd={arrow.markerEnd} />
               )}
               {handleGraph(item.text)?.map((text, index) =>
-                <text key={index} fill={text.fill} stroke={text.stroke} strokeWidth={text.strokeWidth} x={text.x} y={text.y}>{text.text}</text>
+                <text key={index} fill={text.fill} stroke={text.stroke} strokeWidth={text.strokeWidth} x={text.x} y={text.y} className="text">{text.text}</text>
               )}
             </svg>
           )
@@ -190,7 +196,7 @@ export default observer(function SvgPaint() {
         {svgStore.currentPage} / {svgStore.totalPage}
       </div>
       <div>
-        <input className='text-input' type="text" style={inputStyle} onChange={inputChange} ref={inputRef} />
+        <input className='text-input' type="text" style={inputStyle} onChange={inputChange} ref={inputRef}  />
       </div>
     </div>
   )

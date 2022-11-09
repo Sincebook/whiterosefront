@@ -13,6 +13,6 @@ export const pathToSvg = (param: PathInput): PathOutput => {
 }
 
 export const svgToPath = (param: PathOutput, x: number, y: number): PathInput => {
-  const {stroke, strokeWidth, fill, d} = param
+  const { stroke = "#000000", strokeWidth = 3, fill = "none", d } = param
   return { stroke, strokeWidth, fill, d, x, y}
 }

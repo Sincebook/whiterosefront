@@ -2,7 +2,7 @@ import { DiamondOutput } from "../contant/svgOutput"
 import { DiamondInput } from "../contant/svgInput"
 
 export const diamondToSvg = (param: DiamondInput): DiamondOutput => {
-  let { startX, startY, x, y, stroke = "#00000", strokeWidth = 3, fill = "none" } = param
+  let { startX, startY, x, y, stroke = "#000000", strokeWidth = 3, fill = "none" } = param
   y = startY
   const offsetx = x - startX
   const len = offsetx / 2
@@ -14,6 +14,6 @@ export const diamondToSvg = (param: DiamondInput): DiamondOutput => {
 }
 
 export const svgToDiamond = (param: DiamondOutput, x: number, y: number): DiamondInput => {
-  const { stroke, strokeWidth, fill, d, startX, startY } = param
+  const { stroke = "#000000", strokeWidth = 3, fill = "none", d, startX, startY } = param
   return { startX, startY, x, y, stroke, strokeWidth, fill, d }
 }

@@ -17,3 +17,6 @@
   outline: none;
   color: transparent;
 }
+.text {
+  user-select: none;
+}
