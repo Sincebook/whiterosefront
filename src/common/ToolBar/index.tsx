@@ -39,7 +39,7 @@ export default observer(function ToolBar() {
 
   useEffect(() => {
     const mess = lastMesHandle(lastMessage)
-    const initmess = barrageHandle(lastMesHandle)
+    const initmess = barrageHandle(lastMessage)
     if (typeof initmess === 'string' && initmess.length) {
         screen.push(<StyledBullet msg={initmess} color="#fff" backgroundColor={randomColor()} size="normal" />)
     }
