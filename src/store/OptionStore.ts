@@ -30,6 +30,12 @@ class OptionStore {
     this.op = e
     console.log(this.op);
   }
+  // 改变choice选项
+  @action.bound
+  changeChoice(e) {
+    this.choice = e
+    console.log(this.choice)
+  }
   // 改变颜色
   @action.bound
   changeColor(e) {

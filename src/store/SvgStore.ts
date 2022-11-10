@@ -15,6 +15,7 @@ class SvgStore {
   @observable id = 1
   @observable currentId = 1
   @observable key = new Map()
+  @observable strokeWidth = 3
 
   constructor() {
     makeAutoObservable(this)
@@ -67,6 +68,12 @@ class SvgStore {
     } else {
       message.warning('不能再上一页了～')
     }
+  }
+
+  // 改变线宽
+  @action.bound
+  changeStrokeWidth(e) {
+    this.strokeWidth = e
   }
 
   get getPath() {

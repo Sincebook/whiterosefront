@@ -17,6 +17,7 @@ export default observer(function SvgPaint() {
   const inputRef = useRef(null)
 
   useEffect(() => {
+    
     sendMessage(mesHandle(0))
   }, [])
 
@@ -60,27 +61,27 @@ export default observer(function SvgPaint() {
       setShowInput(false)
     }
     if (optionStore.tool === 'highlight') {
-      svgStore.addPath({ startX: mouseStore.x, startY: mouseStore.y, d: '', stroke: optionStore.color }, localStorage.getItem('userId'))
+      svgStore.addPath({ startX: mouseStore.x, startY: mouseStore.y, d: '', stroke: optionStore.color, strokeWidth: svgStore.strokeWidth }, localStorage.getItem('userId'))
       sendMessage(mesHandle(201,
       {
         type: 100,
-        data: { startX: mouseStore.x, startY: mouseStore.y, d: '', stroke: optionStore.color},
+        data: { startX: mouseStore.x, startY: mouseStore.y, d: '', stroke: optionStore.color, strokeWidth: svgStore.strokeWidth },
         fromId: localStorage.getItem('userId')
       }))
     } else if (optionStore.tool === 'border') {
-      svgStore.addRect({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color }, localStorage.getItem('userId'))
+      svgStore.addRect({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth  }, localStorage.getItem('userId'))
       sendMessage(mesHandle(201,
       {
         type: 102,
-        data: { startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color },
+        data: { startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth  },
         fromId: localStorage.getItem('userId')
       }))
     } else if (optionStore.tool === 'pull-request') {
-      svgStore.addArrow({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color }, localStorage.getItem('userId'))
+      svgStore.addArrow({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth }, localStorage.getItem('userId'))
       sendMessage(mesHandle(201,
       {
         type: 104,
-        data: { startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, markerEnd: '#arrow' },
+        data: { startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, markerEnd: '#arrow', strokeWidth: svgStore.strokeWidth },
         fromId: localStorage.getItem('userId')
       }))
     } else if (optionStore.tool === 'font-size') {
@@ -92,7 +93,7 @@ export default observer(function SvgPaint() {
       sendMessage(mesHandle(201,
       {
         type: 106,
-        data: { startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, text: ''},
+        data: { startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, text: '' },
         fromId: localStorage.getItem('userId')
       }))
     } 

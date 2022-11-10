@@ -32,7 +32,6 @@ export default observer(function ToolBar() {
   const [bullet, setBullet] = useState('')
 
   useEffect(() => {
-    sendMessage(mesHandle(0))
     let bulletScreen = new BulletScreen(document.querySelector('.svgPage'))
     setScreen(bulletScreen)
   }, [])
