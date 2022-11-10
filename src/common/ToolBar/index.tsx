@@ -1,22 +1,53 @@
-import { useContext, useRef } from 'react'
+import { useContext, useRef, useState, useEffect } from 'react'
 import { observer } from 'mobx-react'
 import { AimOutlined, HighlightOutlined, FullscreenOutlined, BorderOutlined,
   FontSizeOutlined, CommentOutlined, FunctionOutlined, ShareAltOutlined, InstagramOutlined,
-  PullRequestOutlined } from '@ant-design/icons'
+  PullRequestOutlined, CheckOutlined } from '@ant-design/icons'
 import Tooltip from 'antd/es/tooltip'
+import { Popover, Button } from 'antd'
 import { delegate } from '../../utils/delegate'
 import OptionStore from '../../store/OptionStore'
 import BarStore from '../../store/BarStore'
 import MouseStore from '../../store/PositionStore'
 
+import BulletScreen, { StyledBullet } from 'rc-bullets'
+import { randomColor } from "../../utils/randomColor"
+
+import { wsUrl } from '../../config/ws_url'
+import useWebSocket, { ReadyState } from 'react-use-websocket'
+import { lastMesHandle, mesHandle } from '../../utils/mesHandle'
+
 import './index.css'
 
 export default observer(function ToolBar() {
+  const { sendMessage, readyState, lastMessage } = useWebSocket(wsUrl, { share: true })
+
   const toolStore = useContext(BarStore)
   const optionStore = useContext(OptionStore)
   const mouseStore = useContext(MouseStore)
 
+  // 弹幕屏幕
+  const [screen, setScreen] = useState(null)
+  // 弹幕内容
+  const [bullet, setBullet] = useState('')
+
+  useEffect(() => {
+    sendMessage(mesHandle(0))
+    let s = new BulletScreen(document.querySelector('.svgPage'))
+    setScreen(s)
+  }, [])
+
+  useEffect(() => {
+    const mess = lastMesHandle(lastMessage)
+    if (mess) {
+      if (mess.type === 201) {
+        screen.push(<StyledBullet msg={mess.bullet} color="#fff" backgroundColor={randomColor()} size="normal" />)
+      }
+    }
+  }, [lastMessage])
+
   const inputRef = useRef(null)
+  const barrageRef = useRef(null)
 
   const show = { top: toolStore.toolBar ? '0': '-50px'}
   const handleSwitch = (e) => {
@@ -39,9 +70,31 @@ export default observer(function ToolBar() {
   const fullScreen = () => {
     document.getElementById('root').requestFullscreen()
   }
+  const barrageChange = (e) => {
+    setBullet(e.target.value);
+  }
+
+  const sendBarrage = () => {
+    barrageRef.current.value = ''
+    if (bullet) {
+      screen.push(<StyledBullet msg={bullet} color="#fff" backgroundColor={randomColor()} size="normal" />)
+      sendMessage(mesHandle(201,
+      {
+        type: 201,
+        data: bullet,
+      }))
+    }
+  }
+
+  const content = (
+    <div>
+      <input type="text" className='barrage' onChange={barrageChange} ref={barrageRef} />
+      <Button type="primary" shape="circle" icon={<CheckOutlined />} onClick={sendBarrage} />
+    </div>
+  )
 
   return (
-    <div className="tool-bar" onClick={handleSwitch} style={show} data-html2canvas-ignore>
+    <div className="tool-bar" onClick={handleSwitch} data-html2canvas-ignore>
       <Tooltip placement="bottom" title={'定位'} >
         <AimOutlined className="icons" name="lite" data-id="lite"/>
       </Tooltip>
@@ -60,9 +113,11 @@ export default observer(function ToolBar() {
       <Tooltip placement="bottom" title={'图片'}>
         <InstagramOutlined className="icons" onClick={updateImage}/>
       </Tooltip>
-      <Tooltip placement="bottom" title={'聊天'}>
-      <CommentOutlined className="icons" />
-      </Tooltip>
+      <Popover placement="bottom" title={'发射弹幕~'} content={content} trigger="click">
+        <Tooltip placement="bottom" title={'弹幕'}>
+          <CommentOutlined className="icons" />
+        </Tooltip>
+      </Popover>
       <Tooltip placement="bottom" title={'公式'}>
         <FunctionOutlined className="icons"/>
       </Tooltip>
@@ -73,6 +128,7 @@ export default observer(function ToolBar() {
         <ShareAltOutlined className="icons" />
       </Tooltip>
       <input type="file" id="fileElem" multiple accept="image/*" onChange={handleFiles} ref={inputRef} />
+      
     </div>
   )
 })

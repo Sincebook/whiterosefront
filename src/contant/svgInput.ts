@@ -9,7 +9,7 @@ export interface CommonSvgInputData {
 }
 
 export interface ArrowInput extends CommonSvgInputData{ // 箭头
-  markerEnd: string // 箭头元素id
+  
 }
 
 export interface CircleInput extends CommonSvgInputData{

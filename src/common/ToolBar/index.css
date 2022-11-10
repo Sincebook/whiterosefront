@@ -33,3 +33,10 @@
 #fileElem {
   display: none;
 }
+.barrage {
+  width: 100px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-right: 10px;
+  height: 30px;
+}

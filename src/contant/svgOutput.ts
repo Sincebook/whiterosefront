@@ -6,17 +6,13 @@ export interface CommonSvgOutputData {
   startY?: number // 图形起始点y坐标
 }
 
-// <defs>
-//   <marker id="arrow" markerUnits = "strokeWidth" markerWidth = "12" markerHeight = "12" viewBox = "0 0 12 12" refX = "6" refY = "6" orient = "auto" >
-//     <path d="M2,2 L10,6 L2,10 L6,6 L2,2" fill = "#000000;" />
-//   </marker>
-// </defs>
 export interface ArrowOutput extends CommonSvgOutputData{ // 箭头
   x1: number // 箭头起点的x坐标
   y1: number // 箭头起点的y坐标 
   x2: number // 箭头终点的x坐标
   y2: number // 箭头终点的y坐标
   markerEnd: string  // 指定直线末尾的元素（如上） eg: "#arrow"
+  id?: number
 }
 
 export interface CircleOutput extends CommonSvgOutputData{
