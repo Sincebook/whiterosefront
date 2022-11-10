@@ -41,7 +41,7 @@ export default observer(function ToolBar() {
     const mess = lastMesHandle(lastMessage)
     if (mess) {
       if (mess.type === 201) {
-        screen.push(<StyledBullet msg={mess.bullet} color="#fff" backgroundColor={randomColor()} size="normal" />)
+        screen.push(<StyledBullet msg={mess.data} color="#fff" backgroundColor={randomColor()} size="normal" />)
       }
     }
   }, [lastMessage])
