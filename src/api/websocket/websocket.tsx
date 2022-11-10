@@ -5,9 +5,7 @@ import { wsUrl } from '../../config/ws_url';
 
 
 export const WebSocketDemo = () => {
-  //Public API that will echo messages sent to it back to the client
-  // const [socketUrl, setSocketUrl] = useState('ws://81.68.190.125:9009/chat');
-  // const [messageHistory, setMessageHistory] = useState([]);
+
   const didUnmount = useRef(false)
   const { sendMessage, lastMessage, readyState } = useWebSocket(wsUrl,
   {
@@ -22,22 +20,6 @@ export const WebSocketDemo = () => {
   useEffect(() => {
     setInterval(()=> {sendMessage('ping')}, 10000)
   }, []);
-
-  // const handleClickChangeSocketUrl = useCallback(
-  //   () => setSocketUrl('ws://81.68.190.125:9009/chat'),
-  //   []
-  // );
-
-  const handleClickSendMessage = () => {
-    console.log('ping')
-    sendMessage('ping')
-    console.log(lastMessage.data)
-  }
-
-  useEffect(() => {
-    // setInterval(handleClickSendMessage, 2000)
-  })
-  // setInterval(handleClickSendMessage, 2000)
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: 'Connecting',

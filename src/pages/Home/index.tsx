@@ -20,6 +20,7 @@ export default observer(function Home() {
   return (
     <div onMouseMove={listenMouse}>
       <div style={{position: 'fixed', zIndex: 99}} data-html2canvas-ignore>「{mouseStore.x},{mouseStore.y}」</div>
+      <div style={{position: 'fixed', zIndex: 99, right: 10}} data-html2canvas-ignore>房间号: {localStorage.getItem('roomId')}</div>
       <ToolBar />
       <Palette />
       <SvgPaint />
