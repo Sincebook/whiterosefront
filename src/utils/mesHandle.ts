@@ -15,3 +15,16 @@ export const lastMesHandle = (data) => {
   }
 }
 
+export const barrageHandle = (data) => {
+  if (data) {
+    if (data.data != "pong" && data.data !== undefined) {
+        const mes = JSON.parse(data.data)
+        if (mes.data.type === 0) {
+          if (mes.data.fromId.toString() !== localStorage.getItem('userId')) {
+            return mes.data.data
+          } 
+        }
+    }
+  }
+}
+
