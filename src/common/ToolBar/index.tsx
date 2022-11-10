@@ -15,7 +15,7 @@ import { randomColor } from "../../utils/randomColor"
 
 import { wsUrl } from '../../config/ws_url'
 import useWebSocket, { ReadyState } from 'react-use-websocket'
-import { lastMesHandle, mesHandle } from '../../utils/mesHandle'
+import { lastMesHandle, mesHandle, barrageHandle } from '../../utils/mesHandle'
 
 import './index.css'
 
@@ -33,14 +33,18 @@ export default observer(function ToolBar() {
 
   useEffect(() => {
     sendMessage(mesHandle(0))
-    let s = new BulletScreen(document.querySelector('.svgPage'))
-    setScreen(s)
+    let bulletScreen = new BulletScreen(document.querySelector('.svgPage'))
+    setScreen(bulletScreen)
   }, [])
 
   useEffect(() => {
     const mess = lastMesHandle(lastMessage)
+    const initmess = barrageHandle(lastMesHandle)
+    if (typeof initmess === 'string' && initmess.length) {
+        screen.push(<StyledBullet msg={initmess} color="#fff" backgroundColor={randomColor()} size="normal" />)
+    }
     if (mess) {
-      if (mess.type === 201) {
+      if (mess.type === 10) {
         screen.push(<StyledBullet msg={mess.data} color="#fff" backgroundColor={randomColor()} size="normal" />)
       }
     }
@@ -80,16 +84,21 @@ export default observer(function ToolBar() {
       screen.push(<StyledBullet msg={bullet} color="#fff" backgroundColor={randomColor()} size="normal" />)
       sendMessage(mesHandle(201,
       {
-        type: 201,
+        type: 10,
         data: bullet,
       }))
+    }
+  }
+  const sendByKey = (e) => {
+    if (e.keyCode === 13) {
+      sendBarrage()
     }
   }
 
   const content = (
     <div>
-      <input type="text" className='barrage' onChange={barrageChange} ref={barrageRef} />
-      <Button type="primary" shape="circle" icon={<CheckOutlined />} onClick={sendBarrage} />
+      <input type="text" className='barrage' onChange={barrageChange} ref={barrageRef} onKeyDown={sendByKey}/>
+      <Button type="primary" shape="circle" icon={<CheckOutlined />} onClick={sendBarrage}  />
     </div>
   )
 
