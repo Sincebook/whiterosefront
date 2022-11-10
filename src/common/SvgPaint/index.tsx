@@ -8,8 +8,7 @@ import SvgStore from '../../store/SvgStore';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 
 import './style.css'
-import { lastMesHandle, mesHandle } from '../../utils/mesHandle';
-
+import { lastMesHandle, mesHandle } from '../../utils/mesHandle'
 
 export default observer(function SvgPaint() {
 
@@ -55,7 +54,6 @@ export default observer(function SvgPaint() {
     display: showInput ? 'block' : 'none',
     caretColor: optionStore.color
   }
-
   const handleMouseDown = (e) => {
     mouseStore.mouseDownAciton()
     if (optionStore.tool !== 'font-size') {
@@ -78,7 +76,7 @@ export default observer(function SvgPaint() {
         fromId: localStorage.getItem('userId')
       }))
     } else if (optionStore.tool === 'pull-request') {
-      svgStore.addArrow({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, markerEnd: 'url(#arrow)' }, localStorage.getItem('userId'))
+      svgStore.addArrow({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color }, localStorage.getItem('userId'))
       sendMessage(mesHandle(201,
       {
         type: 104,
@@ -107,7 +105,7 @@ export default observer(function SvgPaint() {
         sendMessage(mesHandle(201,
         {
           type: 101,
-          data: { x: mouseStore.x, y: mouseStore.y},
+          data: { x: mouseStore.x, y: mouseStore.y },
           fromId: localStorage.getItem('userId')
         }))
       } else if (optionStore.tool === 'border') {
@@ -151,21 +149,24 @@ export default observer(function SvgPaint() {
       }
     }
   }
-
+  const inputBlur = () => {
+    setShowInput(false)
+  }
   const handleGraph = (graphs) => {
     let res = []
     graphs.forEach((graph) => {
       res.push(graph)
     });
-    // console.log(res[0]?.d)
     return res
   }
+
   return (
-    <div >
+    <div>
+      <div className='svgPage'></div>
       <div>
         {
           svgStore.svg.map((item, index) =>
-            <svg className={"svg-paint " + optionStore.bg}
+            <svg className={"svg-paint " + optionStore.bg} 
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
@@ -177,14 +178,17 @@ export default observer(function SvgPaint() {
               {handleGraph(item.rect)?.map((rect, index) =>
                 <rect key={index} width={rect.width} fill={rect.fill} height={rect.height} stroke={rect.stroke} strokeWidth={rect.strokeWidth} x={rect.x} y={rect.y} />
               )}
-              <defs>
-                <marker id="arrow" markerUnits = "strokeWidth" markerWidth = "12" markerHeight = "12" viewBox = "0 0 12 12" refX = "6" refY = "6" orient = "auto" >
-                  <path d="M2,2 L8,6 L2,10 L6,6 L2,2" fill={optionStore.color} />
-                </marker>
-              </defs>
+              
               {handleGraph(item.arrow)?.map((arrow, index) =>
-                <line key={index} fill={arrow.fill} stroke={arrow.stroke} strokeWidth={arrow.strokeWidth} x1={arrow.x1} y1={arrow.y1} x2={arrow.x2} y2={arrow.y2} markerEnd={arrow.markerEnd} />
-              )}
+                <g key={index}>
+                  <defs>
+                    <marker id={arrow.id} markerUnits = "strokeWidth" markerWidth = "12" markerHeight = "12" viewBox = "0 0 12 12" refX = "6" refY = "6" orient = "auto" >
+                      <path d="M2,2 L8,6 L2,10 L6,6 L2,2" fill={arrow.stroke} />
+                    </marker>
+                  </defs>
+                  <line fill={arrow.fill} stroke={arrow.stroke} strokeWidth={arrow.strokeWidth} x1={arrow.x1} y1={arrow.y1} x2={arrow.x2} y2={arrow.y2} markerEnd={arrow.markerEnd} />
+                </g>
+              )}  
               {handleGraph(item.text)?.map((text, index) =>
                 <text key={index} fill={text.fill} stroke={text.stroke} strokeWidth={text.strokeWidth} x={text.x} y={text.y} className="text">{text.text}</text>
               )}
@@ -196,7 +200,7 @@ export default observer(function SvgPaint() {
         {svgStore.currentPage} / {svgStore.totalPage}
       </div>
       <div>
-        <input className='text-input' type="text" style={inputStyle} onChange={inputChange} ref={inputRef}  />
+        <input className='text-input' type="text" style={inputStyle} onChange={inputChange} ref={inputRef} onBlur={inputBlur} />
       </div>
     </div>
   )

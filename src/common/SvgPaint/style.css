@@ -7,16 +7,26 @@
   position:fixed;
   left: 0;
   right: 0;
-  animation:toright 1s linear 0s
+  animation:toright 1s linear 0s;
 }
 .text-input {
   position: absolute;
   z-index: 9999;
   background-color: transparent;
-  border: none;
+  border: 1px dotted #ccc;
+  border-radius: 5px;
+  padding-left: 2px;
   outline: none;
   color: transparent;
 }
 .text {
   user-select: none;
+}
+.svgPage {
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  background-color: rgba(255, 255, 255, 0);
+  position: fixed;
+  z-index: 100;
 }

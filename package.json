@@ -16,6 +16,7 @@
     "html2canvas": "^1.4.1",
     "mobx": "^6.6.2",
     "mobx-react": "^7.5.3",
+    "rc-bullets": "^1.5.16",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.2",
