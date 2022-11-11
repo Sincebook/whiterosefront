@@ -173,6 +173,14 @@ export default observer(function SvgPaint() {
               onMouseUp={handleMouseUp}
               style={index === svgStore.currentPage - 1 ? { zIndex: 2 } : {}} key={item.id}
             >
+              {
+                optionStore.tool === 'aim' ? (
+                  <g>
+                    <line stroke={'#000000'} strokeWidth={1} x1={mouseStore.x} y1={0} x2={mouseStore.x} y2={980} />
+                    <line stroke={'#000000'} strokeWidth={1} x1={0} y1={mouseStore.y} x2={1920} y2={mouseStore.y}/>
+                  </g> ) : ''
+                
+              }
               {handleGraph(item.path).map((path, index) =>
                 <path d={path.d} stroke={path.stroke} strokeWidth={path.strokeWidth} key={index} fill={path.fill} strokeLinecap={'round'} />
               )}
@@ -193,6 +201,7 @@ export default observer(function SvgPaint() {
               {handleGraph(item.text)?.map((text, index) =>
                 <text key={index} fill={text.fill} stroke={text.stroke} strokeWidth={text.strokeWidth} x={text.x} y={text.y} className="text">{text.text}</text>
               )}
+              
             </svg>
           )
         }

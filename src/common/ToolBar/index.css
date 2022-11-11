@@ -34,9 +34,13 @@
   display: none;
 }
 .barrage {
-  width: 100px;
+  width: 150px;
   border: 1px solid #ccc;
-  border-radius: 3px;
-  margin-right: 10px;
+  border-radius: 5px;
   height: 30px;
+  text-align: center;
+  outline: none;
+}
+.barrage:hover {
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, .5);
 }

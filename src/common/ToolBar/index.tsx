@@ -2,7 +2,7 @@ import { useContext, useRef, useState, useEffect } from 'react'
 import { observer } from 'mobx-react'
 import { AimOutlined, HighlightOutlined, FullscreenOutlined, BorderOutlined,
   FontSizeOutlined, CommentOutlined, FunctionOutlined, ShareAltOutlined, InstagramOutlined,
-  PullRequestOutlined, CheckOutlined } from '@ant-design/icons'
+  PullRequestOutlined } from '@ant-design/icons'
 import Tooltip from 'antd/es/tooltip'
 import { Popover, Button } from 'antd'
 import { delegate } from '../../utils/delegate'
@@ -57,6 +57,7 @@ export default observer(function ToolBar() {
     mouseStore.mouseUpAction()
     const [flag, el] = delegate('div', 'span', e.target)
     if (flag) {
+      console.log(el.childNodes[0]);
       optionStore.changeTool(el.childNodes[0].dataset.icon)
     } else {
       toolStore.toolSwitch()
@@ -96,8 +97,7 @@ export default observer(function ToolBar() {
 
   const content = (
     <div>
-      <input type="text" className='barrage' onChange={barrageChange} ref={barrageRef} onKeyDown={sendByKey}/>
-      <Button type="primary" shape="circle" icon={<CheckOutlined />} onClick={sendBarrage}  />
+      <input type="text" className='barrage' onChange={barrageChange} ref={barrageRef} onKeyDown={sendByKey} placeholder="点击回车发射弹幕～"/>
     </div>
   )
 
@@ -121,7 +121,7 @@ export default observer(function ToolBar() {
       <Tooltip placement="bottom" title={'图片'}>
         <InstagramOutlined className="icons" onClick={updateImage}/>
       </Tooltip>
-      <Popover placement="bottom" title={'发射弹幕~'} content={content} trigger="click">
+      <Popover placement="bottom" content={content} trigger="click">
         <Tooltip placement="bottom" title={'弹幕'}>
           <CommentOutlined className="icons" />
         </Tooltip>
