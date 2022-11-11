@@ -28,7 +28,8 @@ class SvgStore {
     triangle: new Map(),
     polyline: new Map(),
     roundedRect: new Map(),
-    textpath: new Map()
+    textpath: new Map(),
+    line: new Map()
   }]
   @observable currentPage: number = 1
   @observable totalPage: number = 1
@@ -43,7 +44,7 @@ class SvgStore {
 
   @action.bound
   addSvg() {
-    this.svg.push({ id: this.id + 1, path: new Map(), rect: new Map(), arrow: new Map(), text: new Map(), circle: new Map(), diamond: new Map(), ellipse: new Map(), triangle: new Map(), polyline: new Map(), roundedRect: new Map(), textpath: new Map() })
+    this.svg.push({ id: this.id + 1, path: new Map(), rect: new Map(), arrow: new Map(), text: new Map(), circle: new Map(), diamond: new Map(), ellipse: new Map(), triangle: new Map(), polyline: new Map(), roundedRect: new Map(), textpath: new Map(), line: new Map() })
     this.id++
     this.totalPage++
     message.success('创建成功')
