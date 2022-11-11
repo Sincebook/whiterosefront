@@ -1,5 +1,5 @@
-import { ArrowInput, CircleInput, DiamondInput, EllipseInput, LineInput, PathInput, PolylineInput, RectInput, RoundedRectInput, TextInput, TextPathInput } from "./svgInput"
-import { ArrowOutput, CircleOutput, DiamondOutput, EllipseOutput, LineOutput, PathOutput, PolylineOutput, RectOutput, RoundedRectOutput, TextOutput, TextPathOutput } from "./svgOutput"
+import { ArrowInput, CircleInput, DiamondInput, EllipseInput, LineInput, PathInput, PolylineInput, RectInput, RoundedRectInput, TextInput, TextPathInput, TriangleInput } from "./svgInput"
+import { ArrowOutput, CircleOutput, DiamondOutput, EllipseOutput, LineOutput, PathOutput, PolylineOutput, RectOutput, RoundedRectOutput, TextOutput, TextPathOutput, TriangleOutput } from "./svgOutput"
 
 export interface SvgData {
   id: number
@@ -21,19 +21,21 @@ export interface SvgInput {
   roundedRect?: RoundedRectInput[]
   text?: TextInput[]
   textpath?: TextPathInput[]
+  triangle?: TriangleInput[]
 }
 
 export interface SvgOutput {
   id: number
   path?: Map<string, PathOutput>
   arrow?: Map<string, ArrowOutput>
-  circle?: CircleOutput[]
-  diamond?: DiamondOutput[]
-  ellipse?: EllipseOutput[]
-  line?: LineOutput[]
-  polyline?: PolylineOutput[]
+  circle?: Map<string, CircleOutput>
+  diamond?: Map<string, DiamondOutput>
+  ellipse?: Map<string, EllipseOutput>
+  line?: Map<string, LineOutput>
+  polyline?: Map<string, PolylineOutput>
   rect?: Map<string, RectOutput>
-  roundedRect?: RoundedRectOutput[]
+  roundedRect?: Map<string, RoundedRectOutput>
   text?: Map<string, TextOutput>
-  textpath?: TextPathOutput[]
+  textpath?: Map<string, TextPathOutput>
+  triangle?: Map<string, TriangleOutput>
 }

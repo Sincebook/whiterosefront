@@ -13,7 +13,7 @@ export const ellipseToSvg = (param: EllipseInput): EllipseOutput => {
   if (y < startY) {
     cy = startY - ry
   }
-  return { stroke, strokeWidth, fill, cx, cy, rx, ry }
+  return { stroke, strokeWidth, fill, cx, cy, rx, ry, startX, startY }
 }
 
 export const svgToEllipse = (param: EllipseOutput, x: number, y: number): EllipseInput => {

@@ -74,23 +74,23 @@ export default observer(function ChoiceBar () {
         style={optionStore.tool === 'border' ? {}: { display: 'none' }}/>
       </Tooltip>
       <Tooltip placement="right" title={'椭圆'}>
-        <IconFont type="rosetuoyuanxing" className="icons"
+        <IconFont type="rosetuoyuanxing" className="icons" data-id="ellipse"
         style={optionStore.tool === 'border' ? {}: { display: 'none' }}/>
       </Tooltip>
       <Tooltip placement="right" title={'三角形'}>
-        <IconFont type="rosexingzhuang-sanjiaoxing" className="icons"
+        <IconFont type="rosexingzhuang-sanjiaoxing" className="icons" data-id="triangle"
         style={optionStore.tool === 'border' ? {}: { display: 'none' }}/>
       </Tooltip>
       <Tooltip placement="right" title={'箭头直线'}>
-        <IconFont type="rosecc-arrow-right" className="icons"
+        <IconFont type="rosecc-arrow-right" className="icons" data-id="arrow"
         style={optionStore.tool === 'pull-request' ? {}: { display: 'none' }}/>
       </Tooltip>
       <Tooltip placement="right" title={'箭头折线'}>
-        <IconFont type="rosearrow-growth" className="icons"
+        <IconFont type="rosearrow-growth" className="icons" data-id="polyline"
         style={optionStore.tool === 'pull-request' ? {}: { display: 'none' }}/>
       </Tooltip>
       <Tooltip placement="right" title={'曲线文本'}>
-        <IconFont type="rosetext-wrap" className="icons"
+        <IconFont type="rosetext-wrap" className="icons" data-id="textpath"
         style={optionStore.tool === 'pull-request' ? {}: { display: 'none' }}/>
       </Tooltip>
     </div>)

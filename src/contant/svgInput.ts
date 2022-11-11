@@ -35,7 +35,6 @@ export interface PathInput extends CommonSvgInputData {
 export interface PolylineInput extends CommonSvgInputData {
   locations: Array<Array<number>> // 折线的转折点坐标数组集合
   direct: string // 折线方向
-  markerEnd: string // 末尾箭头，同arrow
 }
 
 export interface RectInput extends CommonSvgInputData {
