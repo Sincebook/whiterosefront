@@ -57,7 +57,6 @@ export default observer(function ToolBar() {
     mouseStore.mouseUpAction()
     const [flag, el] = delegate('div', 'span', e.target)
     if (flag) {
-      console.log(el.childNodes[0]);
       optionStore.changeTool(el.childNodes[0].dataset.icon)
     } else {
       toolStore.toolSwitch()

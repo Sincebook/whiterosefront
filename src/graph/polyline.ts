@@ -2,7 +2,7 @@ import { PolylineOutput } from "../contant/svgOutput"
 import { PolylineInput } from "../contant/svgInput"
 
 export const polylineToSvg = (param: PolylineInput): PolylineOutput => {
-  const { startX, startY, x, y, markerEnd, locations, stroke = "#000000", strokeWidth = 3, fill = "none" } = param
+  const { startX, startY, x, y, locations, stroke = "#000000", strokeWidth = 3, fill = "none" } = param
   let direct = param.direct
   if (locations.length === 0) {
     locations.push([startX, startY]) 
@@ -72,10 +72,11 @@ export const polylineToSvg = (param: PolylineInput): PolylineOutput => {
   locations.forEach(item => {
     points += `${item[0]},${item[1]} `
   })
-  return { stroke, strokeWidth, fill, points, locations, direct, markerEnd, startX, startY }
+  const id = new Date().getTime() + Math.random() + Math.floor(Math.random() * 100000) - Math.floor(Math.random() * 100000)
+  return { stroke, strokeWidth, fill, points, locations, direct, startX, startY, markerEnd: `url(#${id})`, id }
 }
 
 export const svgToPolyline = (param: PolylineOutput, x: number, y: number): PolylineInput => {
-  const { stroke = "#000000", strokeWidth = 3, fill = "none", locations, direct, markerEnd, startX, startY } = param
-  return { stroke, strokeWidth, fill, startX, startY, x, y, markerEnd, locations, direct } 
+  const { stroke = "#000000", strokeWidth = 3, fill = "none", locations, direct, startX, startY } = param
+  return { stroke, strokeWidth, fill, startX, startY, x, y, locations, direct } 
 }
