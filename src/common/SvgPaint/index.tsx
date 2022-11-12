@@ -87,7 +87,7 @@ export default observer(function SvgPaint() {
     display: showInput ? 'block' : 'none',
     caretColor: optionStore.color
   }
-
+  
   const handleMouseDown = (e) => {
     mouseStore.mouseDownAciton()
     if (optionStore.tool !== 'font-size') {
@@ -190,9 +190,16 @@ export default observer(function SvgPaint() {
         fromId: localStorage.getItem('userId')
       }))
     } 
+    if (e.target.dataset.id === 'svg') {
+      mouseStore.handleMouseDown(e)
+      let x = e.target.style.x.length === 0 ? e.target.x.animVal.value : e.target.style.x
+      let y = e.target.style.y.length === 0 ? e.target.y.animVal.value : e.target.style.y
+      mouseStore.offsetLeft = Number(x)
+      mouseStore.offsetTop = Number(y)
+    }
   }
 
-  const handleMouseMove = () => {
+  const handleMouseMove = (e) => {
     if (mouseStore.mouseDown) {
       if (optionStore.tool === 'highlight') {
         svgStore.drawPath({ x: mouseStore.x, y: mouseStore.y }, localStorage.getItem('userId'))
@@ -279,6 +286,18 @@ export default observer(function SvgPaint() {
           }))
         }
       }
+      if (e.target.dataset.id === 'svg') {
+        const x = mouseStore.x
+        const y = mouseStore.y
+        const startX = mouseStore.startX
+        const startY = mouseStore.startY
+        const offsetLeft = mouseStore.offsetLeft
+        const offsetTop = mouseStore.offsetTop
+        const nl = offsetLeft + (x - startX)
+        const nt = offsetTop + (y - startY);
+        e.target.style.x = nl;
+        e.target.style.y = nt;
+      }
     }
   }
 
@@ -338,7 +357,7 @@ export default observer(function SvgPaint() {
                 <path d={path.d} stroke={path.stroke} strokeWidth={path.strokeWidth} key={index} fill={path.fill} strokeLinecap={'round'} />
               )}
               {handleGraph(item.rect)?.map((rect, index) =>
-                <rect key={index} width={rect.width} fill={rect.fill} height={rect.height} stroke={rect.stroke} strokeWidth={rect.strokeWidth} x={rect.x} y={rect.y} />
+                <rect key={index} width={rect.width} fill={rect.fill} height={rect.height} stroke={rect.stroke} strokeWidth={rect.strokeWidth} x={rect.x} y={rect.y}/>
               )}
               
               {handleGraph(item.arrow)?.map((arrow, index) =>
@@ -381,6 +400,9 @@ export default observer(function SvgPaint() {
               )}
               {handleGraph(item.roundedRect)?.map((roundedRect, index) =>
                 <rect key={index} fill={roundedRect.fill} stroke={roundedRect.stroke} strokeWidth={roundedRect.strokeWidth} width={roundedRect.width} height={roundedRect.height} x={roundedRect.x} y={roundedRect.y} rx={roundedRect.rx} />
+              )}
+              {svgStore.imgSrc?.map((img, index) => 
+                <image key={index} xlinkHref={img} x="100" y="100" height="100" width="200" className='svgImg' data-id="svg"/>
               )}
             </svg>
           )

@@ -8,6 +8,8 @@ class MouseStore {
   @observable startY = 0
   @observable lite = [0, 0]
   @observable mouseDown = false
+  @observable offsetLeft = 100
+  @observable offsetTop = 100
 
   constructor() {
     makeAutoObservable(this)

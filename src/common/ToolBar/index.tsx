@@ -4,7 +4,7 @@ import { AimOutlined, HighlightOutlined, FullscreenOutlined, BorderOutlined,
   FontSizeOutlined, CommentOutlined, FunctionOutlined, ShareAltOutlined, InstagramOutlined,
   PullRequestOutlined } from '@ant-design/icons'
 import Tooltip from 'antd/es/tooltip'
-import { Popover, Button } from 'antd'
+import { Popover, Button, message } from 'antd'
 import { delegate } from '../../utils/delegate'
 import OptionStore from '../../store/OptionStore'
 import BarStore from '../../store/BarStore'
@@ -18,6 +18,7 @@ import useWebSocket, { ReadyState } from 'react-use-websocket'
 import { lastMesHandle, mesHandle, barrageHandle } from '../../utils/mesHandle'
 
 import './index.css'
+import SvgStore from '../../store/SvgStore'
 
 export default observer(function ToolBar() {
   const { sendMessage, readyState, lastMessage } = useWebSocket(wsUrl, { share: true })
@@ -25,6 +26,7 @@ export default observer(function ToolBar() {
   const toolStore = useContext(BarStore)
   const optionStore = useContext(OptionStore)
   const mouseStore = useContext(MouseStore)
+  const svgStore = useContext(SvgStore)
 
   // 弹幕屏幕
   const [screen, setScreen] = useState(null)
@@ -67,7 +69,18 @@ export default observer(function ToolBar() {
     inputRef.current.click()
   }
   const handleFiles = (e) => {
-    console.log(e.target.files);
+    console.log(e.target.files[0]);
+    const file = e.target.files[0]
+    const pettern = /^image/
+    if (!pettern.test(file.type)) {
+      message.error('图片格式不正确')
+      return;
+    }
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = function() {
+      svgStore.addImgSrc(this.result)
+    }
   }
 
   const fullScreen = () => {
@@ -135,7 +148,6 @@ export default observer(function ToolBar() {
         <ShareAltOutlined className="icons" />
       </Tooltip>
       <input type="file" id="fileElem" multiple accept="image/*" onChange={handleFiles} ref={inputRef} />
-      
     </div>
   )
 })
