@@ -9,7 +9,7 @@ import { delegate } from '../../utils/delegate'
 import './index.css'
 
 const IconFont = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/c/font_3751403_mzsnj9bcj3h.js'
+  scriptUrl: '//at.alicdn.com/t/c/font_3751403_tglqvf3dte7.js'
 })
 
 export default observer(function ChoiceBar () {
@@ -45,6 +45,14 @@ export default observer(function ChoiceBar () {
 
   return (
     <div className="choice-bar" onClick={handleSwitch} style={show} data-html2canvas-ignore>
+      <Tooltip placement="right" title={'定位'} >
+        <IconFont type="rosedingwei" className="icons" data-id="line"
+        style={optionStore.tool === 'aim' ? {}: { display: 'none' }} />
+      </Tooltip>
+      <Tooltip placement="right" title={'拖拽'} >
+        <IconFont type="roseyidong" className="icons" data-id="line"
+        style={optionStore.tool === 'aim' ? {}: { display: 'none' }} />
+      </Tooltip>
       <Tooltip placement="right" title={'直线'} >
         <IconFont type="roseline" className="icons" data-id="line"
         style={optionStore.tool === 'highlight' ? {fontSize:'8px'}: { display: 'none' }} />
