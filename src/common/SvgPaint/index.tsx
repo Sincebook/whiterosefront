@@ -15,9 +15,9 @@ export default observer(function SvgPaint() {
   const { sendMessage, readyState, lastMessage } = useWebSocket(wsUrl, { share: true })
 
   const inputRef = useRef(null)
+  const rectRef = useRef(null)
 
   useEffect(() => {
-    
     sendMessage(mesHandle(0))
   }, [])
 
@@ -196,9 +196,7 @@ export default observer(function SvgPaint() {
           let x = e.target.style.x.length === 0 ? animValX : e.target.style.x
           let y = e.target.style.y.length === 0 ? animValY : e.target.style.y
           mouseStore.offsetLeft = Number(x)
-          mouseStore.offsetTop = Number(y)
-          console.log(mouseStore.offsetLeft, mouseStore.offsetTop);
-          
+          mouseStore.offsetTop = Number(y)          
         }
       }
     }
@@ -303,7 +301,6 @@ export default observer(function SvgPaint() {
             const offsetTop = mouseStore.offsetTop
             const nl = offsetLeft + (x - startX)
             const nt = offsetTop + (y - startY)
-            console.log(nt, nl);
             svgStore.drawImage({ x: nl, y: nt }, localStorage.getItem('userId'))
             sendMessage(mesHandle(201,
               {
@@ -320,10 +317,6 @@ export default observer(function SvgPaint() {
   const handleMouseUp = () => {
     mouseStore.mouseUpAction()
   }
-
-  // const inputBlur = () => {
-  //   mouseStore.mouseUpAction()
-  // }
 
   const inputChange = (e) => {
     if (mouseStore.mouseDown) {
@@ -361,6 +354,7 @@ export default observer(function SvgPaint() {
               onMouseUp={handleMouseUp}
               style={index === svgStore.currentPage - 1 ? { zIndex: 2 } : {}} key={item.id}
             >
+              <rect width={"100"} height={"100"} x={"100"} y={"100"} fill={"none"} stroke={"skyblue"} strokeWidth={"2"} rx={"3"} />
               {
                 (optionStore.tool === 'aim' && optionStore.choice === 'position') ? (
                   <g>
