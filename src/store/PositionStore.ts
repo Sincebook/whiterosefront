@@ -10,6 +10,8 @@ class MouseStore {
   @observable mouseDown = false
   @observable offsetLeft = 100
   @observable offsetTop = 100
+  @observable clientWidth = document.body.clientWidth
+  @observable clientHeight = document.body.clientHeight
 
   constructor() {
     makeAutoObservable(this)

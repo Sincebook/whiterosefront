@@ -47,6 +47,8 @@ export default observer(function ToolBar() {
     if (mess) {
       if (mess.type === 10) {
         screen.push(<StyledBullet msg={mess.data} color="#fff" backgroundColor={randomColor()} size="normal" />)
+      } else if (mess.type === 11) {
+        svgStore.addImage(mess.data, mess.fromId)
       }
     }
   }, [lastMessage])
@@ -79,7 +81,13 @@ export default observer(function ToolBar() {
     const reader = new FileReader()
     reader.readAsDataURL(file)
     reader.onload = function() {
-      svgStore.addImgSrc(this.result)
+      svgStore.addImage({ xlinkHref: this.result }, localStorage.getItem('userId'))
+      sendMessage(mesHandle(201,
+      {
+        type: 11,
+        data: this.result,
+        fromId: localStorage.getItem('userId')
+      }))
     }
   }
 
