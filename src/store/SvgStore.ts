@@ -15,9 +15,13 @@ import { polylineToSvg, svgToPolyline } from "../graph/polyline"
 import { roundedRectToSvg, svgToRoundedRect } from "../graph/roundedRect"
 import { textpathToSvg, svgToTextPath } from "../graph/textpath"
 import { lineToSvg, svgToLine } from "../graph/line"
+import { mesHandle } from "../utils/mesHandle"
+import type { Op } from "../contant/options"
+import { OpMap, MesMap } from "../contant/options"
 import { imageToSvg, svgToImage } from "../graph/image"
 
 class SvgStore {
+  // 图形svg
   @observable svg: SvgOutput[] = [{
     id: 1,
     path: new Map(),
@@ -34,12 +38,18 @@ class SvgStore {
     line: new Map(),
     image: new Map()
   }]
+  @observable doOptions: Op[] = [] // 操作栈
+  @observable reDoOptions: Op[] = [] // 缓存栈
   @observable currentPage: number = 1
   @observable totalPage: number = 1
   @observable id = 1
   @observable currentId = 1
   @observable key = new Map()
   @observable strokeWidth = 3
+  @observable imgSrc = []
+  @observable svgType = '' // 当前用户操作类别
+  @observable currentUid = localStorage.getItem('userId')
+
 
   constructor() {
     makeAutoObservable(this)
@@ -58,19 +68,15 @@ class SvgStore {
     if (this.totalPage === 1) {
       message.warning('就这一张了，别删除了～')
     } else {
-      if (confirm('确定要删除吗？')){
-        this.svg = this.svg.filter(item => item.id !== this.currentId)
-          if (this.currentPage === 1) {
-            this.totalPage--
-            this.currentId = this.svg[0].id
-          } else {
-            this.currentId = this.svg[this.currentPage - 2].id
-            this.totalPage--
-            this.currentPage--
-          }
-      } else {
-        message.info('谢大佬饶命')
-      }
+      this.svg = this.svg.filter(item => item.id !== this.currentId)
+        if (this.currentPage === 1) {
+          this.totalPage--
+          this.currentId = this.svg[0].id
+        } else {
+          this.currentId = this.svg[this.currentPage - 2].id
+          this.totalPage--
+          this.currentPage--
+        }
     }
   }
 
@@ -93,21 +99,106 @@ class SvgStore {
       message.warning('不能再上一页了～')
     }
   }
-
+  get getCurrentGraph() {
+    return this.svg[this.currentPage - 1][this.svgType].get(this.key.get(this.currentUid))
+  }
+  // 添加操作记录
+  @action.bound
+  pushOp(op: Op, sendMessage?: any) {
+    if (op.type === OpMap.graph) {
+      op.graph.page = this.currentPage - 1
+      op.graph.key = this.key.get(this.currentUid)
+      op.graph.content = this.getCurrentGraph
+      op.graph.type = this.svgType
+      this.doOptions.push(op)
+    }
+    if (sendMessage) {
+      op.graph.content = ''
+      sendMessage(mesHandle(MesMap.pushOp, op))
+    }
+    console.log(op)
+  }
+  // 远程添加操作
+  @action.bound
+  remotePushOp(op: Op) {
+    if (op.type === OpMap.graph) {
+      const {page, type, key} = op.graph
+      op.graph.content = this.svg[page][type].get(key)
+      this.doOptions.push(op)
+    }
+  }
+  get lastOption() {
+    return this.doOptions[this.doOptions.length - 1]
+  }
+  // 撤销
+  @action.bound
+  unDo(sendMessage?: any) {
+    if (!this.lastOption) {
+      message.error('撤不动了～')
+      return
+    }
+    if (this.lastOption.type === OpMap.graph) {
+      console.log(this.lastOption)
+      const { type, op, key, page } = this.lastOption.graph
+      if (op === OpMap.addGraph) {
+        this.svg[page][type].delete(key)
+      }
+    }
+    this.reDoOptions.push(this.lastOption)
+    this.doOptions.pop()
+    if (sendMessage) {
+      sendMessage(mesHandle(MesMap.unDo))
+    }
+  }
+  get reOption() {
+    return this.reDoOptions[this.reDoOptions.length - 1]
+  }
+  // 恢复
+  @action.bound
+  reDo(sendMessage?: any) {
+    if (!this.reOption) {
+      message.error('没有数据可以恢复了')
+      return
+    }
+    if (this.reOption.type === OpMap.graph) {
+      const { type, op, key, page, content } = this.reOption.graph
+      if (op === OpMap.addGraph) {
+        this.svg[page][type].set(key, content)
+      }
+    }
+    this.doOptions.push(this.reOption)
+    this.reDoOptions.pop()
+    if (sendMessage) {
+      sendMessage(mesHandle(MesMap.reDo))
+    }
+  }
+  // 标记当前操作的图形
+  @action.bound
+  setSvgType(e) {
+    this.svgType = e
+  }
   // 改变线宽
   @action.bound
   changeStrokeWidth(e) {
     this.strokeWidth = e
   }
-
   get getPath() {
     return this.svg[this.currentPage - 1].path
   }
   @action.bound
-  addPath(path: PathInput, userId) {
+  addPath(path: PathInput, userId, sendMessage?: any) {
     const key = Math.floor(Math.random() * 1000000).toString()
     this.key.set(userId, key)
     this.getPath.set(key, pathToSvg(path))
+    if (sendMessage) {
+      sendMessage(mesHandle(201,
+      {
+        type: 100,
+        data: path,
+        fromId: localStorage.getItem('userId')
+      }))
+    }
+   
   }
   @action.bound
   drawPath(xy, userId) {
