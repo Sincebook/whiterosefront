@@ -46,11 +46,11 @@ export default observer(function ChoiceBar () {
   return (
     <div className="choice-bar" onClick={handleSwitch} style={show} data-html2canvas-ignore>
       <Tooltip placement="right" title={'定位'} >
-        <IconFont type="rosedingwei" className="icons" data-id="line"
+        <IconFont type="rosedingwei" className="icons" data-id="position"
         style={optionStore.tool === 'aim' ? {}: { display: 'none' }} />
       </Tooltip>
       <Tooltip placement="right" title={'拖拽'} >
-        <IconFont type="roseyidong" className="icons" data-id="line"
+        <IconFont type="roseyidong" className="icons" data-id="drag"
         style={optionStore.tool === 'aim' ? {}: { display: 'none' }} />
       </Tooltip>
       <Tooltip placement="right" title={'直线'} >
@@ -102,19 +102,19 @@ export default observer(function ChoiceBar () {
         style={optionStore.tool === 'border' ? {}: { display: 'none' }}/>
       </Tooltip>
       <Tooltip placement="right" title={'圆角矩形'}>
-        <IconFont type="roseyuanjiaojuxing" className="icons" data-id="triangle"
+        <IconFont type="roseyuanjiaojuxing" className="icons" data-id="roundedrect"
         style={optionStore.tool === 'border' ? {}: { display: 'none' }}/>
       </Tooltip>
       <Tooltip placement="right" title={'心形'}>
-        <IconFont type="roseaixin" className="icons" data-id="triangle"
+        <IconFont type="roseaixin" className="icons" data-id="love"
         style={optionStore.tool === 'border' ? {}: { display: 'none' }}/>
       </Tooltip>
       <Tooltip placement="right" title={'五角星'}>
-        <IconFont type="rosekongwujiaoxing" className="icons" data-id="triangle"
+        <IconFont type="rosekongwujiaoxing" className="icons" data-id="pentagram"
         style={optionStore.tool === 'border' ? {}: { display: 'none' }}/>
       </Tooltip>
-      <Tooltip placement="right" title={'折线'}>
-        <IconFont type="rosezhexian" className="icons" data-id="arrow"
+      <Tooltip placement="right" title={'直线'}>
+        <IconFont type="rosezhexian" className="icons" data-id="line"
         style={optionStore.tool === 'pull-request' ? {}: { display: 'none' }}/>
       </Tooltip>
       <Tooltip placement="right" title={'箭头直线'}>

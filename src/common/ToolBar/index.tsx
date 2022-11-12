@@ -19,6 +19,7 @@ import { lastMesHandle, mesHandle, barrageHandle } from '../../utils/mesHandle'
 
 import './index.css'
 import SvgStore from '../../store/SvgStore'
+import { uploadImage } from "../../api/image"
 
 export default observer(function ToolBar() {
   const { sendMessage, readyState, lastMessage } = useWebSocket(wsUrl, { share: true })
@@ -47,6 +48,8 @@ export default observer(function ToolBar() {
     if (mess) {
       if (mess.type === 10) {
         screen.push(<StyledBullet msg={mess.data} color="#fff" backgroundColor={randomColor()} size="normal" />)
+      } else if (mess.type === 11) {
+        svgStore.addImage(mess.data, mess.fromId)
       }
     }
   }, [lastMessage])
@@ -68,19 +71,23 @@ export default observer(function ToolBar() {
   const updateImage = () => {
     inputRef.current.click()
   }
-  const handleFiles = (e) => {
-    console.log(e.target.files[0]);
+  const handleFiles = async (e) => {
     const file = e.target.files[0]
     const pettern = /^image/
     if (!pettern.test(file.type)) {
       message.error('图片格式不正确')
       return;
     }
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = function() {
-      svgStore.addImgSrc(this.result)
-    }
+    const form = new FormData()
+    form.append('image', file)
+    const res = await uploadImage(form)
+    svgStore.addImage({ xlinkHref: res }, localStorage.getItem('userId'))
+    sendMessage(mesHandle(201,
+    {
+      type: 11,
+      data: { xlinkHref: res },
+      fromId: localStorage.getItem('userId')
+    }))
   }
 
   const fullScreen = () => {
@@ -114,7 +121,7 @@ export default observer(function ToolBar() {
   )
 
   return (
-    <div className="tool-bar" onClick={handleSwitch} data-html2canvas-ignore>
+    <div className="tool-bar" onClick={handleSwitch} style={show} data-html2canvas-ignore>
       <Tooltip placement="bottom" title={'定位'} >
         <AimOutlined className="icons" name="lite" data-id="lite"/>
       </Tooltip>

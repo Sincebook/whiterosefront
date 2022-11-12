@@ -20,11 +20,9 @@ export const polylineToSvg = (param: PolylineInput): PolylineOutput => {
   const offsetx = x - _x
   const offsety = y - _y
   const k = offsety / offsetx
-  console.log(offsetx, offsety, k, direct);
   // 判定转向
   if (offsetx > 0 && k > -1 && k < 1) {
     if (direct === '') {
-      console.log(1);
       direct = 'right'  
       locations.push([x, locations[locations.length - 1][1]])
     }
