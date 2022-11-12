@@ -40,7 +40,6 @@ class SvgStore {
   @observable currentId = 1
   @observable key = new Map()
   @observable strokeWidth = 3
-  @observable imgSrc = []
 
   constructor() {
     makeAutoObservable(this)
@@ -267,10 +266,6 @@ class SvgStore {
   @action.bound
   drawLine(xy, userId) {
     this.getLine.set(this.key.get(userId), lineToSvg(svgToLine(this.getLine.get(this.key.get(userId)), xy.x, xy.y)))
-  }
-
-  addImgSrc(src) {
-    this.imgSrc.push(src)  
   }
   
   get getImage() {
