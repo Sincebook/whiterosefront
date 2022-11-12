@@ -60,10 +60,6 @@ export default observer(function SvgPaint() {
         svgStore.addPolyline(mess.data, mess.fromId)
       } else if (mess.type === 117) {
         svgStore.drawPolyline(mess.data, mess.fromId)
-      } else if (mess.type === 116) {
-        svgStore.addPolyline(mess.data, mess.fromId)
-      } else if (mess.type === 117) {
-        svgStore.drawPolyline(mess.data, mess.fromId)
       } else if (mess.type === 118) {
         svgStore.addLine(mess.data, mess.fromId)
       } else if (mess.type === 119) {
@@ -172,7 +168,7 @@ export default observer(function SvgPaint() {
         svgStore.addArrow({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth }, localStorage.getItem('userId'))
         sendMessage(mesHandle(201,
         {
-          type: 118,
+          type: 104,
           data: { startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth },
           fromId: localStorage.getItem('userId')
         }))
@@ -190,13 +186,22 @@ export default observer(function SvgPaint() {
         fromId: localStorage.getItem('userId')
       }))
     } 
-    if (e.target.dataset.id === 'svg') {
-      mouseStore.handleMouseDown(e)
-      let x = e.target.style.x.length === 0 ? e.target.x.animVal.value : e.target.style.x
-      let y = e.target.style.y.length === 0 ? e.target.y.animVal.value : e.target.style.y
-      mouseStore.offsetLeft = Number(x)
-      mouseStore.offsetTop = Number(y)
+    if (optionStore.tool === 'aim') {
+      if (optionStore.choice === 'drag') {
+        if (e.target.dataset.id === 'svg') {
+          mouseStore.handleMouseDown(e)
+          console.log(e.target.x);
+          const animValX = e.target.x.animVal[0] ? e.target.x.animVal[0].value : e.target.x.animVal.value
+          const animValY = e.target.y.animVal[0] ? e.target.y.animVal[0].value : e.target.y.animVal.value
+          let x = e.target.style.x.length === 0 ? animValX : e.target.style.x
+          let y = e.target.style.y.length === 0 ? animValY : e.target.style.y
+          mouseStore.offsetLeft = Number(x)
+          mouseStore.offsetTop = Number(y)
+          console.log(x, y);
+        }
+      }
     }
+    
   }
 
   const handleMouseMove = (e) => {
@@ -269,7 +274,7 @@ export default observer(function SvgPaint() {
             fromId: localStorage.getItem('userId')
           }))
         } else if (optionStore.choice === 'line') {
-          svgStore.drawPolyline({ x: mouseStore.x, y: mouseStore.y }, localStorage.getItem('userId'))
+          svgStore.drawLine({ x: mouseStore.x, y: mouseStore.y }, localStorage.getItem('userId'))
           sendMessage(mesHandle(201,
           {
             type: 119,
@@ -286,17 +291,22 @@ export default observer(function SvgPaint() {
           }))
         }
       }
-      if (e.target.dataset.id === 'svg') {
-        const x = mouseStore.x
-        const y = mouseStore.y
-        const startX = mouseStore.startX
-        const startY = mouseStore.startY
-        const offsetLeft = mouseStore.offsetLeft
-        const offsetTop = mouseStore.offsetTop
-        const nl = offsetLeft + (x - startX)
-        const nt = offsetTop + (y - startY);
-        e.target.style.x = nl;
-        e.target.style.y = nt;
+      if (optionStore.tool === 'aim') {
+        if (optionStore.choice === 'drag') {
+          if (e.target.dataset.id === 'svg') {
+            const x = mouseStore.x
+            const y = mouseStore.y
+            const startX = mouseStore.startX
+            const startY = mouseStore.startY
+            const offsetLeft = mouseStore.offsetLeft
+            const offsetTop = mouseStore.offsetTop
+            const nl = offsetLeft + (x - startX)
+            const nt = offsetTop + (y - startY);
+            console.log(e.target);
+            e.target.style.x = nl;
+            e.target.style.y = nt;
+          }
+        }
       }
     }
   }
@@ -346,7 +356,7 @@ export default observer(function SvgPaint() {
               style={index === svgStore.currentPage - 1 ? { zIndex: 2 } : {}} key={item.id}
             >
               {
-                optionStore.tool === 'aim' ? (
+                (optionStore.tool === 'aim' && optionStore.choice === 'position') ? (
                   <g>
                     <line stroke={'#000000'} strokeWidth={1} x1={mouseStore.x} y1={0} x2={mouseStore.x} y2={980} />
                     <line stroke={'#000000'} strokeWidth={1} x1={0} y1={mouseStore.y} x2={1920} y2={mouseStore.y}/>
@@ -357,7 +367,7 @@ export default observer(function SvgPaint() {
                 <path d={path.d} stroke={path.stroke} strokeWidth={path.strokeWidth} key={index} fill={path.fill} strokeLinecap={'round'} />
               )}
               {handleGraph(item.rect)?.map((rect, index) =>
-                <rect key={index} width={rect.width} fill={rect.fill} height={rect.height} stroke={rect.stroke} strokeWidth={rect.strokeWidth} x={rect.x} y={rect.y}/>
+                <rect key={index} width={rect.width} fill={rect.fill} height={rect.height} stroke={rect.stroke} strokeWidth={rect.strokeWidth} x={rect.x} y={rect.y} data-id="svg"/>
               )}
               
               {handleGraph(item.arrow)?.map((arrow, index) =>
