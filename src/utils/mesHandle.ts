@@ -52,6 +52,10 @@ export const unDoHandle = (data) => {
         if (mes.data.fromId.toString() !== localStorage.getItem('userId')) {
           return mes.data.type
         } 
+      } else if (mes.data.type === MesMap.pushOp) {
+        if (mes.data.fromId.toString() !== localStorage.getItem('userId')) {
+          return JSON.parse(mes.data.data)
+        }
       }
     }
   }

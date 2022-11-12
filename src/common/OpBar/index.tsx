@@ -4,7 +4,7 @@ import { observer } from 'mobx-react'
 import { useContext, useState, useRef, useEffect } from 'react'
 import useWebSocket from 'react-use-websocket'
 import { wsUrl } from '../../config/ws_url'
-import { MesMap } from '../../contant/options'
+import { MesMap, OpMap } from '../../contant/options'
 import BarStore from '../../store/BarStore'
 import OptionStore from '../../store/OptionStore'
 import SvgStore from '../../store/SvgStore'
@@ -22,8 +22,10 @@ export default observer(function OpBar() {
       console.log(unredo)
       if (unredo === MesMap.unDo) {
         svgStore.unDo()
-      } else {
+      } else if (unredo === MesMap.reDo) {
         svgStore.reDo()
+      } else {
+        svgStore.remotePushOp(unredo)
       }
     }
 
@@ -61,29 +63,29 @@ export default observer(function OpBar() {
   }
   // 上一页
   const handleLast = () => {
-    sendMessage(mesHandle(202, {
-      type: 301
+    sendMessage(mesHandle(MesMap.page, {
+      type: OpMap.lastPage
     }))
     svgStore.lastPage()
   }
   // 下一页
   const handleNext = () => {
-    sendMessage(mesHandle(202, {
-      type: 302
+    sendMessage(mesHandle(MesMap.page, {
+      type: OpMap.nextPage
     }))
     svgStore.nextPage()
   }
   // 添加页面
   const handleAdd = () => {
-    sendMessage(mesHandle(202, {
-      type: 303
+    sendMessage(mesHandle(MesMap.page, {
+      type: OpMap.addPage
     }))
     svgStore.addSvg()
   }
   // 删除当前页
   const handleDelete = () => {
-    sendMessage(mesHandle(202, {
-      type: 304
+    sendMessage(mesHandle(MesMap.page, {
+      type: OpMap.deletePage
     }))
     svgStore.deleteSvg()
   }
