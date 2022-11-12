@@ -59,7 +59,5 @@ export interface TriangleInput extends CommonSvgInputData {
 }
 
 export interface ImageInput extends CommonSvgInputData {
-  xlinkHref: string // 图片地址
-  height?: number // 图片高度 可选
-  width?: number  // 图片宽度 可选
+  xlinkHref: string | ArrayBuffer // 图片地址
 }

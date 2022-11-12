@@ -2,7 +2,7 @@ import { message, } from "antd";
 import { action, get, makeAutoObservable, observable } from "mobx";
 import { createContext, useId } from "react";
 import { SvgInput, SvgOutput } from "../contant/svg";
-import type { PathInput, RectInput, ArrowInput, TextInput, CircleInput, DiamondInput, EllipseInput, TriangleInput, PolylineInput, RoundedRectInput, TextPathInput, LineInput } from "../contant/svgInput";
+import type { PathInput, RectInput, ArrowInput, TextInput, CircleInput, DiamondInput, EllipseInput, TriangleInput, PolylineInput, RoundedRectInput, TextPathInput, LineInput, ImageInput } from "../contant/svgInput";
 import { pathToSvg, svgToPath } from "../graph/path";
 import { rectToSvg, svgToRect } from "../graph/rect";
 import { arrowToSvg, svgToArrow } from "../graph/arrow"
@@ -15,6 +15,7 @@ import { polylineToSvg, svgToPolyline } from "../graph/polyline"
 import { roundedRectToSvg, svgToRoundedRect } from "../graph/roundedRect"
 import { textpathToSvg, svgToTextPath } from "../graph/textpath"
 import { lineToSvg, svgToLine } from "../graph/line"
+import { imageToSvg, svgToImage } from "../graph/image"
 
 class SvgStore {
   @observable svg: SvgOutput[] = [{
@@ -30,7 +31,8 @@ class SvgStore {
     polyline: new Map(),
     roundedRect: new Map(),
     textpath: new Map(),
-    line: new Map()
+    line: new Map(),
+    image: new Map()
   }]
   @observable currentPage: number = 1
   @observable totalPage: number = 1
@@ -46,7 +48,7 @@ class SvgStore {
 
   @action.bound
   addSvg() {
-    this.svg.push({ id: this.id + 1, path: new Map(), rect: new Map(), arrow: new Map(), text: new Map(), circle: new Map(), diamond: new Map(), ellipse: new Map(), triangle: new Map(), polyline: new Map(), roundedRect: new Map(), textpath: new Map(), line: new Map() })
+    this.svg.push({ id: this.id + 1, path: new Map(), rect: new Map(), arrow: new Map(), text: new Map(), circle: new Map(), diamond: new Map(), ellipse: new Map(), triangle: new Map(), polyline: new Map(), roundedRect: new Map(), textpath: new Map(), line: new Map(), image: new Map() })
     this.id++
     this.totalPage++
     message.success('创建成功')
@@ -270,7 +272,20 @@ class SvgStore {
   addImgSrc(src) {
     this.imgSrc.push(src)  
   }
-
+  
+  get getImage() {
+    return this.svg[this.currentPage - 1].image
+  }
+  @action.bound
+  addImage(image: ImageInput, userId) {
+    const key = Math.floor(Math.random() * 1000000).toString()
+    this.key.set(userId, key)
+    this.getImage.set(key, imageToSvg(image))
+  }
+  @action.bound
+  drawImage(xy, userId) {
+    this.getImage.set(this.key.get(userId), imageToSvg(svgToImage(this.getImage.get(this.key.get(userId)), xy.x, xy.y)))
+  }
 }
 
 export default createContext(new SvgStore())

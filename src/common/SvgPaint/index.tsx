@@ -68,6 +68,8 @@ export default observer(function SvgPaint() {
         svgStore.addRoundedRect(mess.data, mess.fromId)
       } else if (mess.type === 121) {
         svgStore.drawRoundedRect(mess.data, mess.fromId)
+      } else if (mess.type === 13) {
+        svgStore.drawImage(mess.data, mess.fromId)
       } 
     }
   }, [lastMessage])
@@ -185,19 +187,18 @@ export default observer(function SvgPaint() {
         data: { startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, text: '' },
         fromId: localStorage.getItem('userId')
       }))
-    } 
-    if (optionStore.tool === 'aim') {
+    } else if (optionStore.tool === 'aim') {
       if (optionStore.choice === 'drag') {
         if (e.target.dataset.id === 'svg') {
           mouseStore.handleMouseDown(e)
-          console.log(e.target.x);
           const animValX = e.target.x.animVal[0] ? e.target.x.animVal[0].value : e.target.x.animVal.value
           const animValY = e.target.y.animVal[0] ? e.target.y.animVal[0].value : e.target.y.animVal.value
           let x = e.target.style.x.length === 0 ? animValX : e.target.style.x
           let y = e.target.style.y.length === 0 ? animValY : e.target.style.y
           mouseStore.offsetLeft = Number(x)
           mouseStore.offsetTop = Number(y)
-          console.log(x, y);
+          console.log(mouseStore.offsetLeft, mouseStore.offsetTop);
+          
         }
       }
     }
@@ -301,10 +302,15 @@ export default observer(function SvgPaint() {
             const offsetLeft = mouseStore.offsetLeft
             const offsetTop = mouseStore.offsetTop
             const nl = offsetLeft + (x - startX)
-            const nt = offsetTop + (y - startY);
-            console.log(e.target);
-            e.target.style.x = nl;
-            e.target.style.y = nt;
+            const nt = offsetTop + (y - startY)
+            console.log(nt, nl);
+            svgStore.drawImage({ x: nl, y: nt }, localStorage.getItem('userId'))
+            sendMessage(mesHandle(201,
+              {
+                type: 13,
+                data: { x: nl, y: nt },
+                fromId: localStorage.getItem('userId')
+              }))
           }
         }
       }
@@ -358,8 +364,8 @@ export default observer(function SvgPaint() {
               {
                 (optionStore.tool === 'aim' && optionStore.choice === 'position') ? (
                   <g>
-                    <line stroke={'#000000'} strokeWidth={1} x1={mouseStore.x} y1={0} x2={mouseStore.x} y2={980} />
-                    <line stroke={'#000000'} strokeWidth={1} x1={0} y1={mouseStore.y} x2={1920} y2={mouseStore.y}/>
+                    <line stroke={'#000000'} strokeWidth={1} x1={mouseStore.x} y1={0} x2={mouseStore.x} y2={mouseStore.clientHeight} />
+                    <line stroke={'#000000'} strokeWidth={1} x1={0} y1={mouseStore.y} x2={mouseStore.clientWidth} y2={mouseStore.y}/>
                   </g> ) : ''
                 
               }
@@ -369,7 +375,6 @@ export default observer(function SvgPaint() {
               {handleGraph(item.rect)?.map((rect, index) =>
                 <rect key={index} width={rect.width} fill={rect.fill} height={rect.height} stroke={rect.stroke} strokeWidth={rect.strokeWidth} x={rect.x} y={rect.y} data-id="svg"/>
               )}
-              
               {handleGraph(item.arrow)?.map((arrow, index) =>
                 <g key={index}>
                   <defs>
@@ -411,8 +416,8 @@ export default observer(function SvgPaint() {
               {handleGraph(item.roundedRect)?.map((roundedRect, index) =>
                 <rect key={index} fill={roundedRect.fill} stroke={roundedRect.stroke} strokeWidth={roundedRect.strokeWidth} width={roundedRect.width} height={roundedRect.height} x={roundedRect.x} y={roundedRect.y} rx={roundedRect.rx} />
               )}
-              {svgStore.imgSrc?.map((img, index) => 
-                <image key={index} xlinkHref={img} x="100" y="100" height="100" width="200" className='svgImg' data-id="svg"/>
+              {handleGraph(item.image)?.map((img, index) => 
+                <image key={index} xlinkHref={img.xlinkHref} x={img.x} y={img.y} height="100" width="200" className='svgImg' data-id="svg"/>
               )}
             </svg>
           )

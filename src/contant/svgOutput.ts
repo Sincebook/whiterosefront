@@ -84,9 +84,7 @@ export interface TriangleOutput extends CommonSvgOutputData {
 }
 
 export interface ImageOutput extends CommonSvgOutputData {
-  xlinkHref: string // 图片地址
-  height: number // 图片高度
-  width: number  // 图片宽度 
+  xlinkHref: string | ArrayBuffer// 图片地址
   x: number // 图片位置x坐标
   y: number // 图片位置y坐标
 }

@@ -1,5 +1,5 @@
 import { ArrowInput, CircleInput, DiamondInput, EllipseInput, LineInput, PathInput, PolylineInput, RectInput, RoundedRectInput, TextInput, TextPathInput, TriangleInput } from "./svgInput"
-import { ArrowOutput, CircleOutput, DiamondOutput, EllipseOutput, LineOutput, PathOutput, PolylineOutput, RectOutput, RoundedRectOutput, TextOutput, TextPathOutput, TriangleOutput } from "./svgOutput"
+import { ArrowOutput, CircleOutput, DiamondOutput, EllipseOutput, ImageOutput, LineOutput, PathOutput, PolylineOutput, RectOutput, RoundedRectOutput, TextOutput, TextPathOutput, TriangleOutput } from "./svgOutput"
 
 export interface SvgData {
   id: number
@@ -38,4 +38,5 @@ export interface SvgOutput {
   text?: Map<string, TextOutput>
   textpath?: Map<string, TextPathOutput>
   triangle?: Map<string, TriangleOutput>
+  image?: Map<string, ImageOutput>
 }
