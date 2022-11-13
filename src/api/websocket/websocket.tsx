@@ -20,9 +20,16 @@ export const WebSocketDemo = () => {
   });
 
   useEffect(() => {
-    // console.log(lastMessage?.data)
+    if (lastMessage) {
+      if (lastMessage.data != "pong" && lastMessage.data !== undefined) {
+        const mes = JSON.parse(lastMessage.data)
+        if (mes.data.type === 300) {
+          setPerson(mes.data.data)
+        }
+      }
+    }
   }, [lastMessage])
-  
+  const [person, setPerson] = useState(1)
   useEffect(() => {
     setInterval(()=> {
       sendMessage('ping')
@@ -40,7 +47,7 @@ export const WebSocketDemo = () => {
 
   return (
     <div style={{ zIndex: '99', position: 'fixed', bottom: '5px', left: '10px', color: 'green', userSelect: 'none'}} data-html2canvas-ignore>
-      <Tag color="green">{connectionStatus}:{7}</Tag>
+      <Tag color="green">{connectionStatus}:{person}</Tag>
     </div>
   );
 };
