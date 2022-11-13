@@ -225,7 +225,7 @@ export default observer(function SvgPaint() {
   const inputChange = (e) => {
     if (mouseStore.mouseDown) {
       if (optionStore.tool === 'font-size') {
-        svgStore.drawText({ x: mouseStore.startX, y: mouseStore.startY, text: e.target.value }, userID)
+        svgStore.drawText({ x: mouseStore.startX, y: mouseStore.startY, text: e.target.value }, userID, sendMessage)
       }
     }
   }
