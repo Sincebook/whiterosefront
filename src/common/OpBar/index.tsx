@@ -19,7 +19,6 @@ export default observer(function OpBar() {
   useEffect(() => {
     const unredo = unDoHandle(lastMessage)
     if (unredo) {
-      console.log(unredo)
       if (unredo === MesMap.unDo) {
         svgStore.unDo()
       } else if (unredo === MesMap.reDo) {

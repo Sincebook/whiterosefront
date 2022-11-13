@@ -101,21 +101,11 @@ export default observer(function SvgPaint() {
       svgStore.addPath({...common, d: ''}, userID, sendMessage)
     } else if (optionStore.tool === 'border') {
       if (optionStore.choice === 'circle') {
-        svgStore.addCircle({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth }, userID)
-        sendMessage(mesHandle(201,
-          {
-            type: 108,
-            data: { startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth },
-            fromId: userID
-          }))
+        svgStore.setSvgType('circle')
+        svgStore.addCircle({ ...common, x: mouseStore.x, y: mouseStore.y }, userID, sendMessage)
       } else if (optionStore.choice === 'diamond') {
-        svgStore.addDiamond({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth, d: '' }, userID)
-        sendMessage(mesHandle(201,
-          {
-            type: 110,
-            data: { startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth, d: '' },
-            fromId: userID
-          }))
+        svgStore.setSvgType('diamond')
+        svgStore.addDiamond({...common, x: mouseStore.x, y: mouseStore.y, d: '' }, userID, sendMessage)
       } else if (optionStore.choice === 'ellipse') {
         svgStore.addEllipse({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth}, userID)
         sendMessage(mesHandle(201,

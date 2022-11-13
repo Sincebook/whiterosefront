@@ -116,7 +116,6 @@ class SvgStore {
       op.graph.content = ''
       sendMessage(mesHandle(MesMap.pushOp, op))
     }
-    console.log(op)
   }
   // 远程添加操作
   @action.bound
@@ -138,7 +137,6 @@ class SvgStore {
       return
     }
     if (this.lastOption.type === OpMap.graph) {
-      console.log(this.lastOption)
       const { type, op, key, page } = this.lastOption.graph
       if (op === OpMap.addGraph) {
         this.svg[page][type].delete(key)
@@ -194,14 +192,12 @@ class SvgStore {
       const key = Math.floor(Math.random() * 1000000).toString()
       this.key.set(userId, key)
       this.getPath.set(key, pathToSvg(path))
-      if (sendMessage) {
-        sendMessage(mesHandle(201,
-        {
-          type: 100,
-          data: {...path, key},
-          fromId: localStorage.getItem('userId')
-        }))
-      }
+      sendMessage(mesHandle(201,
+      {
+        type: 100,
+        data: {...path, key},
+        fromId: localStorage.getItem('userId')
+      }))
     }
     
   }
@@ -256,10 +252,21 @@ class SvgStore {
     return this.svg[this.currentPage - 1].circle
   }
   @action.bound
-  addCircle(circle: CircleInput, userId) {
-    const key = Math.floor(Math.random() * 1000000).toString()
-    this.key.set(userId, key)
-    this.getCircle.set(key, circleToSvg(circle))
+  addCircle(circle: CircleInput, userId, sendMessage?: any) {
+    if (circle.key) {
+      this.key.set(userId, circle.key)
+      this.getCircle.set(circle.key, circleToSvg(circle))
+    } else {
+      const key = Math.floor(Math.random() * 1000000).toString()
+      this.key.set(userId, key)
+      this.getCircle.set(key, circleToSvg(circle))
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.addCircle,
+        data: {...circle, key},
+        fromId: userId
+      }))
+    }
   }
   @action.bound
   drawCircle(xy, userId) {
@@ -270,10 +277,21 @@ class SvgStore {
     return this.svg[this.currentPage - 1].diamond
   }
   @action.bound
-  addDiamond(diamond: DiamondInput, userId) {
-    const key = Math.floor(Math.random() * 1000000).toString()
-    this.key.set(userId, key)
-    this.getDiamond.set(key, diamondToSvg(diamond))
+  addDiamond(diamond: DiamondInput, userId, sendMessage?: any) {
+    if (diamond.key) {
+      this.key.set(userId, diamond.key)
+      this.getDiamond.set(diamond.key, diamondToSvg(diamond))
+    } else {
+      const key = Math.floor(Math.random() * 1000000).toString()
+      this.key.set(userId, key)
+      this.getDiamond.set(key, diamondToSvg(diamond))
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.addDiamond,
+        data: {...diamond, key},
+        fromId: userId
+      }))
+    }
   }
   @action.bound
   drawDiamond(xy, userId) {
