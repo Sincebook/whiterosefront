@@ -91,6 +91,7 @@ export default observer(function SvgPaint() {
   }
   
   const handleMouseDown = (e) => {
+    
     mouseStore.mouseDownAciton()
     if (optionStore.tool !== 'font-size') {
       setShowInput(false)
@@ -181,7 +182,7 @@ export default observer(function SvgPaint() {
           svgStore.drawArrow(drawCommon, userID, sendMessage)
         }
       }
-      if (optionStore.tool === 'aim') {
+      if (optionStore.tool === 'aim') { 
         if (optionStore.choice === 'drag') {
           if (e.target.dataset.id === 'svg') {
             const x = mouseStore.x
@@ -253,7 +254,7 @@ export default observer(function SvgPaint() {
                 <path d={path.d} stroke={path.stroke} strokeWidth={path.strokeWidth} key={index} fill={path.fill} strokeLinecap={'round'} />
               )}
               {handleGraph(item.rect)?.map((rect, index) =>
-                <rect key={index} width={rect.width} fill={rect.fill} height={rect.height} stroke={rect.stroke} strokeWidth={rect.strokeWidth} x={rect.x} y={rect.y} data-id="svg"/>
+                <rect key={index} width={rect.width} fill={rect.fill} height={rect.height} stroke={rect.stroke} strokeWidth={rect.strokeWidth} x={rect.x} y={rect.y} transform={rect.transform} />
               )}
               {handleGraph(item.arrow)?.map((arrow, index) =>
                 <g key={index}>

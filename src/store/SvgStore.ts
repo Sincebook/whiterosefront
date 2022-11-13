@@ -19,6 +19,7 @@ import { mesHandle } from "../utils/mesHandle"
 import type { Op } from "../contant/options"
 import { OpMap, MesMap } from "../contant/options"
 import { imageToSvg, svgToImage } from "../graph/image"
+import { calcAngle } from "../utils/calcAngle"
 
 class SvgStore {
   // 图形svg
@@ -246,6 +247,14 @@ class SvgStore {
       }))
     }
   }
+  @action.bound
+  rotateRect(xy, userId) {
+    const { midx, midy } = svgToRect(this.getRect.get(this.key.get(userId)), xy.x, xy.y)
+    const deg = calcAngle(midx, midy, xy)
+    const rotate = `rotate(${deg},${midx},${midy})`
+    this.getRect.set(this.key.get(userId), {...this.getRect.get(this.key.get(userId)), transform: rotate})
+  }
+
 
   get getArrow() {
     return this.svg[this.currentPage - 1].arrow
