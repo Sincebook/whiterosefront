@@ -9,7 +9,7 @@ import useWebSocket, { ReadyState } from 'react-use-websocket';
 
 import './style.css'
 import { lastMesHandle, mesHandle } from '../../utils/mesHandle'
-import { OpMap } from '../../contant/options';
+import { MesMap, OpMap } from '../../contant/options';
 
 export default observer(function SvgPaint() {
 
@@ -21,8 +21,8 @@ export default observer(function SvgPaint() {
   const rectRef = useRef(null)
 
   useEffect(() => {
-    // 与服务端建立链接
-    sendMessage(mesHandle(0))
+    // 与服务端注册链接
+    sendMessage(mesHandle(MesMap.register))
   }, [])
   // 图形绘制信息协同
   useEffect(() => {
@@ -95,9 +95,10 @@ export default observer(function SvgPaint() {
     if (optionStore.tool !== 'font-size') {
       setShowInput(false)
     }
+    const common = { startX: mouseStore.x, startY: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth }
     if (optionStore.tool === 'highlight') {
       svgStore.setSvgType('path')
-      svgStore.addPath({ startX: mouseStore.x, startY: mouseStore.y, d: '', stroke: optionStore.color, strokeWidth: svgStore.strokeWidth }, userID, sendMessage)
+      svgStore.addPath({...common, d: ''}, userID, sendMessage)
     } else if (optionStore.tool === 'border') {
       if (optionStore.choice === 'circle') {
         svgStore.addCircle({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth }, userID)

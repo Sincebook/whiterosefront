@@ -186,19 +186,24 @@ class SvgStore {
     return this.svg[this.currentPage - 1].path
   }
   @action.bound
-  addPath(path: PathInput, userId, sendMessage?: any) {
-    const key = Math.floor(Math.random() * 1000000).toString()
-    this.key.set(userId, key)
-    this.getPath.set(key, pathToSvg(path))
-    if (sendMessage) {
-      sendMessage(mesHandle(201,
-      {
-        type: 100,
-        data: path,
-        fromId: localStorage.getItem('userId')
-      }))
+  addPath(path: PathInput, userId, sendMessage?: any,) {
+    if (path.key) {
+      this.key.set(userId, path.key)
+      this.getPath.set(path.key, pathToSvg(path))
+    } else {
+      const key = Math.floor(Math.random() * 1000000).toString()
+      this.key.set(userId, key)
+      this.getPath.set(key, pathToSvg(path))
+      if (sendMessage) {
+        sendMessage(mesHandle(201,
+        {
+          type: 100,
+          data: {...path, key},
+          fromId: localStorage.getItem('userId')
+        }))
+      }
     }
-   
+    
   }
   @action.bound
   drawPath(xy, userId) {

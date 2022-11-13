@@ -6,6 +6,7 @@ export interface CommonSvgInputData {
   stroke?: string // 线条颜色
   strokeWidth?: number // 线条宽度
   fill?: string // 填充颜色
+  key?: string
 }
 
 export interface ArrowInput extends CommonSvgInputData{ // 箭头
