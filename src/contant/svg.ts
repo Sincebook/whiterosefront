@@ -40,3 +40,10 @@ export interface SvgOutput {
   triangle?: Map<string, TriangleOutput>
   image?: Map<string, ImageOutput>
 }
+
+export interface GraphMask {
+  width: number
+  height: number
+  x: number
+  y: number
+}

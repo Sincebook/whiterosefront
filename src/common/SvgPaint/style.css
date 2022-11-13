@@ -30,6 +30,65 @@
   position: fixed;
   z-index: 100;
 }
-.svgImg{
+.svgImg {
+  cursor: pointer;
+}
+
+.changeBox {
+  position: fixed;
+  z-index: 3;
+  background-color: rgba(32, 132, 181, 0.08);
+  border:1px rgb(32, 132, 181) solid;
+  cursor: move;  
+}
+
+.left-top {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  left: -6px;
+  top: -6px;
+  border-radius: 50%;
+  cursor: nwse-resize;
+}
+
+.left-bottom {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  left: -6px;
+  bottom: -6px;
+  border-radius: 50%;
+  cursor: nesw-resize;
+}
+
+.right-top {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  right: -6px;
+  top: -6px;
+  border-radius: 50%;
+  cursor: nesw-resize;
+}
+
+.right-bottom {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  border-radius: 50%;
+  cursor: nwse-resize;
+}
+
+.center-top {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  margin-left: -4px;
+  border-radius: 50%;
   cursor: pointer;
 }

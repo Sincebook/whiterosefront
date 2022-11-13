@@ -40,7 +40,7 @@ class OptionStore {
   @action.bound
   changeColor(e) {
     switch (e) {
-      case 'cml':
+      case 'mcl':
         this.color = '#141e1b'
         break
       case 'xb':
