@@ -30,7 +30,13 @@ export enum OpMap {
   addPage = 303,
   deletePage = 304,
   addGraph = 401,
-  changeGraph = 402
+  changeGraph = 402,
+  movingGraph = 403,
+  zoomingGraphRB = 4041,
+  zoomingGraphRT = 4042,
+  zoomingGraphLB = 4043,
+  zoomingGraphLT = 4044,
+  roratingGraph = 405
 }
 
 export interface Op {
@@ -56,5 +62,7 @@ export enum MesMap {
   page = 202,
   pushOp = 203,
   unDo = 204,
-  reDo = 205
+  reDo = 205,
+  clear = 206,
+  lock = 207
 }

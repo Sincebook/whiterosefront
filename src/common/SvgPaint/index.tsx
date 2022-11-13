@@ -203,6 +203,9 @@ export default observer(function SvgPaint() {
   const handleMouseUp = () => {
     mouseStore.mouseUpAction()
     if (svgStore.svgType) {
+      if (svgStore.svgType === 'rect') {
+        svgStore.addMask()
+      }
       svgStore.pushOp({
         type: OpMap.graph,
         graph: {
@@ -228,6 +231,46 @@ export default observer(function SvgPaint() {
       res.push(graph)
     });
     return res
+  }
+
+  const handleMaskDown = (e) => {
+    mouseStore.mouseDownAciton()
+    const { id } = e.target.dataset
+    console.log(id === OpMap.movingGraph)
+    if (id == OpMap.movingGraph) {
+      svgStore.setAction(OpMap.movingGraph)
+      svgStore.addMove(e)
+    } else if (id == OpMap.zoomingGraphRB
+      || id == OpMap.zoomingGraphLB
+      || id == OpMap.zoomingGraphLT 
+      || id == OpMap.zoomingGraphRT) {
+      svgStore.setAction(parseInt(id))
+      svgStore.addZoom(e)
+    } else if (id === OpMap.roratingGraph) {
+      svgStore.setAction(OpMap.roratingGraph)
+      svgStore.addRorate(e)
+    }
+    
+  }
+
+  const handleMaskMove = (e) => {
+    if (mouseStore.mouseDown) {
+      if (svgStore.action === OpMap.movingGraph) {
+        svgStore.moving(e)
+      } else if (svgStore.action === OpMap.zoomingGraphRB
+        || svgStore.action === OpMap.zoomingGraphLB
+        || svgStore.action === OpMap.zoomingGraphLT
+        || svgStore.action === OpMap.zoomingGraphRT) {
+        svgStore.zooming(e)
+      } else if (svgStore.action === OpMap.roratingGraph) {
+        svgStore.rorating(e)
+      }
+    }
+    
+  }
+
+  const handleMaskUp = () => {
+    mouseStore.mouseUpAction()
   }
 
   return (
@@ -309,6 +352,23 @@ export default observer(function SvgPaint() {
       </div>
       <div>
         <input className='text-input' type="text" style={inputStyle} onChange={inputChange} ref={inputRef} onBlur={inputBlur} />
+      </div>
+      <div className="changeBox" style={{
+        height: svgStore.graphMask.height + 'px',
+        width: svgStore.graphMask.width + 'px',
+        left: svgStore.graphMask.x + 'px',
+        top: svgStore.graphMask.y + 'px'
+      }}
+        data-id={OpMap.movingGraph}
+        onMouseDown={handleMaskDown}
+        onMouseMove={handleMaskMove}
+        onMouseUp={handleMaskUp}
+      >
+        <div className="left-top qnhl" data-id={OpMap.zoomingGraphLT}></div>
+        <div className="left-bottom qnhl" data-id={OpMap.zoomingGraphLB}></div>
+        <div className="center-top qnhl" data-id={OpMap.roratingGraph}></div>
+        <div className="right-top qnhl" data-id={OpMap.zoomingGraphRT}></div>
+        <div className="right-bottom qnhl" data-id={OpMap.zoomingGraphRB}></div>
       </div>
     </div>
   )

@@ -1,10 +1,11 @@
-import { message, } from "antd";
-import { action, get, makeAutoObservable, observable } from "mobx";
-import { createContext, useId } from "react";
-import { SvgInput, SvgOutput } from "../contant/svg";
+import { message, } from "antd"
+import { action, get, makeAutoObservable, observable } from "mobx"
+import { createContext, useId } from "react"
+import { SvgInput, SvgOutput } from "../contant/svg"
+import type { GraphMask } from "../contant/svg"
 import type { PathInput, RectInput, ArrowInput, TextInput, CircleInput, DiamondInput, EllipseInput, TriangleInput, PolylineInput, RoundedRectInput, TextPathInput, LineInput, ImageInput } from "../contant/svgInput";
-import { pathToSvg, svgToPath } from "../graph/path";
-import { rectToSvg, svgToRect } from "../graph/rect";
+import { pathToSvg, svgToPath } from "../graph/path"
+import { rectToSvg, svgToRect } from "../graph/rect"
 import { arrowToSvg, svgToArrow } from "../graph/arrow"
 import { textToSvg, svgToText } from "../graph/text"
 import { circleToSvg, svgToCircle } from "../graph/circle"
@@ -51,7 +52,9 @@ class SvgStore {
   @observable imgSrc = []
   @observable svgType = '' // 当前用户操作类别
   @observable currentUid = localStorage.getItem('userId')
-
+  @observable graphMask: GraphMask = { width: 0, height: 0, x: -100, y: -100 }
+  @observable changeStart = [0, 0]
+  @observable action: number = 0 // 当前动作: 旋转、平移、缩放
 
   constructor() {
     makeAutoObservable(this)
@@ -651,6 +654,68 @@ class SvgStore {
         fromId: userId
       }))
     }
+  }
+  // 设置当前操作类型
+  @action.bound
+  setAction(e) {
+    this.action = e
+  }
+  // 为图形添加mask
+  @action.bound
+  addMask() {
+    const {width, height, x, y} = this.getCurrentGraph
+    this.setMask({width, height, x, y})
+  }
+  @action.bound
+  setMask(mask: GraphMask) {
+    this.graphMask = mask
+  }
+  @action.bound
+  addMove(e) {
+    this.changeStart = [e.clientX, e.clientY]
+  }
+  @action.bound
+  moving(e) {
+    const x = e.clientX - this.changeStart[0] 
+    const y = e.clientY - this.changeStart[1]
+    this.changeStart = [e.clientX, e.clientY]
+    this.graphMask.x += x
+    this.graphMask.y += y
+  }
+  @action.bound
+  movEnd(e) {
+
+  }
+  @action.bound
+  addZoom(e) {
+    this.changeStart = [e.clientX, e.clientY]
+  }
+  @action.bound
+  zooming(e) {
+    // console.log(this.getCurrentGraph)
+    if (this.action === OpMap.zoomingGraphRB) {
+      const x = e.clientX - this.changeStart[0] 
+      const y = e.clientY - this.changeStart[1]
+      this.changeStart = [e.clientX, e.clientY]
+      this.graphMask.width += x
+      this.graphMask.height += y
+    }
+  }
+  @action.bound
+  zoomEnd(e) {
+
+  }
+  @action.bound
+  addRorate(e) {
+
+  }
+  @action.bound
+  rorating(e) {
+
+  }
+  @action.bound
+  roratEnd(e) {
+
   }
 }
 
