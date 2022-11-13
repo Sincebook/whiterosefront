@@ -39,8 +39,7 @@ export interface PolylineInput extends CommonSvgInputData {
 }
 
 export interface RectInput extends CommonSvgInputData {
-  midx?: number
-  midy?: number
+
 }
 
 export interface RoundedRectInput extends CommonSvgInputData {

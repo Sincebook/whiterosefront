@@ -59,6 +59,7 @@ export interface RectOutput extends CommonSvgOutputData {
   midx?: number
   midy?: number
   transform?: string
+  transformOrigin?: string
 }
 
 export interface RoundedRectOutput extends CommonSvgOutputData {
