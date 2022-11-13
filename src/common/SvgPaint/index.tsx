@@ -245,6 +245,7 @@ export default observer(function SvgPaint() {
     const { id } = e.target.dataset
     console.log(id === OpMap.movingGraph)
     if (id == OpMap.movingGraph) {
+      mouseStore.handleMouseDown(e)
       svgStore.setAction(OpMap.movingGraph)
       svgStore.addMove(e)
     } else if (id == OpMap.zoomingGraphRB
@@ -264,6 +265,7 @@ export default observer(function SvgPaint() {
     if (mouseStore.mouseDown) {
       if (svgStore.action === OpMap.movingGraph) {
         svgStore.moving(e)
+        // svgStore.dropRect({x: e.clientX, y: e.clientY, startX: mouseStore.startX, startY: mouseStore.startY }, userID)
       } else if (svgStore.action === OpMap.zoomingGraphRB
         || svgStore.action === OpMap.zoomingGraphLB
         || svgStore.action === OpMap.zoomingGraphLT

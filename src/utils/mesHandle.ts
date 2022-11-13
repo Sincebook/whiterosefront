@@ -67,7 +67,7 @@ export const clearHandle = (data) => {
         const mes = JSON.parse(data.data)
         if (mes.data.type === 206) {
           if (mes.data.fromId.toString() !== localStorage.getItem('userId')) {
-            return mes.data.data
+            return mes.data.type
           } 
         }
     }
@@ -80,7 +80,7 @@ export const lockHandle = (data) => {
         const mes = JSON.parse(data.data)
         if (mes.data.type === 207) {
           if (mes.data.fromId.toString() !== localStorage.getItem('userId')) {
-            return mes.data.data
+            return mes.data.type
           } 
         }
     }

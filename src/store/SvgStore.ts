@@ -296,7 +296,7 @@ class SvgStore {
   scaleRect(xy, userId, direct) {
     let { x, y, width, height } = this.getRect.get(this.key.get(userId))
     switch (direct) {
-      case 'Rdown': 
+      case OpMap.zoomingGraphRB: 
         width = xy.x - x
         height = xy.y - y
         break
@@ -712,6 +712,7 @@ class SvgStore {
   moving(e) {
     const x = e.clientX - this.changeStart[0] 
     const y = e.clientY - this.changeStart[1]
+    this.dropRect({startX: this.changeStart[0], startY: this.changeStart[1], x: e.clientX, y: e.clientY}, this.currentUid)
     this.changeStart = [e.clientX, e.clientY]
     this.graphMask.x += x
     this.graphMask.y += y
@@ -728,6 +729,7 @@ class SvgStore {
   zooming(e) {
     // console.log(this.getCurrentGraph)
     if (this.action === OpMap.zoomingGraphRB) {
+      this.scaleRect({x: e.clientX, y: e.clientY}, this.currentUid, OpMap.zoomingGraphRB)
       const x = e.clientX - this.changeStart[0] 
       const y = e.clientY - this.changeStart[1]
       this.changeStart = [e.clientX, e.clientY]
