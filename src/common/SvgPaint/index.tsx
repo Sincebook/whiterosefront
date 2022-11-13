@@ -150,7 +150,6 @@ export default observer(function SvgPaint() {
           mouseStore.offsetTop = Number(y)          
         }
       }
-      svgStore.scaleRect({ x: mouseStore.x, y: mouseStore.y }, userID, 'Ldown')
     }
     
   }

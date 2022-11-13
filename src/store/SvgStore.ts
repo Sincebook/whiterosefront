@@ -283,7 +283,7 @@ class SvgStore {
     this.getRect.set(this.key.get(userId), { ...this.getRect.get(this.key.get(userId)), x, y, width, height })
   }
   @action.bound
-  translate(xy, userId) {
+  dropRect(xy, userId) {
     let { x, y } = this.getRect.get(this.key.get(userId))
     const { startX, startY } = xy
     let clientx = xy.x - startX
@@ -359,6 +359,16 @@ class SvgStore {
         fromId: userId
       }))
     }
+  }
+  @action.bound
+  dropText(xy, userId) {
+    let { x, y } = this.getText.get(this.key.get(userId))
+    const { startX, startY } = xy
+    let clientx = xy.x - startX
+    let clienty = xy.y - startY
+    x += clientx
+    y += clienty
+    this.getText.set(this.key.get(userId), { ...this.getText.get(this.key.get(userId)), x, y })
   }
 
   get getCircle() {
