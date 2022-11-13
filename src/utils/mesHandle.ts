@@ -60,3 +60,29 @@ export const unDoHandle = (data) => {
     }
   }
 }
+
+export const clearHandle = (data) => {
+  if (data) {
+    if (data.data != "pong" && data.data !== undefined) {
+        const mes = JSON.parse(data.data)
+        if (mes.data.type === 206) {
+          if (mes.data.fromId.toString() !== localStorage.getItem('userId')) {
+            return mes.data.data
+          } 
+        }
+    }
+  }
+}
+
+export const lockHandle = (data) => {
+  if (data) {
+    if (data.data != "pong" && data.data !== undefined) {
+        const mes = JSON.parse(data.data)
+        if (mes.data.type === 207) {
+          if (mes.data.fromId.toString() !== localStorage.getItem('userId')) {
+            return mes.data.data
+          } 
+        }
+    }
+  }
+}

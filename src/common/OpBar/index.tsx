@@ -10,7 +10,8 @@ import OptionStore from '../../store/OptionStore'
 import SvgStore from '../../store/SvgStore'
 import { delegate } from '../../utils/delegate'
 import { exportToPng } from "../../utils/exportToPng"
-import { mesHandle, pageSvgHandle, unDoHandle } from '../../utils/mesHandle'
+import { mesHandle, pageSvgHandle, unDoHandle, clearHandle, lockHandle } from '../../utils/mesHandle'
+import { Button, message, Popconfirm } from 'antd'
 import './index.css'
 
 export default observer(function OpBar() {
@@ -39,6 +40,16 @@ export default observer(function OpBar() {
       } else if (mess.type === 304) {
         svgStore.deleteSvg()
       }
+    }
+
+    const clearMessage = clearHandle(lastMessage)
+    if (clearMessage) {
+      svgStore.clear()
+    }
+
+    const lockMessage = lockHandle(lastMessage)
+    if (lockMessage) {
+      svgStore.lock()
     }
   }, [lastMessage])
 
@@ -97,11 +108,21 @@ export default observer(function OpBar() {
     svgStore.reDo(sendMessage)
   }
 
+  const clean = () => {
+    console.log('123');
+    svgStore.clear(sendMessage)
+  }
+  const lock = () => {
+    svgStore.lock(sendMessage)
+  }
+
   return (
     <div className="op-bar" onClick={handleSwitch} style={show} data-html2canvas-ignore ref={boxRef}>
-      <Tooltip placement="top" title={'清空'}>
-        <DeleteOutlined className="icons" />
-      </Tooltip>
+      <Popconfirm placement="top" title={"该操作不可恢复，您真的要清空当前页吗？"} onConfirm={clean} okText="确认" cancelText="取消">
+        <Tooltip placement="top" title={'清空'}>
+          <DeleteOutlined className="icons" />
+        </Tooltip>
+      </Popconfirm>
       <Tooltip placement="top" title={'下载'} getPopupContainer={() =>  boxRef.current } >
         <DownloadOutlined className="icons" onClick={download}/>
       </Tooltip>
@@ -127,7 +148,7 @@ export default observer(function OpBar() {
         <MinusOutlined className="icons" onClick={handleDelete} />
       </Tooltip>
       <Tooltip placement="top" title={'锁屏'}>
-        <LockOutlined className="icons" />
+        <LockOutlined className="icons" onClick={lock}/>
       </Tooltip>
     </div>
   )

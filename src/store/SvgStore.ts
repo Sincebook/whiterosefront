@@ -21,7 +21,6 @@ import type { Op } from "../contant/options"
 import { OpMap, MesMap } from "../contant/options"
 import { imageToSvg, svgToImage } from "../graph/image"
 import { calcAngle } from "../utils/calcAngle"
-import { dir } from "console";
 
 class SvgStore {
   // 图形svg
@@ -55,6 +54,7 @@ class SvgStore {
   @observable graphMask: GraphMask = { width: 0, height: 0, x: -100, y: -100 }
   @observable changeStart = [0, 0]
   @observable action: number = 0 // 当前动作: 旋转、平移、缩放
+  @observable isLock: boolean = false
 
   constructor() {
     makeAutoObservable(this)
@@ -185,6 +185,40 @@ class SvgStore {
   changeStrokeWidth(e) {
     this.strokeWidth = e
   }
+
+  @action.bound
+  clear(sendMessage?: any) {
+    this.svg[this.currentPage - 1] = {
+      id: 1,
+      path: new Map(),
+      rect: new Map(),
+      arrow: new Map(),
+      text: new Map(),
+      circle: new Map(),
+      diamond: new Map(),
+      ellipse: new Map(),
+      triangle: new Map(),
+      polyline: new Map(),
+      roundedRect: new Map(),
+      textpath: new Map(),
+      line: new Map(),
+      image: new Map()
+    }
+    this.doOptions = []
+    this.reDoOptions = []
+    if (sendMessage) {
+      sendMessage(mesHandle(MesMap.clear))
+    }
+  }
+
+  @action.bound
+  lock(sendMessage?: any) {
+    this.isLock = !this.isLock
+    if (sendMessage) {
+      sendMessage(mesHandle(MesMap.lock))
+    }
+  }
+
   get getPath() {
     return this.svg[this.currentPage - 1].path
   }
