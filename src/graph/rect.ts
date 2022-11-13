@@ -25,6 +25,6 @@ export const rectToSvg = (param: RectInput): RectOutput => {
 }
 
 export const svgToRect = (param: RectOutput, x: number, y: number): RectInput => {
-  const { stroke = "#000000", strokeWidth = 3, fill = "none", startX, startY, midx, midy } = param
-  return { stroke, strokeWidth, fill, x, y, startX, startY, midx, midy }
+  const { stroke = "#000000", strokeWidth = 3, fill = "none", startX, startY} = param
+  return { stroke, strokeWidth, fill, x, y, startX, startY }
 }

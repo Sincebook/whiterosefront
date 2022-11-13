@@ -20,6 +20,7 @@ import type { Op } from "../contant/options"
 import { OpMap, MesMap } from "../contant/options"
 import { imageToSvg, svgToImage } from "../graph/image"
 import { calcAngle } from "../utils/calcAngle"
+import { dir } from "console";
 
 class SvgStore {
   // 图形svg
@@ -249,12 +250,48 @@ class SvgStore {
   }
   @action.bound
   rotateRect(xy, userId) {
-    const { midx, midy } = svgToRect(this.getRect.get(this.key.get(userId)), xy.x, xy.y)
+    const { midx, midy } = this.getRect.get(this.key.get(userId))
     const deg = calcAngle(midx, midy, xy)
     const rotate = `rotate(${deg},${midx},${midy})`
     this.getRect.set(this.key.get(userId), {...this.getRect.get(this.key.get(userId)), transform: rotate})
   }
-
+  @action.bound
+  scaleRect(xy, userId, direct) {
+    let { x, y, width, height } = this.getRect.get(this.key.get(userId))
+    switch (direct) {
+      case 'Rdown': 
+        width = xy.x - x
+        height = xy.y - y
+        break
+      case 'Rup': 
+        height += (y - xy.y)
+        width = xy.x - x
+        y = xy.y
+        break
+      case 'Lup':
+        height += (y - xy.y)
+        width += (x - xy.x)
+        x = xy.x
+        y = xy.y
+        break
+      case 'Ldown':
+        width += (x - xy.x)
+        height = xy.y - y
+        x = xy.x
+        break
+    }
+    this.getRect.set(this.key.get(userId), { ...this.getRect.get(this.key.get(userId)), x, y, width, height })
+  }
+  @action.bound
+  translate(xy, userId) {
+    let { x, y } = this.getRect.get(this.key.get(userId))
+    const { startX, startY } = xy
+    let clientx = xy.x - startX
+    let clienty = xy.y - startY
+    x += clientx
+    y += clienty
+    this.getRect.set(this.key.get(userId), { ...this.getRect.get(this.key.get(userId)), x, y })
+  }
 
   get getArrow() {
     return this.svg[this.currentPage - 1].arrow

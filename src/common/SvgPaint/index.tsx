@@ -150,6 +150,7 @@ export default observer(function SvgPaint() {
           mouseStore.offsetTop = Number(y)          
         }
       }
+      svgStore.scaleRect({ x: mouseStore.x, y: mouseStore.y }, userID, 'Ldown')
     }
     
   }
@@ -254,7 +255,7 @@ export default observer(function SvgPaint() {
                 <path d={path.d} stroke={path.stroke} strokeWidth={path.strokeWidth} key={index} fill={path.fill} strokeLinecap={'round'} />
               )}
               {handleGraph(item.rect)?.map((rect, index) =>
-                <rect key={index} width={rect.width} fill={rect.fill} height={rect.height} stroke={rect.stroke} strokeWidth={rect.strokeWidth} x={rect.x} y={rect.y} transform={rect.transform} />
+                <rect key={index} width={rect.width} fill={rect.fill} height={rect.height} stroke={rect.stroke} strokeWidth={rect.strokeWidth} x={rect.x} y={rect.y} transform={rect.transform} style={{transformOrigin: rect.transformOrigin}} />
               )}
               {handleGraph(item.arrow)?.map((arrow, index) =>
                 <g key={index}>
