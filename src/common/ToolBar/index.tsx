@@ -1,8 +1,8 @@
 import { useContext, useRef, useState, useEffect } from 'react'
 import { observer } from 'mobx-react'
 import { AimOutlined, HighlightOutlined, FullscreenOutlined, BorderOutlined,
-  FontSizeOutlined, CommentOutlined, FunctionOutlined, ShareAltOutlined, InstagramOutlined,
-  PullRequestOutlined } from '@ant-design/icons'
+  FontSizeOutlined, CommentOutlined, ShareAltOutlined, InstagramOutlined,
+  PullRequestOutlined, HomeOutlined } from '@ant-design/icons'
 import Tooltip from 'antd/es/tooltip'
 import { Popover, Button, message } from 'antd'
 import { delegate } from '../../utils/delegate'
@@ -114,6 +114,11 @@ export default observer(function ToolBar() {
       <input type="text" className='barrage' onChange={barrageChange} ref={barrageRef} onKeyDown={sendByKey} placeholder="点击回车发射弹幕～"/>
     </div>
   )
+  const roomInput = (
+    <div>
+      <input type="text" className='barrage' onChange={barrageChange} ref={barrageRef} onKeyDown={sendByKey} placeholder="点击回车加入房间～"/>
+    </div>
+  )
 
   return (
     <div className="tool-bar" onClick={handleSwitch} style={show} data-html2canvas-ignore>
@@ -140,9 +145,11 @@ export default observer(function ToolBar() {
           <CommentOutlined className="icons" />
         </Tooltip>
       </Popover>
-      <Tooltip placement="bottom" title={'公式'}>
-        <FunctionOutlined className="icons"/>
-      </Tooltip>
+      <Popover placement="bottom" content={roomInput} trigger="click">
+        <Tooltip placement="bottom" title={'加入房间'}>
+          <HomeOutlined className="icons"/>
+        </Tooltip>
+      </Popover>
       <Tooltip placement="bottom" title={'全屏'}>
         <FullscreenOutlined className="icons" onClick={fullScreen}/>
       </Tooltip>
