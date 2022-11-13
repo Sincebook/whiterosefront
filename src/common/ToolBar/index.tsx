@@ -20,6 +20,7 @@ import { lastMesHandle, mesHandle, barrageHandle } from '../../utils/mesHandle'
 import './index.css'
 import SvgStore from '../../store/SvgStore'
 import { uploadImage } from "../../api/image"
+import { confirmRoom } from "../../api/room" 
 
 export default observer(function ToolBar() {
   const { sendMessage, readyState, lastMessage } = useWebSocket(wsUrl, { share: true })
@@ -56,6 +57,8 @@ export default observer(function ToolBar() {
 
   const inputRef = useRef(null)
   const barrageRef = useRef(null)
+  const roomIdRef = useRef(null)
+  const textRef = useRef(null)
 
   const show = { top: toolStore.toolBar ? '0': '-50px'}
   const handleSwitch = (e) => {
@@ -108,6 +111,19 @@ export default observer(function ToolBar() {
       sendBarrage()
     }
   }
+  const sendRoomId = async (e) => {
+    if (e.keyCode === 13) {
+      const id = roomIdRef.current.value
+      const res = await confirmRoom(id)
+      if (res) {
+        localStorage.setItem('roomId', id)
+        window.location.reload()
+      } else {
+        message.error('房间号有误！')
+        roomIdRef.current.value = ''
+      }
+    }
+  }
 
   const content = (
     <div>
@@ -116,9 +132,14 @@ export default observer(function ToolBar() {
   )
   const roomInput = (
     <div>
-      <input type="text" className='barrage' onChange={barrageChange} ref={barrageRef} onKeyDown={sendByKey} placeholder="点击回车加入房间～"/>
+      <input type="text" className='barrage' ref={roomIdRef} onKeyDown={sendRoomId} placeholder="点击回车加入房间～"/>
     </div>
   )
+
+  const share = () => {
+    navigator.clipboard.writeText('http://whiterose.cf.since88.cn');
+    message.success('网站链接复制成功，快去分享给朋友们吧~')
+  }
 
   return (
     <div className="tool-bar" onClick={handleSwitch} style={show} data-html2canvas-ignore>
@@ -154,7 +175,7 @@ export default observer(function ToolBar() {
         <FullscreenOutlined className="icons" onClick={fullScreen}/>
       </Tooltip>
       <Tooltip placement="bottom" title={'分享'}>
-        <ShareAltOutlined className="icons" />
+        <ShareAltOutlined className="icons" onClick={share} />
       </Tooltip>
       <input type="file" id="fileElem" multiple accept="image/*" onChange={handleFiles} ref={inputRef} />
     </div>
