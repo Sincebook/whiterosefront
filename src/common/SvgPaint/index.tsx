@@ -241,7 +241,6 @@ export default observer(function SvgPaint() {
               onMouseUp={handleMouseUp}
               style={index === svgStore.currentPage - 1 ? { zIndex: 2 } : {}} key={item.id}
             >
-              <rect width={"100"} height={"100"} x={"100"} y={"100"} fill={"none"} stroke={"skyblue"} strokeWidth={"2"} rx={"3"} />
               {
                 (optionStore.tool === 'aim' && optionStore.choice === 'position') ? (
                   <g>
