@@ -105,14 +105,14 @@ export default observer(function ChoiceBar () {
         <IconFont type="roseyuanjiaojuxing" className="icons" data-id="roundedrect"
         style={optionStore.tool === 'border' ? {}: { display: 'none' }}/>
       </Tooltip>
-      <Tooltip placement="right" title={'心形'}>
+      {/* <Tooltip placement="right" title={'心形'}>
         <IconFont type="roseaixin" className="icons" data-id="love"
         style={optionStore.tool === 'border' ? {}: { display: 'none' }}/>
       </Tooltip>
       <Tooltip placement="right" title={'五角星'}>
         <IconFont type="rosekongwujiaoxing" className="icons" data-id="pentagram"
         style={optionStore.tool === 'border' ? {}: { display: 'none' }}/>
-      </Tooltip>
+      </Tooltip> */}
       <Tooltip placement="right" title={'直线'}>
         <IconFont type="rosezhexian" className="icons" data-id="line"
         style={optionStore.tool === 'pull-request' ? {}: { display: 'none' }}/>
@@ -125,9 +125,9 @@ export default observer(function ChoiceBar () {
         <IconFont type="rosearrow-growth" className="icons" data-id="polyline"
         style={optionStore.tool === 'pull-request' ? {}: { display: 'none' }}/>
       </Tooltip>
-      <Tooltip placement="right" title={'曲线文本'}>
+      {/* <Tooltip placement="right" title={'曲线文本'}>
         <IconFont type="rosetext-wrap" className="icons" data-id="textpath"
         style={optionStore.tool === 'pull-request' ? {}: { display: 'none' }}/>
-      </Tooltip>
+      </Tooltip> */}
     </div>)
 })

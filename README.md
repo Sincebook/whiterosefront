@@ -8,7 +8,7 @@
 
 Demo 地址：[http://whiterose.cf.since88.cn/](http://whiterose.cf.since88.cn/)
 
-屏幕截图
+![img](https://voidtech.cn/i/2022/11/13/12rpjuj.png)
 
 ## 如何运行
 
@@ -57,13 +57,9 @@ npm run build
 
 将项目打包后生成的 dist 文件夹部署到服务器即可
 
-## Licensing
-
-State what the license is and how to find the text version of the license.
-
 <span id="contributors-"></span>
 
-## Contributors
+## 贡献者
 
 Thanks goes to these wonderful people:
 
