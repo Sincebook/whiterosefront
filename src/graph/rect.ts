@@ -14,7 +14,9 @@ const dealRect = (startX: number, startY: number, x: number, y: number) => {
     _y = y
     _height = startY - y
   }
-  return { x: _x, y: _y, width: _width, height: _height }
+  let midx = _x + ( _width / 2)
+  let midy = _y
+  return { x: _x, y: _y, width: _width, height: _height, midx, midy }
 }
 
 export const rectToSvg = (param: RectInput): RectOutput => {
@@ -23,6 +25,6 @@ export const rectToSvg = (param: RectInput): RectOutput => {
 }
 
 export const svgToRect = (param: RectOutput, x: number, y: number): RectInput => {
-  const { stroke = "#000000", strokeWidth = 3, fill = "none", startX, startY } = param
-  return { stroke, strokeWidth, fill, x, y, startX, startY}
+  const { stroke = "#000000", strokeWidth = 3, fill = "none", startX, startY, midx, midy } = param
+  return { stroke, strokeWidth, fill, x, y, startX, startY, midx, midy }
 }

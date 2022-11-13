@@ -56,6 +56,9 @@ export interface RectOutput extends CommonSvgOutputData {
   y: number // 矩形的顶端位置
   width: number // 矩形的宽度
   height: number // 矩形的高度
+  midx?: number
+  midy?: number
+  transform?: string
 }
 
 export interface RoundedRectOutput extends CommonSvgOutputData {
