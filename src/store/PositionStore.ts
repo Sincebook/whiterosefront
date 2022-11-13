@@ -20,13 +20,11 @@ class MouseStore {
   @action.bound handleMouseDown(e) {
     this.startX = e.clientX
     this.startY = e.clientY
-    console.log(e, '2131')
   }
 
   @action.bound mouseMove(e) {
     this.x = e.clientX
     this.y = e.clientY
-    console.log(e)
     this.lite = [e.clientX, e.clientY]
   }
 
