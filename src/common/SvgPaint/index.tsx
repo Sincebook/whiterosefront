@@ -102,22 +102,22 @@ export default observer(function SvgPaint() {
     } else if (optionStore.tool === 'border') {
       if (optionStore.choice === 'circle') {
         svgStore.setSvgType('circle')
-        svgStore.addCircle({ ...common }, userID, sendMessage)
+        svgStore.addCircle({ ...common, x: mouseStore.x, y: mouseStore.y }, userID, sendMessage)
       } else if (optionStore.choice === 'diamond') {
         svgStore.setSvgType('diamond')
-        svgStore.addDiamond({...common, d: '' }, userID, sendMessage)
+        svgStore.addDiamond({...common, d: '', x: mouseStore.x, y: mouseStore.y }, userID, sendMessage)
       } else if (optionStore.choice === 'ellipse') {
         svgStore.setSvgType('ellipse')
-        svgStore.addEllipse({ ...common }, userID, sendMessage)
+        svgStore.addEllipse({ ...common, x: mouseStore.x, y: mouseStore.y }, userID, sendMessage)
       } else if (optionStore.choice === 'triangle') {
         svgStore.setSvgType('triangle')
-        svgStore.addTriangle({ ...common }, userID, sendMessage)
+        svgStore.addTriangle({ ...common, x: mouseStore.x, y: mouseStore.y }, userID, sendMessage)
       } else if (optionStore.choice === 'roundedrect') {
         svgStore.setSvgType('roundedRect')
-        svgStore.addRoundedRect({ ...common }, userID, sendMessage)
+        svgStore.addRoundedRect({ ...common, x: mouseStore.x, y: mouseStore.y }, userID, sendMessage)
       } else {
         svgStore.setSvgType('rect')
-        svgStore.addRect({ ...common }, userID, sendMessage)
+        svgStore.addRect({ ...common, x: mouseStore.x, y: mouseStore.y }, userID, sendMessage)
       }
     } else if (optionStore.tool === 'pull-request') {
       if (optionStore.choice === 'polyline') {
