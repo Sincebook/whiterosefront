@@ -136,7 +136,7 @@ export default observer(function SvgPaint() {
       setShowInput(true)
       inputRef.current.focus()
       svgStore.setSvgType('text')
-      svgStore.addText({ ...common, text: '' }, userID, sendMessage)
+      svgStore.addText({ startX: mouseStore.x, startY: mouseStore.y, stroke: optionStore.color, text: '' }, userID, sendMessage)
     } else if (optionStore.tool === 'aim') {
       if (optionStore.choice === 'drag') {
         if (e.target.dataset.id === 'svg') {
