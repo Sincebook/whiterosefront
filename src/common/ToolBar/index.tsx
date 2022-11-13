@@ -48,7 +48,7 @@ export default observer(function ToolBar() {
     if (mess) {
       if (mess.type === 10) {
         screen.push(<StyledBullet msg={mess.data} color="#fff" backgroundColor={randomColor()} size="normal" />)
-      } else if (mess.type === 11) {
+      } else if (mess.type === 122) {
         svgStore.addImage(mess.data, mess.fromId)
       }
     }
@@ -81,13 +81,8 @@ export default observer(function ToolBar() {
     const form = new FormData()
     form.append('image', file)
     const res = await uploadImage(form)
-    svgStore.addImage({ xlinkHref: res }, localStorage.getItem('userId'))
-    sendMessage(mesHandle(201,
-    {
-      type: 11,
-      data: { xlinkHref: res },
-      fromId: localStorage.getItem('userId')
-    }))
+    svgStore.setSvgType('image')
+    svgStore.addImage({ xlinkHref: res }, localStorage.getItem('userId'), sendMessage)
   }
 
   const fullScreen = () => {

@@ -23,6 +23,8 @@ export enum OpMap {
   drawLine = 119,
   addRoundedRect = 120,
   drawRoundedRect = 121,
+  addImage = 122,
+  drawImage = 123,
   lastPage = 301,
   nextPage = 302,
   addPage = 303,

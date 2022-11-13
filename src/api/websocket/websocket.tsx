@@ -30,7 +30,7 @@ export const WebSocketDemo = () => {
   }[readyState];
 
   return (
-    <div style={{ zIndex: '99', position: 'fixed', bottom: '5px', left: '10px', color: 'green'}} data-html2canvas-ignore>
+    <div style={{ zIndex: '99', position: 'fixed', bottom: '5px', left: '10px', color: 'green', userSelect: 'none'}} data-html2canvas-ignore>
       <Tag color="green">{connectionStatus}</Tag>
     </div>
   );
