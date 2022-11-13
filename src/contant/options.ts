@@ -64,5 +64,6 @@ export enum MesMap {
   unDo = 204,
   reDo = 205,
   clear = 206,
-  lock = 207
+  lock = 207,
+  persons = 300
 }

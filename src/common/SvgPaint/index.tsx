@@ -283,6 +283,9 @@ export default observer(function SvgPaint() {
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
+              onTouchStart={handleMouseDown}
+              onTouchMove={handleMaskMove}
+              onTouchEnd={handleMouseUp}
               style={index === svgStore.currentPage - 1 ? { zIndex: 2 } : {}} key={item.id}
             >
               {
