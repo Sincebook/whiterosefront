@@ -1,7 +1,7 @@
 import { MesMap } from "../contant/options"
 
 export const mesHandle = (type: number, data?: any) => {
-  return JSON.stringify({roomId: 7, fromId: localStorage.getItem('userId'), type, data})
+  return JSON.stringify({roomId: localStorage.getItem('roomId'), fromId: localStorage.getItem('userId'), type, data})
 }
 
 export const lastMesHandle = (data) => {
