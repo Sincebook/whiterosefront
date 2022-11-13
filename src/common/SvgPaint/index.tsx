@@ -72,7 +72,7 @@ export default observer(function SvgPaint() {
         svgStore.addRoundedRect(mess.data, mess.fromId)
       } else if (mess.type === 121) {
         svgStore.drawRoundedRect(mess.data, mess.fromId)
-      } else if (mess.type === 13) {
+      } else if (mess.type === 123) {
         svgStore.drawImage(mess.data, mess.fromId)
       } 
     }
@@ -102,81 +102,41 @@ export default observer(function SvgPaint() {
     } else if (optionStore.tool === 'border') {
       if (optionStore.choice === 'circle') {
         svgStore.setSvgType('circle')
-        svgStore.addCircle({ ...common, x: mouseStore.x, y: mouseStore.y }, userID, sendMessage)
+        svgStore.addCircle({ ...common }, userID, sendMessage)
       } else if (optionStore.choice === 'diamond') {
         svgStore.setSvgType('diamond')
-        svgStore.addDiamond({...common, x: mouseStore.x, y: mouseStore.y, d: '' }, userID, sendMessage)
+        svgStore.addDiamond({...common, d: '' }, userID, sendMessage)
       } else if (optionStore.choice === 'ellipse') {
-        svgStore.addEllipse({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth}, userID)
-        sendMessage(mesHandle(201,
-          {
-            type: 112,
-            data: { startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth },
-            fromId: userID
-          }))
+        svgStore.setSvgType('ellipse')
+        svgStore.addEllipse({ ...common }, userID, sendMessage)
       } else if (optionStore.choice === 'triangle') {
-        svgStore.addTriangle({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth }, userID)
-        sendMessage(mesHandle(201,
-          {
-            type: 114,
-            data: { startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth},
-            fromId: userID
-          }))
+        svgStore.setSvgType('triangle')
+        svgStore.addTriangle({ ...common }, userID, sendMessage)
       } else if (optionStore.choice === 'roundedrect') {
-        svgStore.addRoundedRect({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth }, userID)
-        sendMessage(mesHandle(201,
-          {
-            type: 120,
-            data: { startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth},
-            fromId: userID
-          }))
+        svgStore.setSvgType('roundedRect')
+        svgStore.addRoundedRect({ ...common }, userID, sendMessage)
       } else {
-        svgStore.addRect({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth }, userID)
-        sendMessage(mesHandle(201,
-          {
-            type: 102,
-            data: { startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth },
-            fromId: userID
-          }))
+        svgStore.setSvgType('rect')
+        svgStore.addRect({ ...common }, userID, sendMessage)
       }
     } else if (optionStore.tool === 'pull-request') {
       if (optionStore.choice === 'polyline') {
-        svgStore.addPolyline({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth, locations: [], direct: '' }, userID)
-        sendMessage(mesHandle(201,
-        {
-          type: 116,
-          data: { startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth, locations: [], direct: '' },
-          fromId: userID
-        }))
+        svgStore.setSvgType('polyline')
+        svgStore.addPolyline({ ...common, locations: [], direct: '' }, userID, sendMessage)
       } else if (optionStore.choice === 'line') {
-        svgStore.addLine({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth }, userID)
-        sendMessage(mesHandle(201,
-        {
-          type: 118,
-          data: { startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth },
-          fromId: userID
-        }))
+        svgStore.setSvgType('line')
+        svgStore.addLine({ ...common, x: mouseStore.x, y: mouseStore.y }, userID, sendMessage)
       } else {
-        svgStore.addArrow({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth }, userID)
-        sendMessage(mesHandle(201,
-        {
-          type: 104,
-          data: { startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, strokeWidth: svgStore.strokeWidth },
-          fromId: userID
-        }))
+        svgStore.setSvgType('arrow')
+        svgStore.addArrow({ ...common, x: mouseStore.x, y: mouseStore.y }, userID, sendMessage)
       }
     } else if (optionStore.tool === 'font-size') {
       mouseStore.handleMouseDown(e)
       inputRef.current.value = ''
       setShowInput(true)
       inputRef.current.focus()
-      svgStore.addText({ startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, text: '' }, userID)
-      sendMessage(mesHandle(201,
-      {
-        type: 106,
-        data: { startX: mouseStore.x, startY: mouseStore.y, x: mouseStore.x, y: mouseStore.y, stroke: optionStore.color, text: '' },
-        fromId: userID
-      }))
+      svgStore.setSvgType('text')
+      svgStore.addText({ ...common, text: '' }, userID, sendMessage)
     } else if (optionStore.tool === 'aim') {
       if (optionStore.choice === 'drag') {
         if (e.target.dataset.id === 'svg') {
@@ -194,90 +154,31 @@ export default observer(function SvgPaint() {
   }
 
   const handleMouseMove = (e) => {
+    const drawCommon = { x: mouseStore.x, y: mouseStore.y }
     if (mouseStore.mouseDown) {
       if (optionStore.tool === 'highlight') {
-        svgStore.drawPath({ x: mouseStore.x, y: mouseStore.y }, userID)
-        sendMessage(mesHandle(201,
-        {
-          type: 101,
-          data: { x: mouseStore.x, y: mouseStore.y },
-          fromId: userID
-        }))
+        svgStore.drawPath(drawCommon, userID, sendMessage)
       } else if (optionStore.tool === 'border') {
         if (optionStore.choice === 'circle') {
-          svgStore.drawCircle({ x: mouseStore.x, y: mouseStore.y }, userID)
-          sendMessage(mesHandle(201,
-            {
-              type: 109,
-              data: { x: mouseStore.x, y: mouseStore.y },
-              fromId: userID
-            }))
+          svgStore.drawCircle(drawCommon, userID, sendMessage)
         } else if (optionStore.choice === 'diamond') {
-          svgStore.drawDiamond({ x: mouseStore.x, y: mouseStore.y }, userID)
-          sendMessage(mesHandle(201,
-            {
-              type: 111,
-              data: { x: mouseStore.x, y: mouseStore.y },
-              fromId: userID
-            }))
+          svgStore.drawDiamond(drawCommon, userID, sendMessage)
         } else if (optionStore.choice === 'ellipse') {
-          svgStore.drawEllipse({ x: mouseStore.x, y: mouseStore.y }, userID)
-          sendMessage(mesHandle(201,
-            {
-              type: 113,
-              data: { x: mouseStore.x, y: mouseStore.y },
-              fromId: userID
-            }))
+          svgStore.drawEllipse(drawCommon, userID, sendMessage)
         } else if (optionStore.choice === 'triangle') {
-          svgStore.drawTriangle({ x: mouseStore.x, y: mouseStore.y }, userID)
-          sendMessage(mesHandle(201,
-            {
-              type: 115,
-              data: { x: mouseStore.x, y: mouseStore.y },
-              fromId: userID
-            }))
+          svgStore.drawTriangle(drawCommon, userID, sendMessage)
         } else if (optionStore.choice === 'roundedrect') {
-          svgStore.drawRoundedRect({ x: mouseStore.x, y: mouseStore.y }, userID)
-          sendMessage(mesHandle(201,
-            {
-              type: 121,
-              data: { x: mouseStore.x, y: mouseStore.y },
-              fromId: userID
-            }))
+          svgStore.drawRoundedRect(drawCommon, userID, sendMessage)
         } else {
-          svgStore.drawRect({ x: mouseStore.x, y: mouseStore.y }, userID)
-          sendMessage(mesHandle(201,
-            {
-              type: 103,
-              data: { x: mouseStore.x, y: mouseStore.y },
-              fromId: userID
-            }))
+          svgStore.drawRect(drawCommon, userID, sendMessage)
         }
       } else if (optionStore.tool === 'pull-request') {
         if (optionStore.choice === 'polyline') {
-          svgStore.drawPolyline({ x: mouseStore.x, y: mouseStore.y }, userID)
-          sendMessage(mesHandle(201,
-          {
-            type: 117,
-            data: { x: mouseStore.x, y: mouseStore.y },
-            fromId: userID
-          }))
+          svgStore.drawPolyline(drawCommon, userID, sendMessage)
         } else if (optionStore.choice === 'line') {
-          svgStore.drawLine({ x: mouseStore.x, y: mouseStore.y }, localStorage.getItem('userId'))
-          sendMessage(mesHandle(201,
-          {
-            type: 119,
-            data: { x: mouseStore.x, y: mouseStore.y },
-            fromId: userID
-          }))
+          svgStore.drawLine(drawCommon, userID, sendMessage)
         } else {
-          svgStore.drawArrow({ x: mouseStore.x, y: mouseStore.y }, userID)
-          sendMessage(mesHandle(201,
-          {
-            type: 105,
-            data: { x: mouseStore.x, y: mouseStore.y },
-            fromId: userID
-          }))
+          svgStore.drawArrow(drawCommon, userID, sendMessage)
         }
       }
       if (optionStore.tool === 'aim') {
@@ -291,13 +192,7 @@ export default observer(function SvgPaint() {
             const offsetTop = mouseStore.offsetTop
             const nl = offsetLeft + (x - startX)
             const nt = offsetTop + (y - startY)
-            svgStore.drawImage({ x: nl, y: nt }, localStorage.getItem('userId'))
-            sendMessage(mesHandle(201,
-              {
-                type: 13,
-                data: { x: nl, y: nt },
-                fromId: localStorage.getItem('userId')
-              }))
+            svgStore.drawImage({ x: nl, y: nt }, userID, sendMessage)
           }
         }
       }
@@ -320,12 +215,6 @@ export default observer(function SvgPaint() {
     if (mouseStore.mouseDown) {
       if (optionStore.tool === 'font-size') {
         svgStore.drawText({ x: mouseStore.startX, y: mouseStore.startY, text: e.target.value }, userID)
-        sendMessage(mesHandle(201,
-        {
-          type: 107,
-          data: { x: mouseStore.startX, y: mouseStore.startX, text: e.target.value },
-          fromId: userID
-        }))
       }
     }
   }

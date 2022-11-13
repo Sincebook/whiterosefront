@@ -184,7 +184,7 @@ class SvgStore {
     return this.svg[this.currentPage - 1].path
   }
   @action.bound
-  addPath(path: PathInput, userId, sendMessage?: any,) {
+  addPath(path: PathInput, userId, sendMessage?: any) {
     if (path.key) {
       this.key.set(userId, path.key)
       this.getPath.set(path.key, pathToSvg(path))
@@ -192,60 +192,127 @@ class SvgStore {
       const key = Math.floor(Math.random() * 1000000).toString()
       this.key.set(userId, key)
       this.getPath.set(key, pathToSvg(path))
-      sendMessage(mesHandle(201,
+      sendMessage(mesHandle(MesMap.common,
       {
-        type: 100,
+        type: OpMap.addPath,
         data: {...path, key},
         fromId: localStorage.getItem('userId')
       }))
     }
-    
   }
   @action.bound
-  drawPath(xy, userId) {
+  drawPath(xy, userId, sendMessage?: any) {
     this.getPath.set(this.key.get(userId), pathToSvg(svgToPath(this.getPath.get(this.key.get(userId)), xy.x, xy.y)))
+    if (sendMessage) {
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.drawPath,
+        data: xy,
+        fromId: userId
+      }))
+    }
   }
 
   get getRect() {
     return this.svg[this.currentPage - 1].rect
   }
   @action.bound
-  addRect(rect: RectInput, userId) {
-    const key = Math.floor(Math.random() * 1000000).toString()
-    this.key.set(userId, key) // key和userId关联
-    this.getRect.set(key, rectToSvg(rect)) // key和图形关联
+  addRect(rect: RectInput, userId, sendMessage?: any) {
+    if (rect.key) {
+      this.key.set(userId, rect.key) // key和userId关联
+      this.getRect.set(rect.key, rectToSvg(rect)) // key和图形关联
+    } else {
+      const key = Math.floor(Math.random() * 1000000).toString()
+      this.key.set(userId, key) // key和userId关联
+      this.getRect.set(key, rectToSvg(rect)) // key和图形关联
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.addRect,
+        data: {...rect, key},
+        fromId: localStorage.getItem('userId')
+      }))
+    }
+
   }
   @action.bound
-  drawRect(xy, userId) {
+  drawRect(xy, userId, sendMessage?: any) {
     this.getRect.set(this.key.get(userId), rectToSvg(svgToRect(this.getRect.get(this.key.get(userId)), xy.x, xy.y)))
+    if (sendMessage) {
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.drawRect,
+        data: xy,
+        fromId: userId
+      }))
+    }
   }
 
   get getArrow() {
     return this.svg[this.currentPage - 1].arrow
   }
   @action.bound
-  addArrow(arrow: ArrowInput, userId) {
-    const key = Math.floor(Math.random() * 1000000).toString()
-    this.key.set(userId, key)
-    this.getArrow.set(key, arrowToSvg(arrow))
+  addArrow(arrow: ArrowInput, userId, sendMessage?: any) {
+    if (arrow.key) {
+      this.key.set(userId, arrow.key)
+      this.getArrow.set(arrow.key, arrowToSvg(arrow))
+    } else {
+      const key = Math.floor(Math.random() * 1000000).toString()
+      this.key.set(userId, key)
+      this.getArrow.set(key, arrowToSvg(arrow))
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.addArrow,
+        data: {...arrow, key},
+        fromId: localStorage.getItem('userId')
+      }))
+    }
+    
   }
   @action.bound
-  drawArrow(xy, userId) {
+  drawArrow(xy, userId, sendMessage?: any) {
     this.getArrow.set(this.key.get(userId), arrowToSvg(svgToArrow(this.getArrow.get(this.key.get(userId)), xy.x, xy.y)))
+    if (sendMessage) {
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.drawArrow,
+        data: xy,
+        fromId: userId
+      }))
+    }
   }
 
   get getText() {
     return this.svg[this.currentPage - 1].text
   }
   @action.bound
-  addText(text: TextInput, userId) {
-    const key = Math.floor(Math.random() * 1000000).toString()
-    this.key.set(userId, key)
-    this.getText.set(key, textToSvg(text))
+  addText(text: TextInput, userId, sendMessage?: any) {
+    if (text.key) { 
+      this.key.set(userId, text.key)
+      this.getText.set(text.key, textToSvg(text))
+    } else {
+      const key = Math.floor(Math.random() * 1000000).toString()
+      this.key.set(userId, key)
+      this.getText.set(key, textToSvg(text))
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.addText,
+        data: {...text, key},
+        fromId: localStorage.getItem('userId')
+      }))
+    }
+    
   }
   @action.bound
-  drawText(xy, userId) {
+  drawText(xy, userId, sendMessage?: any) {
     this.getText.set(this.key.get(userId), textToSvg(svgToText(this.getText.get(this.key.get(userId)), xy.x, xy.y, xy.text)))
+    if (sendMessage) {
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.drawText,
+        data: xy,
+        fromId: userId
+      }))
+    }
   }
 
   get getCircle() {
@@ -269,8 +336,16 @@ class SvgStore {
     }
   }
   @action.bound
-  drawCircle(xy, userId) {
+  drawCircle(xy, userId, sendMessage?: any) {
     this.getCircle.set(this.key.get(userId), circleToSvg(svgToCircle(this.getCircle.get(this.key.get(userId)), xy.x, xy.y)))
+    if (sendMessage) {
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.drawCircle,
+        data: xy,
+        fromId: userId
+      }))
+    }
   }
 
   get getDiamond() {
@@ -294,106 +369,232 @@ class SvgStore {
     }
   }
   @action.bound
-  drawDiamond(xy, userId) {
+  drawDiamond(xy, userId, sendMessage?: any) {
     this.getDiamond.set(this.key.get(userId), diamondToSvg(svgToDiamond(this.getDiamond.get(this.key.get(userId)), xy.x, xy.y)))
+    if (sendMessage) {
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.drawDiamond,
+        data: xy,
+        fromId: userId
+      }))
+    }
   }
 
   get getEllipse() {
     return this.svg[this.currentPage - 1].ellipse
   }
   @action.bound
-  addEllipse(ellipse: EllipseInput, userId) {
-    const key = Math.floor(Math.random() * 1000000).toString()
-    this.key.set(userId, key)
-    this.getEllipse.set(key, ellipseToSvg(ellipse))
+  addEllipse(ellipse: EllipseInput, userId, sendMessage?: any) {
+    if (ellipse.key) {
+      this.key.set(userId, ellipse.key)
+      this.getEllipse.set(ellipse.key, ellipseToSvg(ellipse))
+    } else {
+      const key = Math.floor(Math.random() * 1000000).toString()
+      this.key.set(userId, key)
+      this.getEllipse.set(key, ellipseToSvg(ellipse))
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.addEllipse,
+        data: {...ellipse, key},
+        fromId: userId
+      }))
+    }
   }
   @action.bound
-  drawEllipse(xy, userId) {
+  drawEllipse(xy, userId, sendMessage?: any) {
     this.getEllipse.set(this.key.get(userId), ellipseToSvg(svgToEllipse(this.getEllipse.get(this.key.get(userId)), xy.x, xy.y)))
+    if (sendMessage) {
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.drawEllipse,
+        data: xy,
+        fromId: userId
+      }))
+    }
   }
 
   get getTriangle() {
     return this.svg[this.currentPage - 1].triangle
   }
   @action.bound
-  addTriangle(triangle: TriangleInput, userId) {
-    const key = Math.floor(Math.random() * 1000000).toString()
-    this.key.set(userId, key)
-    this.getTriangle.set(key, triangleToSvg(triangle))
+  addTriangle(triangle: TriangleInput, userId, sendMessage?: any) {
+    if (triangle.key) {
+      this.key.set(userId, triangle.key)
+      this.getTriangle.set(triangle.key, triangleToSvg(triangle))
+    } else {
+      const key = Math.floor(Math.random() * 1000000).toString()
+      this.key.set(userId, key)
+      this.getTriangle.set(key, triangleToSvg(triangle))
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.addTriangle,
+        data: {...triangle, key},
+        fromId: userId
+      }))
+    }
+    
   }
   @action.bound
-  drawTriangle(xy, userId) {
+  drawTriangle(xy, userId, sendMessage?: any) {
     this.getTriangle.set(this.key.get(userId), triangleToSvg(svgToTriangle(this.getTriangle.get(this.key.get(userId)), xy.x, xy.y)))
+    if (sendMessage) {
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.drawTriangle,
+        data: xy,
+        fromId: userId
+      }))
+    }
   }
 
   get getPolyline() {
     return this.svg[this.currentPage - 1].polyline
   }
   @action.bound
-  addPolyline(polyline: PolylineInput, userId) {
-    const key = Math.floor(Math.random() * 1000000).toString()
-    this.key.set(userId, key)
-    this.getPolyline.set(key, polylineToSvg(polyline))
+  addPolyline(polyline: PolylineInput, userId, sendMessage?: any) {
+    if (polyline.key) {
+      this.key.set(userId, polyline.key)
+      this.getPolyline.set(polyline.key, polylineToSvg(polyline))
+    } else {
+      const key = Math.floor(Math.random() * 1000000).toString()
+      this.key.set(userId, key)
+      this.getPolyline.set(key, polylineToSvg(polyline))
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.addPolyline,
+        data: {...polyline, key},
+        fromId: userId
+      }))
+    }
+    
   }
   @action.bound
-  drawPolyline(xy, userId) {
+  drawPolyline(xy, userId, sendMessage?: any) {
     this.getPolyline.set(this.key.get(userId), polylineToSvg(svgToPolyline(this.getPolyline.get(this.key.get(userId)), xy.x, xy.y)))
+    if (sendMessage) {
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.drawPolyline,
+        data: xy,
+        fromId: userId
+      }))
+    }
   }
 
   get getRoundedRect() {
     return this.svg[this.currentPage - 1].roundedRect
   }
   @action.bound
-  addRoundedRect(roundedRect: RoundedRectInput, userId) {
-    const key = Math.floor(Math.random() * 1000000).toString()
-    this.key.set(userId, key)
-    this.getRoundedRect.set(key, roundedRectToSvg(roundedRect))
+  addRoundedRect(roundedRect: RoundedRectInput, userId, sendMessage?: any) {
+    if (roundedRect.key) {
+      this.key.set(userId, roundedRect.key)
+      this.getRoundedRect.set(roundedRect.key, roundedRectToSvg(roundedRect))
+    } else {
+      const key = Math.floor(Math.random() * 1000000).toString()
+      this.key.set(userId, key)
+      this.getRoundedRect.set(key, roundedRectToSvg(roundedRect))
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.addRoundedRect,
+        data: {...roundedRect, key},
+        fromId: userId
+      }))
+    }
+    
   }
   @action.bound
-  drawRoundedRect(xy, userId) {
+  drawRoundedRect(xy, userId, sendMessage?: any) {
     this.getRoundedRect.set(this.key.get(userId), roundedRectToSvg(svgToRoundedRect(this.getRoundedRect.get(this.key.get(userId)), xy.x, xy.y)))
+    if (sendMessage) {
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.drawRoundedRect,
+        data: xy,
+        fromId: userId
+      }))
+    }
   }
 
-  get getTextPath() {
-    return this.svg[this.currentPage - 1].textpath
-  }
-  @action.bound
-  addTextpath(textpath: TextPathInput, userId) {
-    const key = Math.floor(Math.random() * 1000000).toString()
-    this.key.set(userId, key)
-    this.getTextPath.set(key, textpathToSvg(textpath))
-  }
-  @action.bound
-  drawTextpath(xy, userId) {
-    this.getTextPath.set(this.key.get(userId), textpathToSvg(svgToTextPath(this.getTextPath.get(this.key.get(userId)), xy.x, xy.y)))
-  }
+  // get getTextPath() {
+  //   return this.svg[this.currentPage - 1].textpath
+  // }
+  // @action.bound
+  // addTextpath(textpath: TextPathInput, userId, sendMessage?: any) {
+  //   const key = Math.floor(Math.random() * 1000000).toString()
+  //   this.key.set(userId, key)
+  //   this.getTextPath.set(key, textpathToSvg(textpath))
+  // }
+  // @action.bound
+  // drawTextpath(xy, userId, sendMessage?: any) {
+  //   this.getTextPath.set(this.key.get(userId), textpathToSvg(svgToTextPath(this.getTextPath.get(this.key.get(userId)), xy.x, xy.y)))
+  // }
 
   get getLine() {
     return this.svg[this.currentPage - 1].line
   }
   @action.bound
-  addLine(line: LineInput, userId) {
-    const key = Math.floor(Math.random() * 1000000).toString()
-    this.key.set(userId, key)
-    this.getLine.set(key, lineToSvg(line))
+  addLine(line: LineInput, userId, sendMessage?: any) {
+    if (line.key) {
+      this.key.set(userId, line.key)
+      this.getLine.set(line.key, lineToSvg(line))
+    } else {
+      const key = Math.floor(Math.random() * 1000000).toString()
+      this.key.set(userId, key)
+      this.getLine.set(key, lineToSvg(line))
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.addLine,
+        data: {...line, key},
+        fromId: userId
+      }))
+    }
+    
   }
   @action.bound
-  drawLine(xy, userId) {
+  drawLine(xy, userId, sendMessage?: any) {
     this.getLine.set(this.key.get(userId), lineToSvg(svgToLine(this.getLine.get(this.key.get(userId)), xy.x, xy.y)))
+    if (sendMessage) {
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.drawLine,
+        data: xy,
+        fromId: userId
+      }))
+    }
   }
   
   get getImage() {
     return this.svg[this.currentPage - 1].image
   }
   @action.bound
-  addImage(image: ImageInput, userId) {
-    const key = Math.floor(Math.random() * 1000000).toString()
-    this.key.set(userId, key)
-    this.getImage.set(key, imageToSvg(image))
+  addImage(image: ImageInput, userId, sendMessage?: any) {
+    if (image.key) {
+      this.key.set(userId, image.key)
+      this.getImage.set(image.key, imageToSvg(image))
+    } else {
+      const key = Math.floor(Math.random() * 1000000).toString()
+      this.key.set(userId, key)
+      this.getImage.set(key, imageToSvg(image))
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.addImage,
+        data: {...image, key},
+        fromId: userId
+      }))
+    }
   }
   @action.bound
-  drawImage(xy, userId) {
+  drawImage(xy, userId, sendMessage?: any) {
     this.getImage.set(this.key.get(userId), imageToSvg(svgToImage(this.getImage.get(this.key.get(userId)), xy.x, xy.y)))
+    if (sendMessage) {
+      sendMessage(mesHandle(MesMap.common,
+      {
+        type: OpMap.drawImage,
+        data: xy,
+        fromId: userId
+      }))
+    }
   }
 }
 
