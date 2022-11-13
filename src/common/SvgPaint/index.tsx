@@ -10,6 +10,7 @@ import useWebSocket, { ReadyState } from 'react-use-websocket';
 import './style.css'
 import { lastMesHandle, mesHandle } from '../../utils/mesHandle'
 import { MesMap, OpMap } from '../../contant/options';
+import { message } from 'antd';
 
 export default observer(function SvgPaint() {
 
@@ -91,7 +92,10 @@ export default observer(function SvgPaint() {
   }
   
   const handleMouseDown = (e) => {
-    
+    if (svgStore.isLock === true) {
+      message.error('该页面已被上锁，请等待解锁后使用')
+      return
+    }
     mouseStore.mouseDownAciton()
     if (optionStore.tool !== 'font-size') {
       setShowInput(false)
@@ -155,6 +159,9 @@ export default observer(function SvgPaint() {
   }
 
   const handleMouseMove = (e) => {
+    if (svgStore.isLock === true) {
+      return
+    }
     const drawCommon = { x: mouseStore.x, y: mouseStore.y }
     if (mouseStore.mouseDown) {
       if (optionStore.tool === 'highlight') {
