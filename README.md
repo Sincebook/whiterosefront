@@ -3,7 +3,8 @@
 # White Rose &middot; [![React](https://img.shields.io/badge/React-v18.2.0-blue)](https://react.docschina.org/) [![npm](https://img.shields.io/badge/npm-v8.19.3-green)](https://www.npmjs.com/package/npm) [![All Contributors](https://img.shields.io/badge/All%20Contributors-3-brightgreen)](#contributors-)
 
 > 一个基于 SVG 的多人协作白板，每个人都可以匿名加入，在白板上你可以创建各类图形，包括自由曲线、矩形、圆形、椭圆形、菱形、三角形等等，此外还支持箭头、文本、折线、图片、弹幕、导出、撤销恢复等进阶功能，在白板上进行创作的同时还可以看到其他人的动作，非常丝滑~
-
+## 演示视频
+https://since-util.oss-cn-beijing.aliyuncs.com/202211132255.mp4
 ## 快速开始
 
 Demo 地址：[http://whiterose.cf.since88.cn/](http://whiterose.cf.since88.cn/)
