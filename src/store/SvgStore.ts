@@ -241,6 +241,7 @@ class SvgStore {
   }
   @action.bound
   drawPath(xy, userId, sendMessage?: any) {
+    if (!this.getPath.get(this.key.get(userId))) return
     this.getPath.set(this.key.get(userId), pathToSvg(svgToPath(this.getPath.get(this.key.get(userId)), xy.x, xy.y)))
     if (sendMessage) {
       sendMessage(mesHandle(MesMap.common,
@@ -275,6 +276,7 @@ class SvgStore {
   }
   @action.bound
   drawRect(xy, userId, sendMessage?: any) {
+    if (!this.getRect.get(this.key.get(userId))) return
     this.getRect.set(this.key.get(userId), rectToSvg(svgToRect(this.getRect.get(this.key.get(userId)), xy.x, xy.y)))
     if (sendMessage) {
       sendMessage(mesHandle(MesMap.common,
@@ -353,6 +355,7 @@ class SvgStore {
   }
   @action.bound
   drawArrow(xy, userId, sendMessage?: any) {
+    if (!this.getArrow.get(this.key.get(userId))) return
     this.getArrow.set(this.key.get(userId), arrowToSvg(svgToArrow(this.getArrow.get(this.key.get(userId)), xy.x, xy.y)))
     if (sendMessage) {
       sendMessage(mesHandle(MesMap.common,
@@ -387,6 +390,7 @@ class SvgStore {
   }
   @action.bound
   drawText(xy, userId, sendMessage?: any) {
+    if (!this.getText.get(this.key.get(userId))) return
     this.getText.set(this.key.get(userId), textToSvg(svgToText(this.getText.get(this.key.get(userId)), xy.x, xy.y, xy.text)))
     if (sendMessage) {
       sendMessage(mesHandle(MesMap.common,
@@ -430,6 +434,7 @@ class SvgStore {
   }
   @action.bound
   drawCircle(xy, userId, sendMessage?: any) {
+    if (!this.getCircle.get(this.key.get(userId))) return
     this.getCircle.set(this.key.get(userId), circleToSvg(svgToCircle(this.getCircle.get(this.key.get(userId)), xy.x, xy.y)))
     if (sendMessage) {
       sendMessage(mesHandle(MesMap.common,
@@ -463,6 +468,7 @@ class SvgStore {
   }
   @action.bound
   drawDiamond(xy, userId, sendMessage?: any) {
+    if (!this.getDiamond.get(this.key.get(userId))) return
     this.getDiamond.set(this.key.get(userId), diamondToSvg(svgToDiamond(this.getDiamond.get(this.key.get(userId)), xy.x, xy.y)))
     if (sendMessage) {
       sendMessage(mesHandle(MesMap.common,
@@ -496,6 +502,7 @@ class SvgStore {
   }
   @action.bound
   drawEllipse(xy, userId, sendMessage?: any) {
+    if (!this.getEllipse.get(this.key.get(userId))) return
     this.getEllipse.set(this.key.get(userId), ellipseToSvg(svgToEllipse(this.getEllipse.get(this.key.get(userId)), xy.x, xy.y)))
     if (sendMessage) {
       sendMessage(mesHandle(MesMap.common,
@@ -530,6 +537,7 @@ class SvgStore {
   }
   @action.bound
   drawTriangle(xy, userId, sendMessage?: any) {
+    if (!this.getTriangle.get(this.key.get(userId))) return
     this.getTriangle.set(this.key.get(userId), triangleToSvg(svgToTriangle(this.getTriangle.get(this.key.get(userId)), xy.x, xy.y)))
     if (sendMessage) {
       sendMessage(mesHandle(MesMap.common,
@@ -564,6 +572,7 @@ class SvgStore {
   }
   @action.bound
   drawPolyline(xy, userId, sendMessage?: any) {
+    if (!this.getPolyline.get(this.key.get(userId))) return
     this.getPolyline.set(this.key.get(userId), polylineToSvg(svgToPolyline(this.getPolyline.get(this.key.get(userId)), xy.x, xy.y)))
     if (sendMessage) {
       sendMessage(mesHandle(MesMap.common,
@@ -598,6 +607,7 @@ class SvgStore {
   }
   @action.bound
   drawRoundedRect(xy, userId, sendMessage?: any) {
+    if (!this.getRoundedRect.get(this.key.get(userId))) return
     this.getRoundedRect.set(this.key.get(userId), roundedRectToSvg(svgToRoundedRect(this.getRoundedRect.get(this.key.get(userId)), xy.x, xy.y)))
     if (sendMessage) {
       sendMessage(mesHandle(MesMap.common,
@@ -646,6 +656,7 @@ class SvgStore {
   }
   @action.bound
   drawLine(xy, userId, sendMessage?: any) {
+    if (!this.getLine.get(this.key.get(userId))) return
     this.getLine.set(this.key.get(userId), lineToSvg(svgToLine(this.getLine.get(this.key.get(userId)), xy.x, xy.y)))
     if (sendMessage) {
       sendMessage(mesHandle(MesMap.common,
@@ -679,6 +690,7 @@ class SvgStore {
   }
   @action.bound
   drawImage(xy, userId, sendMessage?: any) {
+    if (!this.getImage.get(this.key.get(userId))) return
     this.getImage.set(this.key.get(userId), imageToSvg(svgToImage(this.getImage.get(this.key.get(userId)), xy.x, xy.y)))
     if (sendMessage) {
       sendMessage(mesHandle(MesMap.common,

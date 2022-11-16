@@ -137,6 +137,7 @@ export default observer(function SvgPaint() {
       }
     } else if (optionStore.tool === 'font-size') {
       mouseStore.handleMouseDown(e)
+      console.log(mouseStore.startX);
       inputRef.current.value = ''
       setShowInput(true)
       inputRef.current.focus()
@@ -223,10 +224,8 @@ export default observer(function SvgPaint() {
   }
 
   const inputChange = (e) => {
-    if (mouseStore.mouseDown) {
-      if (optionStore.tool === 'font-size') {
-        svgStore.drawText({ x: mouseStore.startX, y: mouseStore.startY, text: e.target.value }, userID, sendMessage)
-      }
+    if (optionStore.tool === 'font-size') {
+      svgStore.drawText({ x: mouseStore.startX, y: mouseStore.startY, text: e.target.value }, userID, sendMessage)
     }
   }
   const inputBlur = () => {
@@ -243,7 +242,6 @@ export default observer(function SvgPaint() {
   const handleMaskDown = (e) => {
     mouseStore.mouseDownAciton()
     const { id } = e.target.dataset
-    console.log(id === OpMap.movingGraph)
     if (id == OpMap.movingGraph) {
       mouseStore.handleMouseDown(e)
       svgStore.setAction(OpMap.movingGraph)
@@ -282,6 +280,11 @@ export default observer(function SvgPaint() {
     mouseStore.mouseUpAction()
   }
 
+  const handleTouchDown = (e) => {
+    mouseStore.handleTouchDown(e.touches[0])
+    handleMouseDown(e.touches[0])
+  }
+
   return (
     <div>
       <div className='svgPage'></div>
@@ -292,7 +295,7 @@ export default observer(function SvgPaint() {
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
-              onTouchStart={handleMouseDown}
+              onTouchStart={handleTouchDown}
               onTouchMove={handleMouseMove}
               onTouchEnd={handleMouseUp}
               style={index === svgStore.currentPage - 1 ? { zIndex: 2 } : {}} key={item.id}

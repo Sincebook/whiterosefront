@@ -29,6 +29,7 @@ export default observer(function ToolBar() {
   const optionStore = useContext(OptionStore)
   const mouseStore = useContext(MouseStore)
   const svgStore = useContext(SvgStore)
+  const [focus, setFocus] = useState(false)
 
   // 弹幕屏幕
   const [screen, setScreen] = useState(null)
@@ -58,9 +59,8 @@ export default observer(function ToolBar() {
   const inputRef = useRef(null)
   const barrageRef = useRef(null)
   const roomIdRef = useRef(null)
-  const textRef = useRef(null)
 
-  const show = { top: toolStore.toolBar ? '0': '-50px'}
+  const show = { top: (toolStore.toolBar || focus) ?  '0': '-50px'}
   const handleSwitch = (e) => {
     mouseStore.mouseUpAction()
     const [flag, el] = delegate('div', 'span', e.target)
@@ -124,15 +124,21 @@ export default observer(function ToolBar() {
       }
     }
   }
+  const inputFoucs = () => {
+    setFocus(true)
+  }
+  const inputBlur = () => {
+    setFocus(false)
+  }
 
   const content = (
     <div>
-      <input type="text" className='barrage' onChange={barrageChange} ref={barrageRef} onKeyDown={sendByKey} placeholder="点击回车发射弹幕～"/>
+      <input type="text" className='barrage' onChange={barrageChange} ref={barrageRef} onKeyDown={sendByKey} placeholder="点击回车发射弹幕～" onFocus={inputFoucs} onBlur={inputBlur} />
     </div>
   )
   const roomInput = (
     <div>
-      <input type="text" className='barrage' ref={roomIdRef} onKeyDown={sendRoomId} placeholder="点击回车加入房间～"/>
+      <input type="text" className='barrage' ref={roomIdRef} onFocus={inputFoucs} onKeyDown={sendRoomId} placeholder="点击回车加入房间～" onBlur={inputBlur}/>
     </div>
   )
 
