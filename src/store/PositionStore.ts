@@ -21,13 +21,17 @@ class MouseStore {
     this.startX = e.clientX
     this.startY = e.clientY
   }
-
   @action.bound mouseMove(e) {
-    this.x = e.clientX
-    this.y = e.clientY
-    this.lite = [e.clientX, e.clientY]
+    this.x = Math.floor(e.clientX)
+    this.y = Math.floor(e.clientY)
+    this.lite = [Math.floor(e.clientX), Math.floor(e.clientY)]
   }
-
+  @action.bound handleTouchDown(e) {
+    this.x = Math.floor(e.clientX)
+    this.y = Math.floor(e.clientY)
+    this.startX = Math.floor(e.clientX)
+    this.startY = Math.floor(e.clientY)
+  }
   get getx() {
     return this.x
   }

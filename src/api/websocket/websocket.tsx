@@ -23,7 +23,7 @@ export const WebSocketDemo = () => {
     if (lastMessage) {
       if (lastMessage.data != "pong" && lastMessage.data !== undefined) {
         const mes = JSON.parse(lastMessage.data)
-        if (mes.data.type === 300) {
+        if (mes.data?.type === 300) {
           setPerson(mes.data.data)
         }
       }

@@ -9,15 +9,19 @@
   border-radius: 0 0 20px 20px;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: center;
   align-items: center;
   overflow: hidden;
-  overflow-x: scroll;
+  overflow-x: auto;
   transition: 0.8s;
   z-index: 99;
 }
 .tool-bar::-webkit-scrollbar {
   display: none
+}
+@media screen and (min-width: 980px) {
+  .tool-bar {
+    justify-content: center;
+  }
 }
 .icons {
   font-size: 15px;

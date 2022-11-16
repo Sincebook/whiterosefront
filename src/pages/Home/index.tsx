@@ -16,9 +16,11 @@ export default observer(function Home() {
   function listenMouse(e) {
     mouseStore.mouseMove(e)
   }
-
+  function listenTouch(e) {
+    mouseStore.mouseMove(e.touches[0])
+  }
   return (
-    <div onMouseMove={listenMouse}>
+    <div onMouseMove={listenMouse} onTouchMove={listenTouch}>
       <div style={{position: 'fixed', zIndex: 99}} data-html2canvas-ignore>「{mouseStore.x},{mouseStore.y}」</div>
       <div style={{position: 'fixed', zIndex: 99, right: 10}} data-html2canvas-ignore>房间号: {localStorage.getItem('roomId')}</div>
       <ToolBar />
